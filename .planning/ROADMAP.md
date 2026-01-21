@@ -30,10 +30,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can run `--version` and see current version number
   4. User can run with `--dry-run` and see what would happen without changes
   5. CLI exits with appropriate codes (0 success, 1 warnings, 2+ errors)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
+- [ ] 01-01-PLAN.md — Project setup with TypeScript toolchain and core CLI skeleton
+- [ ] 01-02-PLAN.md — Hobo Manifesto consent flow and end-to-end verification
 
 ### Phase 2: Detection
 **Goal**: User knows if their GSD and OpenCode installations are ready for transpilation
@@ -100,7 +101,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/2 | Planned | - |
 | 2. Detection | 0/TBD | Not started | - |
 | 3. Transpilation | 0/TBD | Not started | - |
 | 4. Reports | 0/TBD | Not started | - |
