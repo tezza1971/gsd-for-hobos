@@ -63,10 +63,12 @@ Plans:
   3. User with existing OpenCode configs gets prompted before any overwrite
   4. User's existing configs are backed up before any overwrite
   5. Running transpilation twice produces identical results (idempotent)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — GSD parser with IR and comprehensive error handling
+- [ ] 03-02-PLAN.md — Config-driven transformer with gap tracking and user overrides
+- [ ] 03-03-PLAN.md — Backup manager, idempotency, and CLI integration
 
 ### Phase 4: Reports
 **Goal**: User understands what transpiled successfully and what fell short
@@ -105,7 +107,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-21 |
 | 2. Detection | 0/3 | Not started | - |
-| 3. Transpilation | 0/TBD | Not started | - |
+| 3. Transpilation | 0/3 | Not started | - |
 | 4. Reports | 0/TBD | Not started | - |
 | 5. LLM Enhancement | 0/TBD | Not started | - |
 
