@@ -1,5 +1,6 @@
 import { select, text, isCancel } from '@clack/prompts';
 import pc from 'picocolors';
+import { spawnSync } from 'node:child_process';
 import type { CLIOptions, ValidationReport } from '../types/index.js';
 import { detectGSD } from '../lib/detection/gsd-detector.js';
 import { detectOpenCode } from '../lib/detection/opencode-detector.js';
@@ -87,6 +88,46 @@ export async function detectCommand(options: CLIOptions): Promise<void> {
     // action === 'cancel' - just fall through to set exit code
   }
 
+  // Handle stale GSD - offer update option
+  if (gsdResult.found && gsdResult.valid && gsdResult.fresh === false) {
+    const action = await select({
+      message: `GSD installation is ${gsdResult.daysOld} days old. What would you like to do?`,
+      options: [
+        { value: 'update', label: 'Update GSD (git pull)' },
+        { value: 'continue', label: 'Continue anyway' },
+        { value: 'cancel', label: 'Cancel' },
+      ],
+    });
+
+    if (isCancel(action)) {
+      log.info('Detection cancelled.');
+      process.exitCode = ExitCode.SUCCESS;
+      return;
+    }
+
+    if (action === 'update') {
+      log.info('Updating GSD installation...');
+
+      const result = spawnSync('git', ['pull'], {
+        cwd: gsdResult.path,
+        encoding: 'utf-8',
+        timeout: 30000,
+        stdio: 'inherit'
+      });
+
+      if (result.error || result.status !== 0) {
+        log.info(pc.red('Failed to update GSD. Please update manually.'));
+        showGSDUpdateInstructions();
+      } else {
+        log.info(pc.green('GSD updated successfully!'));
+      }
+    } else if (action === 'cancel') {
+      process.exitCode = ExitCode.SUCCESS;
+      return;
+    }
+    // action === 'continue' - just fall through
+  }
+
   // Handle OpenCode not found - offer installation instructions
   if (!opencodeResult.found) {
     const action = await select({
@@ -167,5 +208,21 @@ function showOpenCodeInstallInstructions(): void {
   console.log('');
   console.log(pc.dim('After installing, ensure opencode is in your PATH.'));
   console.log(pc.dim('Run detection again to verify.'));
+  console.log('');
+}
+
+/**
+ * Display GSD update instructions for manual updating.
+ */
+function showGSDUpdateInstructions(): void {
+  console.log('');
+  console.log(pc.bold('Manual GSD Update Instructions:'));
+  console.log('');
+  console.log(pc.dim('To manually update your GSD installation:'));
+  console.log('');
+  console.log(pc.green('  cd ~/.claude'));
+  console.log(pc.green('  git pull'));
+  console.log('');
+  console.log(pc.dim('After updating, run detection again to verify.'));
   console.log('');
 }
