@@ -46,3 +46,22 @@ Run via npx:
 ```bash
 npx gsd-for-hobos
 ```
+
+## License
+
+MIT
+
+## Contribute
+
+If you find a bug or have a feature request, please open an issue or submit a
+pull request.
+
+## Acknowledgments
+
+- [Get Shit Done (GSD)](https://github.com/glittercowboy/get-shit-done)
+- [OpenCode](https://github.com/open-code/open-code)
+- [Antigravity](https://github.com/antigravity/antigravity)
+- [Cursor](https://github.com/cursor-ai/cursor)
+- [Windsurf](https://github.com/windsurfai/windsurf)
+- [ChatLLM](https://github.com/chatllm/chatllm)
+- [VS Code](https://github.com/microsoft/vscode)
