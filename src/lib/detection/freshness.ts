@@ -1,90 +1,109 @@
-import { promises as fs } from 'node:fs/promises';
-import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
+import { promises as fs } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { join } from 'node:path';
+
+export type FreshnessStatus = 'fresh' | 'stale' | 'unknown';
 
 export interface FreshnessResult {
-  status: 'fresh' | 'stale' | 'unknown';
-  date: string;
+  status: FreshnessStatus;
+  date: string | null;
   daysAgo: number | null;
 }
 
-export async function checkFreshness(installPath: string): Promise<FreshnessResult> {
-  try {
-    // Check if .git directory exists
-    const gitDirExists = await fs.access(`${installPath}/.git`).then(() => true).catch(() => false);
+const FRESHNESS_THRESHOLD_DAYS = 90;
 
-    if (!gitDirExists) {
+/**
+ * Synchronously check if a directory is a git repository.
+ * Uses existsSync - acceptable here as it's a quick metadata check.
+ */
+export function isGitRepository(dirPath: string): boolean {
+  return existsSync(join(dirPath, '.git'));
+}
+
+/**
+ * Check installation freshness using git history (preferred) with fallback to file modification dates.
+ *
+ * - If .git exists: uses spawnSync to run `git log -1 --format=%aI` with 5 second timeout
+ * - If git fails or not a repo: falls back to stat(package.json).mtime
+ * - Uses 90-day threshold for stale detection
+ * - Never throws - all errors return fallback results
+ */
+export async function checkFreshness(installPath: string): Promise<FreshnessResult> {
+  // Try git first if it's a git repository
+  if (isGitRepository(installPath)) {
+    const gitResult = getGitLastCommitDate(installPath);
+    if (gitResult !== null) {
+      const daysAgo = calculateDaysAgo(gitResult);
       return {
-        status: 'unknown',
-        date: new Date().toISOString(),
-        daysAgo: null
+        status: daysAgo > FRESHNESS_THRESHOLD_DAYS ? 'stale' : 'fresh',
+        date: gitResult.toISOString(),
+        daysAgo
       };
     }
+    // Git command failed, fall through to file date check
+  }
 
-    // Use git log to get latest commit date
-    return new Promise<FreshnessResult>((resolve, reject) => {
-      const git = spawn('git', ['log', '-1', '--format=%aI'], {
-        cwd: installPath,
-        timeout: 5000
-      });
+  // Fall back to checking file modification date
+  return await getFileDateFallback(installPath);
+}
 
-      let stdout = '';
-      let stderr = '';
-
-      git.stdout?.on('data', (data) => {
-        stdout += data;
-      });
-
-      git.stderr?.on('data', (data) => {
-        stderr += data;
-      });
-
-      git.on('close', (code) => {
-        if (code !== 0 || stderr) {
-          // Git failed, fall back to file modification date
-          fs.stat(`${installPath}/package.json`).then((stats) => {
-            const mtime = stats.mtime.toISOString();
-            const daysAgo = Math.floor((Date.now() - stats.mtime.getTime()) / (1000 * 60 * 60 * 24));
-            resolve({
-              status: daysAgo > 90 ? 'stale' : 'fresh',
-              date: mtime,
-              daysAgo
-            });
-          });
-        });
-        } else {
-          const match = stdout.trim();
-          if (match) {
-            const commitDate = new Date(match);
-            const daysAgo = Math.floor((Date.now() - commitDate.getTime()) / (1000 * 60 * 60 * 24));
-            resolve({
-              status: daysAgo > 90 ? 'stale' : 'fresh',
-              date: commitDate.toISOString(),
-              daysAgo
-            });
-          } else {
-            reject(new Error('No git output'));
-          }
-        }
-      });
-
-      git.on('error', (error) => {
-        reject(error);
-      });
+/**
+ * Get the date of the last git commit in the repository.
+ * Returns null if git command fails or is unavailable.
+ */
+function getGitLastCommitDate(repoPath: string): Date | null {
+  try {
+    const result = spawnSync('git', ['log', '-1', '--format=%aI'], {
+      cwd: repoPath,
+      encoding: 'utf-8',
+      timeout: 5000,
+      stdio: ['pipe', 'pipe', 'pipe']
     });
-  } catch (error) {
+
+    if (result.error || result.status !== 0) {
+      return null;
+    }
+
+    const dateString = result.stdout?.trim();
+    if (!dateString) {
+      return null;
+    }
+
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? null : date;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Fallback: check freshness using package.json modification date.
+ * Returns 'unknown' status if file cannot be read.
+ */
+async function getFileDateFallback(installPath: string): Promise<FreshnessResult> {
+  try {
+    const stat = await fs.stat(join(installPath, 'package.json'));
+    const daysAgo = calculateDaysAgo(stat.mtime);
+    return {
+      status: daysAgo > FRESHNESS_THRESHOLD_DAYS ? 'stale' : 'fresh',
+      date: stat.mtime.toISOString(),
+      daysAgo
+    };
+  } catch {
+    // Can't determine freshness
     return {
       status: 'unknown',
-      date: new Date().toISOString(),
+      date: null,
       daysAgo: null
     };
   }
 }
 
-export async function isGitRepository(dirPath: string): Promise<boolean> {
-  try {
-    await fs.access(`${dirPath}/.git`);
-    return true;
-  } catch {
-    return false;
-  }
+/**
+ * Calculate the number of days between a date and now.
+ */
+function calculateDaysAgo(date: Date): number {
+  const age = Date.now() - date.getTime();
+  return Math.floor(age / (1000 * 60 * 60 * 24));
 }
