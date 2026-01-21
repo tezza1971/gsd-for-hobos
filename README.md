@@ -11,6 +11,12 @@ When your Claude Code token usage looks like a phone number and you’re staring
 down a rate-limit lockout, `gfh` ensures your fallback tools (OpenCode, Cursor,
 etc.) have been briefed on your mission.
 
+## Are you lost?
+
+If you're not in the hobo class, and you landed here by mistake, got and visit
+[GSD on bags.fm](https://bags.fm/$glittercowboy) and help Lex do GSD fulltime so
+we can all benefit.
+
 ## The Workflow
 
 1. **Consent:** You agree to the "Hobo Manifesto" (Disclaimer).
