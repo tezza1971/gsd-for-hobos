@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2025-01-21)
 Phase: 2 of 5 (Detection)
 Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-21 - Completed 02-02-PLAN.md (OpenCode detector)
+Last activity: 2026-01-21 - Re-executed 02-01-PLAN.md with bug fixes
 
 Progress: ████████░░░░ 50%
 
@@ -56,6 +56,8 @@ Recent decisions affecting current work:
 - [02-01]: Three-phase detection: existence -> validation -> freshness
 - [02-01]: 90-day threshold for freshness warnings
 - [02-01]: Git-first freshness with file mtime fallback
+- [02-01]: spawnSync with 5s timeout for git commands
+- [02-01]: existsSync acceptable for quick .git metadata check
 - [02-02]: Filesystem PATH detection (no shell spawn for where/which)
 - [02-02]: PATHEXT env var on Windows with fallback defaults
 - [02-02]: Return null for not found (no exceptions)
@@ -71,5 +73,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-21
-Stopped at: Completed 02-02-PLAN.md
+Stopped at: Re-executed 02-01-PLAN.md (fixed bug in existing files)
 Resume file: None
