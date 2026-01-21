@@ -13,7 +13,7 @@ etc.) have been briefed on your mission.
 
 ## Are you lost?
 
-If you're not in the hobo class, and you landed here by mistake, got and visit
+If you're not in the hobo class, and you landed here by mistake, go and visit
 [GSD on bags.fm](https://bags.fm/$glittercowboy) and help Lex do GSD fulltime so
 we can all benefit.
 
