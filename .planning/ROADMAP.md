@@ -12,7 +12,7 @@ Transform GSD context engineering from Claude Code into OpenCode format through 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - CLI skeleton with Hobo Manifesto and standard flags
+- [x] **Phase 1: Foundation** - CLI skeleton with Hobo Manifesto and standard flags
 - [ ] **Phase 2: Detection** - Find GSD and OpenCode installations, validate completeness
 - [ ] **Phase 3: Transpilation** - Parse GSD, transform to OpenCode, handle conflicts
 - [ ] **Phase 4: Reports** - Console output with shortfall analysis, markdown export
@@ -33,8 +33,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project setup with TypeScript toolchain and core CLI skeleton
-- [ ] 01-02-PLAN.md — Hobo Manifesto consent flow and end-to-end verification
+- [x] 01-01-PLAN.md — Project setup with TypeScript toolchain and core CLI skeleton
+- [x] 01-02-PLAN.md — Hobo Manifesto consent flow and end-to-end verification
 
 ### Phase 2: Detection
 **Goal**: User knows if their GSD and OpenCode installations are ready for transpilation
@@ -46,10 +46,12 @@ Plans:
   3. User with outdated GSD sees freshness warning with option to update
   4. User sees clear message if OpenCode is not found on system
   5. User with incomplete GSD installation sees validation errors listing missing files
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: TBD
+- [ ] 02-01-PLAN.md — GSD detection module (auto-detect, validate, freshness)
+- [ ] 02-02-PLAN.md — OpenCode detection module (PATH search, cross-platform)
+- [ ] 02-03-PLAN.md — Detection orchestration and visual reporting
 
 ### Phase 3: Transpilation
 **Goal**: GSD context files are transformed into valid OpenCode configuration
@@ -102,7 +104,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 2/2 | Complete | 2026-01-21 |
-| 2. Detection | 0/TBD | Not started | - |
+| 2. Detection | 0/3 | Not started | - |
 | 3. Transpilation | 0/TBD | Not started | - |
 | 4. Reports | 0/TBD | Not started | - |
 | 5. LLM Enhancement | 0/TBD | Not started | - |
