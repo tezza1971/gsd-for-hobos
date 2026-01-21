@@ -5,32 +5,33 @@
 See: .planning/PROJECT.md (updated 2025-01-21)
 
 **Core value:** Frictionless fallback that just works when you hit the wall
-**Current focus:** Phase 1 - Foundation
+**Current focus:** Phase 2 - Detection
 
 ## Current Position
 
-Phase: 1 of 5 (Foundation)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-01-21 - Completed Phase 1 Foundation
+Phase: 2 of 5 (Detection)
+Plan: 2 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-21 - Completed 02-02-PLAN.md (OpenCode detector)
 
-Progress: ██████░░░░░░ 40%
+Progress: ████████░░░░ 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 12.5 min
-- Total execution time: 0.4 hours
+- Total plans completed: 4
+- Average duration: 9.4 min
+- Total execution time: 0.6 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 | 2 | 2 | 12.5 min |
+| 1 | 2 | 25 min | 12.5 min |
+| 2 | 2 | 12 min | 6 min |
 
 **Recent Trend:**
-- Last 2 plans: 15min (01-01), 10min (01-02)
+- Last 4 plans: 15min (01-01), 10min (01-02), 9min (02-01), 3min (02-02)
 - Trend: Decreasing (getting faster)
 
 *Updated after each plan completion*
@@ -52,6 +53,12 @@ Recent decisions affecting current work:
 - [01-02]: initialValue: false for confirm() - requires explicit user acceptance (clickwrap pattern)
 - [01-02]: isCancel() handling for Ctrl+C graceful exit
 - [01-02]: Manifesto shows even in quiet mode (consent is mandatory)
+- [02-01]: Three-phase detection: existence -> validation -> freshness
+- [02-01]: 90-day threshold for freshness warnings
+- [02-01]: Git-first freshness with file mtime fallback
+- [02-02]: Filesystem PATH detection (no shell spawn for where/which)
+- [02-02]: PATHEXT env var on Windows with fallback defaults
+- [02-02]: Return null for not found (no exceptions)
 
 ### Pending Todos
 
@@ -63,6 +70,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2025-01-21
-Stopped at: Roadmap creation complete
+Last session: 2026-01-21
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
