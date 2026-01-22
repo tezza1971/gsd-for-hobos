@@ -15,7 +15,7 @@
 
 import { detectGsd, detectOpenCode } from './lib/detector.js';
 import { scanGsdCommands } from './lib/transpiler/scanner.js';
-import { convertBatch } from './lib/transpiler/converter.js';
+import { convertCommand } from './lib/transpiler/converter.js';
 import {
   readCommands,
   mergeCommands,
@@ -80,19 +80,53 @@ async function main() {
   }
 
   console.log('→ Transpiling commands...');
-  const transpileResult = convertBatch(gsdCommands);
+
+  // Show per-command progress
+  const transpileResults = [];
+  for (const gsdCommand of gsdCommands) {
+    const result = convertCommand(gsdCommand);
+    transpileResults.push(result);
+
+    if (result.success && result.command) {
+      console.log(`  ✓ ${gsdCommand.name} → ${result.command.name}`);
+      if (result.warnings && result.warnings.length > 0) {
+        result.warnings.forEach(warning => {
+          console.log(`    ⚠ ${warning}`);
+        });
+      }
+    } else if (result.error) {
+      console.log(`  ✗ ${gsdCommand.name}: ${result.error}`);
+    }
+  }
+
+  // Aggregate results
+  const successful = transpileResults.filter(r => r.success && r.command).map(r => r.command!);
+  const failed = transpileResults.filter(r => !r.success).map((r, idx) => ({
+    name: gsdCommands[idx].name,
+    error: r.error || 'Unknown error'
+  }));
+  const warnings = transpileResults
+    .filter(r => r.success && r.warnings)
+    .flatMap((r, idx) =>
+      r.warnings!.map(warning => ({ name: gsdCommands[idx].name, warning }))
+    );
+
+  const transpileResult = { successful, failed, warnings };
+
   console.log(`  ✓ ${transpileResult.successful.length} successful`);
 
   if (transpileResult.failed.length > 0) {
-    console.log(`  ⚠ ${transpileResult.failed.length} failed`);
-    // Log first few failures for debugging
-    transpileResult.failed.slice(0, 3).forEach((failure) => {
+    console.log(`  ✗ ${transpileResult.failed.length} failed:`);
+    transpileResult.failed.slice(0, 5).forEach((failure) => {
       console.log(`    - ${failure.name}: ${failure.error}`);
     });
+    if (transpileResult.failed.length > 5) {
+      console.log(`    ... and ${transpileResult.failed.length - 5} more`);
+    }
   }
 
   if (transpileResult.warnings.length > 0) {
-    console.log(`  ⚠ ${transpileResult.warnings.length} warnings`);
+    console.log(`  ⚠ ${transpileResult.warnings.length} warnings (see above for details)`);
   }
 
   console.log('→ Writing to OpenCode...');
