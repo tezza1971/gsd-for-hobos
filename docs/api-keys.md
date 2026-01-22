@@ -14,7 +14,7 @@ The LLM enhancement feature requires an API key from a supported provider. This 
 
 ## Detection Priority
 
-When you accept the LLM enhancement prompt, gfh scans for API keys in this order:
+When you accept the LLM enhancement prompt, gsdo scans for API keys in this order:
 
 1. **OpenAI** (`OPENAI_API_KEY`)
 2. **Google Gemini** (`GEMINI_API_KEY`, `GOOGLE_API_KEY`)
@@ -78,7 +78,7 @@ set GEMINI_API_KEY=your-gemini-key
 3. Click "Get API key" in the left sidebar
 4. Create a new API key or use an existing one
 
-**Note:** gfh uses Google's OpenAI-compatible endpoint, so standard chat completions requests work seamlessly.
+**Note:** gsdo uses Google's OpenAI-compatible endpoint, so standard chat completions requests work seamlessly.
 
 ### Anthropic
 
@@ -165,7 +165,7 @@ set AZURE_OPENAI_DEPLOYMENT=gpt-4
 
 ## Manual Entry
 
-If no environment variable is detected, gfh offers manual entry:
+If no environment variable is detected, gsdo offers manual entry:
 
 ```
 ? No API key detected in environment. Enter manually? (y/N)
@@ -177,11 +177,11 @@ If you accept:
 3. The endpoint is resolved automatically
 4. Connectivity is tested before proceeding
 
-**Note:** Manually entered keys are used in-memory only and discarded when gfh exits.
+**Note:** Manually entered keys are used in-memory only and discarded when gsdo exits.
 
 ## Endpoint Testing
 
-Before entering the enhancement loop, gfh tests your API endpoint:
+Before entering the enhancement loop, gsdo tests your API endpoint:
 
 ```
 Testing OpenAI endpoint...
@@ -201,7 +201,7 @@ If the test fails:
 
 ## No API Key? Use Local LLMs
 
-If you don't have an API key, gfh suggests local alternatives:
+If you don't have an API key, gsdo suggests local alternatives:
 
 ```
 No API key configured. You can still get enhanced reports by running a local LLM:
@@ -237,9 +237,9 @@ Or use --no-enhance to skip this prompt next time.
 
 ## Security Notes
 
-- **Keys are never persisted** - gfh stores API keys in memory only
+- **Keys are never persisted** - gsdo stores API keys in memory only
 - **Keys are never logged** - Even in verbose mode, keys are masked
-- **Keys are discarded on exit** - No trace remains after gfh terminates
+- **Keys are discarded on exit** - No trace remains after gsdo terminates
 - **Manual entry is masked** - Password-style input hides your key
 
 ## Skipping Enhancement
@@ -247,7 +247,7 @@ Or use --no-enhance to skip this prompt next time.
 If you don't want to be prompted for LLM enhancement:
 
 ```bash
-gfh transpile --no-enhance
+gsdo transpile --no-enhance
 ```
 
 This skips the enhancement prompt entirely and goes straight to markdown export.

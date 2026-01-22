@@ -8,7 +8,7 @@ Common issues and their solutions.
 
 ```
 GSD installation not found.
-Run detection first: gfh --detect
+Run detection first: gsdo --detect
 ```
 
 **Causes:**
@@ -23,7 +23,7 @@ Run detection first: gfh --detect
    ls ~/.claude/get-shit-done/
    ```
 
-2. If installed elsewhere, gfh will prompt for location:
+2. If installed elsewhere, gsdo will prompt for location:
    ```
    ? GSD not found at default location. Enter path:
    ```
@@ -71,7 +71,7 @@ GSD installation is 95 days old. Consider updating.
    cd ~/.claude/get-shit-done && git pull
    ```
 
-2. Accept the update prompt when gfh offers
+2. Accept the update prompt when gsdo offers
 
 ### OpenCode Not Found
 
@@ -325,7 +325,7 @@ Transpilation failed. Check:
 ### Enable Verbose Mode
 
 ```bash
-gfh transpile -v
+gsdo transpile -v
 ```
 
 Shows detailed information about:
@@ -337,7 +337,7 @@ Shows detailed information about:
 ### Check the Manifest
 
 ```bash
-cat .opencode/gfh-manifest.json | jq .
+cat .opencode/gsdo-manifest.json | jq .
 ```
 
 Shows:
@@ -360,9 +360,9 @@ If you saved the markdown report, it contains:
 
 ## Still Stuck?
 
-1. **Check existing issues:** [GitHub Issues](https://github.com/your-repo/gsd-for-hobos/issues)
+1. **Check existing issues:** [GitHub Issues](https://github.com/glittercowboy/gsd-open/issues)
 2. **Open a new issue:** Include:
-   - gfh version (`gfh --version`)
+   - gsdo version (`gsdo --version`)
    - Node.js version (`node --version`)
    - Operating system
    - Full error output (with `-v` flag)

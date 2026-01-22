@@ -229,9 +229,9 @@ export interface BackupManifest {
 }
 
 /**
- * GFH manifest tracking transpilation state.
+ * GSD Open manifest tracking transpilation state.
  */
-export interface GFHManifest {
+export interface GSDOManifest {
   /** Manifest format version */
   version: '1.0';
   /** Last transpilation run details */
@@ -293,7 +293,7 @@ export interface TranspileResult {
   success: boolean;
   /** Path to backup directory if created */
   backupLocation?: string;
-  /** Path to GFH manifest file */
+  /** Path to GSD Open manifest file */
   manifestPath?: string;
   /** Errors encountered during transpilation */
   errors: string[];

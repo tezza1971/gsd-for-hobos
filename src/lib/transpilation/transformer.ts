@@ -2,7 +2,7 @@
  * GSD to OpenCode Transformer
  *
  * Transforms GSD Intermediate Representation into OpenCode configuration
- * using config-driven mapping rules. Supports user overrides via ~/.gfh/transforms.json.
+ * using config-driven mapping rules. Supports user overrides via ~/.gsdo/transforms.json.
  */
 
 import { readFile } from 'node:fs/promises';
@@ -49,10 +49,10 @@ interface SectionRules {
 
 /**
  * Load transform rules with user override support.
- * User rules at ~/.gfh/transforms.json take precedence over defaults.
+ * User rules at ~/.gsdo/transforms.json take precedence over defaults.
  */
 async function loadTransformRules(): Promise<TransformRules> {
-  const userRulesPath = join(homedir(), '.gfh', 'transforms.json');
+  const userRulesPath = join(homedir(), '.gsdo', 'transforms.json');
 
   try {
     const userRulesContent = await readFile(userRulesPath, 'utf-8');

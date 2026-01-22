@@ -58,7 +58,7 @@ Optional LLM-powered refinement loop that enhances transpilation quality beyond 
 <specifics>
 ## Specific Ideas
 
-- Multi-provider scan mirrors how hobos might have various API keys from different sources
+- Multi-provider scan mirrors how users might have various API keys from different sources
 - Session-scoped env export avoids polluting user's permanent environment
 - Separate llm-rules.json keeps human-written and LLM-generated rules distinct
 - Full iteration history helps LLM avoid repeating failed approaches

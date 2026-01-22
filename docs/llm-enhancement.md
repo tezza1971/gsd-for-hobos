@@ -4,7 +4,7 @@ The optional LLM enhancement pass uses AI to improve your transpilation results 
 
 ## Overview
 
-After the algorithmic transpilation completes, gfh offers an LLM enhancement pass:
+After the algorithmic transpilation completes, gsdo offers an LLM enhancement pass:
 
 ```
 ? Enhance transpilation with LLM? (requires API key) (y/N)
@@ -16,7 +16,7 @@ If you accept and have a valid API key, you enter an interactive refinement loop
 
 ### 1. API Configuration
 
-First, gfh detects and confirms your API configuration:
+First, gsdo detects and confirms your API configuration:
 
 ```
 ? Found OpenAI API key. Use it? (from OPENAI_API_KEY) (Y/n)
@@ -28,7 +28,7 @@ See [API Keys Guide](./api-keys.md) for supported providers.
 
 ### 2. Documentation Caching
 
-gfh fetches the OpenCode schema documentation from GitHub and caches it locally:
+gsdo fetches the OpenCode schema documentation from GitHub and caches it locally:
 
 ```
 Fetching OpenCode documentation...
@@ -64,7 +64,7 @@ Applied 3 new rules:
 
 ### 4. Rule Validation
 
-Before applying any LLM suggestions, gfh validates them:
+Before applying any LLM suggestions, gsdo validates them:
 
 ```typescript
 interface TransformRule {

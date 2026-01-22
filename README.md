@@ -1,49 +1,41 @@
-# GSD for Hobos (gfh)
+# GSD Open (gsdo)
 
-> "A context-migration utility for the computationally impoverished."
+> A context-migration utility for open-source AI platforms.
 
-**GSD for Hobos (GFH)** is a trans-platform context transporter. It takes the
+**GSD Open** is a cross-platform context transporter. It takes the
 high-end context engineering of
 [Get Shit Done (GSD)](https://github.com/glittercowboy/get-shit-done) and
-transpiles it for "economy-class" AI platforms.
+transpiles it for open-source and alternative AI platforms.
 
-When your Claude Code token usage looks like a phone number and you're staring
-down a rate-limit lockout, `gfh` ensures your fallback tools have been briefed
-on your mission. And if you're stone broke and can't afford Claude Code at all?
-This is your gateway to structured context engineering.
-
-## Are you lost?
-
-If you're not in the hobo class, and you landed here by mistake, go and visit
-[GSD on bags.fm](https://bags.fm/$glittercowboy) and help Lex do GSD fulltime so
-we can all benefit.
+When your Claude Code token usage is high and you need to use alternative
+tools, `gsdo` ensures your fallback tools have been briefed on your mission.
+This is your gateway to structured context engineering across different AI
+platforms.
 
 ## The Workflow
 
-1. **The Hobo Manifesto:** You agree to the disclaimer. This is expectations
-   management and a courtesy to the OG GSD author.
-2. **GSD Detection:** Finds your GSD installation at `~/.claude/` (or asks where
-   you stashed it). Checks freshness and offers to update if needed.
-3. **Platform Detection:** Scans your system for supported hobo-tier platforms.
-4. **Transpilation:** Parses your GSD context files into an intermediate
+1. **GSD Detection:** Finds your GSD installation at `~/.claude/` (or asks where
+   it's located). Checks freshness and offers to update if needed.
+2. **Platform Detection:** Scans your system for supported platforms.
+3. **Transpilation:** Parses your GSD context files into an intermediate
    representation, then transforms them into your target platform's format.
    Detects conflicts, backs up existing configs, asks before overwriting.
-5. **The Hobo Report:** A shortfall analysis showing what migrated and what
-   features were too "high-society" for your fallback tools.
-6. **LLM Enhancement (Optional):** If you've got spare change for tokens, you
-   can run an optional LLM pass to improve the transpilation. Provide an
-   OpenAI-compatible API key (used in-memory, then discarded) and iterate until
-   you're satisfied. No API key? We'll tip you on running a local LLM.
+4. **Shortfall Report:** An analysis showing what migrated and what
+   features couldn't be mapped to your target platform.
+5. **LLM Enhancement (Optional):** You can run an optional LLM pass to improve
+   the transpilation. Provide an OpenAI-compatible API key (used in-memory,
+   then discarded) and iterate until you're satisfied. No API key? We'll provide
+   guidance on running a local LLM.
 
 ## Supported Targets
 
 | Rank | Platform        | Status       | Notes                                                |
 | ---- | --------------- | ------------ | ---------------------------------------------------- |
-| 1    | **OpenCode**    | **v1 (MVP)** | The gold standard for low-overhead productivity.     |
+| 1    | **OpenCode**    | **v1 (MVP)** | The open-source standard for AI coding.              |
 | 2    | **Antigravity** | v2 Planned   | High capability, low cost.                           |
-| 3    | **Cursor**      | v2 Planned   | For the hobo who found a $20 bill on the sidewalk.   |
+| 3    | **Cursor**      | v2 Planned   | Popular AI-powered code editor.                      |
 | 4    | **Windsurf**    | v2 Planned   | Flow-state friendly.                                 |
-| 5    | **ChatLLM**     | v2 Planned   | The ultimate fallback.                               |
+| 5    | **ChatLLM**     | v2 Planned   | Fallback option.                                     |
 | ?    | **VS Code**     | Researching  | Can it handle slash commands? We're looking into it. |
 
 ## Documentation
@@ -63,7 +55,7 @@ Full documentation is available in the [`docs/`](./docs/) folder:
 Run via npx:
 
 ```bash
-npx gsd-for-hobos
+npx gsd-open
 ```
 
 ### Options
@@ -81,7 +73,7 @@ npx gsd-for-hobos
 ### Transpile Subcommand
 
 ```bash
-gfh transpile [options]
+gsdo transpile [options]
 
 Options:
   --force       Force re-transpilation even if unchanged
@@ -99,7 +91,7 @@ Options:
 
 ## LLM Enhancement
 
-After transpilation, gfh can optionally enhance results using an LLM. Set one of these environment variables:
+After transpilation, gsdo can optionally enhance results using an LLM. Set one of these environment variables:
 
 | Provider | Environment Variable |
 |----------|---------------------|
@@ -111,7 +103,7 @@ After transpilation, gfh can optionally enhance results using an LLM. Set one of
 
 See [API Keys Guide](./docs/api-keys.md) for complete setup instructions.
 
-No API key? gfh will suggest local LLM alternatives (Ollama, LM Studio, llama.cpp).
+No API key? gsdo will suggest local LLM alternatives (Ollama, LM Studio, llama.cpp).
 
 ## Architecture
 

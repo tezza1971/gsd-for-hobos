@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-CLI config migration tools must balance "just works" immediacy with enough transparency to build trust. The best tools follow a pattern: detect everything automatically, show what will change, execute quietly, then report comprehensively. For gfh specifically, the "hobo" audience adds unique constraints: users are frustrated (rate-limited) or skeptical (free tier users wondering "what's the catch?"). Features must earn trust fast.
+CLI config migration tools must balance "just works" immediacy with enough transparency to build trust. The best tools follow a pattern: detect everything automatically, show what will change, execute quietly, then report comprehensively. For gsdo specifically, the "user" audience adds unique constraints: users are frustrated (rate-limited) or skeptical (free tier users wondering "what's the catch?"). Features must earn trust fast.
 
 ---
 
@@ -31,15 +31,15 @@ Features users expect. Missing = product feels incomplete or untrustworthy.
 
 ## Differentiators
 
-Features that set gfh apart. Not expected, but valued. These align with project identity.
+Features that set gsdo apart. Not expected, but valued. These align with project identity.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| **Hobo Manifesto disclaimer** | Expectation management + brand identity. Sets the "this is best-effort, not perfect parity" tone immediately. Per PROJECT.md: required feature. | Low | Displayed at start. Combines humor with genuine expectation setting. |
-| **Algorithmic shortfall report** | Honest reporting of what couldn't be transpiled and why. Most migration tools hide failures. gfh embraces them with hobo-themed humor. | Medium | "Features too high-society for your fallback tools to handle." Trust through honesty. |
+| **Notice disclaimer** | Expectation management + brand identity. Sets the "this is best-effort, not perfect parity" tone immediately. Per PROJECT.md: required feature. | Low | Displayed at start. Combines humor with genuine expectation setting. |
+| **Algorithmic shortfall report** | Honest reporting of what couldn't be transpiled and why. Most migration tools hide failures. gsdo embraces them with professional humor. | Medium | "Features too high-society for your fallback tools to handle." Trust through honesty. |
 | **Optional LLM enhancement pass** | Two-tier architecture: algorithmic baseline (free), LLM enhancement (if user has API key). Lets stone-broke users get value while API-having users get more. | High | Per PROJECT.md: "Offer optional LLM enhancement pass with OpenAI-compatible API key." |
-| **Local LLM fallback tip** | When user has no API key, suggest local LLM options instead of dead-ending. Respects the "hobo" audience. | Low | "No API key? Consider running Ollama locally for the enhanced pass." |
-| **Themed tone throughout** | Satirical, utilitarian, hobo metaphors. "Scavenging for configs," "boarding the freight train." Creates memorable experience. | Low | Per PROJECT.md: "Satirical hobo-themed tone throughout." |
+| **Local LLM fallback tip** | When user has no API key, suggest local LLM options instead of dead-ending. Respects the "user" audience. | Low | "No API key? Consider running Ollama locally for the enhanced pass." |
+| **Themed tone throughout** | Satirical, utilitarian, user metaphors. "Scavenging for configs," "boarding the freight train." Creates memorable experience. | Low | Per PROJECT.md: "Satirical professional tone throughout." |
 | **Markdown report export** | Save the migration report locally for reference. Useful for documenting what was done. | Low | Per PROJECT.md: "Offer to save markdown version of report locally." |
 | **GSD freshness check** | Ensure user isn't migrating stale GSD configs. Offer to update before transpiling. | Medium | Per PROJECT.md: "Check GSD freshness and offer to update/install if needed." |
 | **Multi-platform targeting** | Support multiple fallback platforms from single run. (Future: Cursor, Windsurf, etc.) | High | MVP is OpenCode only. But architecture should support expansion. |
@@ -49,14 +49,14 @@ Features that set gfh apart. Not expected, but valued. These align with project 
 
 ## Anti-Features
 
-Features to deliberately NOT build. Common mistakes in this domain that gfh should avoid.
+Features to deliberately NOT build. Common mistakes in this domain that gsdo should avoid.
 
 | Anti-Feature | Why Avoid | What to Do Instead |
 |--------------|-----------|-------------------|
 | **Interactive prompts during transpilation** | Per PROJECT.md: "Quiet execution (no prompts during transpilation work)." Breaks scriptability, annoys experienced users. | All prompts at start (manifesto, options). Work happens silently. Report at end. |
 | **Storing API keys** | Per PROJECT.md: "API keys used in-memory only, never persisted." Security risk, unnecessary complexity. | Accept API key via env var or flag, use once, discard. |
 | **Auto-updating GSD without consent** | Per PROJECT.md: "Automated GSD updates without user consent always ask first." Violates user trust. | Detect staleness, suggest update, require explicit yes. |
-| **Claiming perfect parity** | Per PROJECT.md: "Perfect feature parity this is 'best effort,' not a replacement." Sets false expectations. | Hobo Manifesto + shortfall report make limitations explicit. |
+| **Claiming perfect parity** | Per PROJECT.md: "Perfect feature parity this is 'best effort,' not a replacement." Sets false expectations. | Notice + shortfall report make limitations explicit. |
 | **Over-engineered progress indicators** | For a quick CLI tool, spinners and progress bars add complexity without value. | Simple status messages at start/end. Trust the "quiet execution" philosophy. |
 | **Config file backups by default** | Clutters user's system with .bak files they'll never clean up. | Create backups only when overwriting existing configs, and only if user confirms. |
 | **Wizard/interactive setup mode** | Adds friction for the target user who "needs a fallback NOW." | One command, sensible defaults, flags for customization. |
@@ -69,7 +69,7 @@ Features to deliberately NOT build. Common mistakes in this domain that gfh shou
 ## Feature Dependencies
 
 ```
-Hobo Manifesto (start)
+Notice (start)
         |
         v
 Auto-detect GSD source -----> GSD Freshness Check (optional update)
@@ -115,7 +115,7 @@ Display report --> Offer markdown export --> Exit with code
 For MVP (OpenCode only), prioritize in this order:
 
 **Must Have (P0):**
-1. Hobo Manifesto disclaimer
+1. Notice disclaimer
 2. Auto-detect GSD source at `~/.claude/`
 3. Auto-detect OpenCode installation
 4. Basic transpilation (CLAUDE.md -> OpenCode format)

@@ -1,8 +1,8 @@
-# gsd-for-hobos (gfh)
+# gsd-open (gsdo)
 
 ## What This Is
 
-A Node.js CLI tool (`npx gsd-for-hobos`) that transpiles GSD context engineering from Claude Code into cheaper/free AI platforms. Built for developers who have the brain of a 20x engineer but the budget of a hobo — either rate-limited on Claude Code and needing a fallback NOW, or stone broke and wanting a taste of structured context engineering without the Claude Code price tag.
+A Node.js CLI tool (`npx gsd-open`) that transpiles GSD context engineering from Claude Code into open-source and alternative AI platforms. Built for developers who need flexibility beyond Claude Code — either rate-limited and needing a fallback, or wanting to use structured context engineering on free and open-source alternatives.
 
 ## Core Value
 
@@ -16,7 +16,7 @@ Frictionless fallback that just works when you hit the wall. Run one command, ge
 
 ### Active
 
-- [ ] Display Hobo Manifesto disclaimer/agreement screen at launch
+- [ ] Display notice/disclaimer screen at launch
 - [ ] Detect GSD installation at `~/.claude/`, prompt for location if not found
 - [ ] Check GSD freshness and offer to update/install if needed
 - [ ] Detect OpenCode installation on user's system
@@ -28,7 +28,7 @@ Frictionless fallback that just works when you hit the wall. Run one command, ge
 - [ ] Output final report to console
 - [ ] Offer to save markdown version of report locally
 - [ ] Quiet execution (no prompts during transpilation work)
-- [ ] Satirical hobo-themed tone throughout
+- [ ] Professional and straightforward tone throughout
 
 ### Out of Scope
 
@@ -46,8 +46,8 @@ Frictionless fallback that just works when you hit the wall. Run one command, ge
 **Reference project:** [get-shit-done](https://github.com/glittercowboy/get-shit-done) by glittercowboy — the OG GSD context engineering system for Claude Code. This tool exists to extend GSD's reach to developers who can't always afford Claude Code's rate limits or subscription.
 
 **Target users:**
-1. **The Rate-Limited** — Has Claude Code, loves GSD, just hit the usage wall. Needs a fallback NOW to keep working.
-2. **The Stone Broke** — Can't afford Claude Code at all. Wants to experience structured context engineering on free/cheap alternatives.
+1. **Rate-limited users** — Has Claude Code, uses GSD, but needs a fallback when hitting usage limits.
+2. **Open-source users** — Prefers free and open-source alternatives. Wants to use structured context engineering without proprietary platforms.
 
 **GSD location:** Standard install is `~/.claude/`. Tool defaults there, asks user if not found.
 
@@ -55,7 +55,7 @@ Frictionless fallback that just works when you hit the wall. Run one command, ge
 1. **Algorithmic pass** (always runs) — Quiet transpilation, basic shortfall report
 2. **LLM pass** (optional) — User provides OpenAI-compatible API key, interactive refinement loop, richer final report
 
-**Tone:** Satirical, utilitarian, hobo-themed metaphors. "Scavenging for configs," "boarding the freight train," "spare change for tokens." The Hobo Manifesto is both humor and genuine expectation management.
+**Tone:** Professional, utilitarian, straightforward. The notice disclaimer provides expectation management about "best effort" transpilation.
 
 ## Constraints
 
@@ -71,9 +71,9 @@ Frictionless fallback that just works when you hit the wall. Run one command, ge
 |----------|-----------|---------|
 | OpenCode as sole MVP target | Focus beats sprawl. Nail one platform before expanding. | — Pending |
 | Two-pass (algorithmic + LLM) | Algorithmic gives baseline for free, LLM enhances for those who have API access | — Pending |
-| Hobo Manifesto stays | Expectation management + courtesy to OG GSD author + brand identity | — Pending |
+| Notice disclaimer stays | Expectation management + courtesy to OG GSD author | — Pending |
 | API keys in-memory only | Privacy/security for users, no persistence of secrets | — Pending |
-| Local LLM tip as fallback | Stone broke users can still get enhanced reports without paying for API | — Pending |
+| Local LLM tip as fallback | Users without API keys can still get enhanced reports using local LLMs | — Pending |
 
 ---
 *Last updated: 2025-01-21 after initialization*

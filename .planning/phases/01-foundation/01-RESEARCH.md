@@ -10,7 +10,7 @@ Phase 1 establishes the foundational CLI skeleton that all subsequent phases bui
 
 Critical from day one: Cross-platform path handling must be established immediately using `os.homedir()` and `path.join()` exclusively. Never hardcode path separators or assume Unix-style paths. Similarly, encoding must be explicit UTF-8 everywhere to avoid Windows corruption. Async patterns with proper error handling (await in try/catch, never naked promises) prevent unhandled rejections.
 
-The Hobo Manifesto disclaimer (CLI-01) follows clickwrap agreement patterns: display text, require affirmative action (Y/N prompt), log acceptance metadata (timestamp, version), and exit gracefully on decline. This establishes consent before any operations.
+The Notice disclaimer (CLI-01) follows clickwrap agreement patterns: display text, require affirmative action (Y/N prompt), log acceptance metadata (timestamp, version), and exit gracefully on decline. This establishes consent before any operations.
 
 **Primary recommendation:** Use Commander.js for all flag/command parsing, establish path utilities module immediately, implement process.exitCode pattern (not process.exit()), and structure for graceful degradation from the start.
 
@@ -53,7 +53,7 @@ npm install -D typescript tsx tsup vitest @types/node
 
 ### Recommended Project Structure
 ```
-gsd-for-hobos/
+gsd-open/
 ├── src/
 │   ├── cli.ts              # Main entry point, Commander setup
 │   ├── commands/
@@ -62,7 +62,7 @@ gsd-for-hobos/
 │   │   ├── paths.ts        # Cross-platform path utilities
 │   │   ├── logger.ts       # Logging with verbose/quiet support
 │   │   ├── exit-codes.ts   # Exit code constants
-│   │   └── manifesto.ts    # Hobo Manifesto display + consent
+│   │   └── manifesto.ts    # Notice display + consent
 │   └── types/
 │       └── index.ts        # TypeScript types
 ├── package.json
@@ -84,8 +84,8 @@ import { run } from './commands/index.js';
 const program = new Command();
 
 program
-  .name('gfh')
-  .description('GSD-for-Hobos: Transpile Claude Code configs to OpenCode')
+  .name('gsdo')
+  .description('GSD-Open: Transpile Claude Code configs to OpenCode')
   .version(version)
   .option('-v, --verbose', 'enable verbose output')
   .option('-q, --quiet', 'suppress all output except errors')
@@ -160,7 +160,7 @@ export function setExitCode(code: number, message?: string) {
 // process.exit(1); // BAD - prevents cleanup
 ```
 
-### Pattern 4: Clickwrap Consent (Hobo Manifesto)
+### Pattern 4: Clickwrap Consent (Notice)
 **What:** Display disclaimer, require affirmative action, log acceptance
 **When to use:** First-run or always-on disclaimer per requirements
 **Example:**
@@ -169,7 +169,7 @@ export function setExitCode(code: number, message?: string) {
 import { confirm, intro, outro } from '@clack/prompts';
 
 export async function showManifesto(): Promise<boolean> {
-  intro('GSD-for-Hobos - Hobo Manifesto');
+  intro('GSD-Open - Notice');
 
   console.log(`
 ╔════════════════════════════════════════════════════════════════╗
@@ -405,11 +405,11 @@ Verified patterns from official sources:
 ### npx Executable Setup (package.json)
 ```json
 {
-  "name": "gsd-for-hobos",
+  "name": "gsd-open",
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "gfh": "./dist/cli.js"
+    "gsdo": "./dist/cli.js"
   },
   "files": ["dist"],
   "engines": {
@@ -448,7 +448,7 @@ import { ExitCode } from './lib/exit-codes.js';
 const program = new Command();
 
 program
-  .name('gfh')
+  .name('gsdo')
   .description('Transpile Claude Code configs to OpenCode')
   .version('0.1.0')
   .option('-v, --verbose', 'enable verbose output')
@@ -553,7 +553,7 @@ export const log = {
 Things that couldn't be fully resolved:
 
 1. **Manifesto display frequency**
-   - What we know: CLI-01 requires displaying Hobo Manifesto at launch
+   - What we know: CLI-01 requires displaying Notice at launch
    - What's unclear: Every launch, or only first time? Should we track acceptance state?
    - Recommendation: Show every time for Phase 1 (simple, no state), add "remember me" in later phase if UX feedback demands it
 

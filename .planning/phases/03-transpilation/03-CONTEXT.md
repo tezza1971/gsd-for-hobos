@@ -17,7 +17,7 @@ Parse GSD context files into an intermediate representation and transform them i
 - Use intermediate representation (parse GSD → internal model → emit OpenCode)
 - Best-effort approximation when GSD construct has no direct OpenCode equivalent (note gaps in report)
 - Config-driven transform rules (mappings in config file, not hardcoded)
-- User-overridable config: ship defaults in package, allow `~/.gfh/transforms.json` to override
+- User-overridable config: ship defaults in package, allow `~/.gsdo/transforms.json` to override
 
 ### Conflict resolution
 - Backup then overwrite (auto-backup existing configs, no prompts)
@@ -34,7 +34,7 @@ Parse GSD context files into an intermediate representation and transform them i
 ### Output structure
 - Auto-detect OpenCode config location; prompt if multiple options or not obvious
 - Follow OpenCode conventions for file layout (adapt to OpenCode's expected organization)
-- Create manifest file: `.gfh-manifest.json` with source→output mappings, timestamps
+- Create manifest file: `.gsdo-manifest.json` with source→output mappings, timestamps
 - Match OpenCode's expected format for output configs (JSON, YAML, TOML, etc.)
 
 ### Claude's Discretion
@@ -49,7 +49,7 @@ Parse GSD context files into an intermediate representation and transform them i
 ## Specific Ideas
 
 - Transpilation should be idempotent (running twice produces identical results)
-- Error messages should help hobos debug their own GSD files
+- Error messages should help users debug their own GSD files
 - The intermediate representation enables future platform targets beyond OpenCode
 
 </specifics>

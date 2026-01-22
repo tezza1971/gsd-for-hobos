@@ -453,7 +453,7 @@ Problems that look simple but have existing solutions:
 ### Pitfall 2: GitHub Cache Stale During Active Development
 **What goes wrong:** OpenCode schema changes, but user gets old cached docs; LLM generates rules for outdated API
 **Why it happens:** 24-hour TTL caching is aggressive; if schema changes mid-development session, cache isn't refreshed
-**How to avoid:** Offer `--refresh-docs` flag or manual cache clear via `gfh --clear-llm-cache`; log when cache is used vs freshly fetched; document TTL in verbose output
+**How to avoid:** Offer `--refresh-docs` flag or manual cache clear via `gsdo --clear-llm-cache`; log when cache is used vs freshly fetched; document TTL in verbose output
 **Warning signs:** User says "LLM suggested field that doesn't exist in current OpenCode" after schema update
 **Validation:** Test: manually touch cache file's mtime to expire it → next enhancement run → fetches fresh docs → logs "Fetching" not "Using cached"
 

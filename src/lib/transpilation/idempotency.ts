@@ -2,14 +2,14 @@
  * Idempotency checking for GSD transpilation.
  *
  * Tracks source content hashes to detect if re-run is needed,
- * and manages the GFH manifest for transpilation metadata.
+ * and manages the GSD Open manifest for transpilation metadata.
  */
 
 import { readFile, writeFile, readdir, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { log } from '../logger.js';
-import type { GFHManifest } from '../../types/index.js';
+import type { GSDOManifest } from '../../types/index.js';
 
 /**
  * Calculate SHA256 hash of all files in a directory (sorted, deterministic).
@@ -75,7 +75,7 @@ async function collectFiles(dirPath: string): Promise<string[]> {
  * Check if transpilation should be re-run based on source hash comparison.
  *
  * @param gsdPath - Path to GSD installation
- * @param manifestPath - Path to GFH manifest file
+ * @param manifestPath - Path to GSD Open manifest file
  * @returns Whether regeneration is needed and the reason
  */
 export async function checkIdempotency(
@@ -86,7 +86,7 @@ export async function checkIdempotency(
   const currentHash = await hashDirectory(gsdPath);
 
   // Try to read existing manifest
-  let manifest: GFHManifest | null = null;
+  let manifest: GSDOManifest | null = null;
   try {
     const manifestContent = await readFile(manifestPath, 'utf-8');
     manifest = JSON.parse(manifestContent);
@@ -116,13 +116,13 @@ export async function checkIdempotency(
 }
 
 /**
- * Write GFH manifest after successful transpilation.
+ * Write GSD Open manifest after successful transpilation.
  *
  * @param manifest - Manifest data to write
  * @param manifestPath - Path to write manifest to
  */
 export async function writeManifest(
-  manifest: GFHManifest,
+  manifest: GSDOManifest,
   manifestPath: string
 ): Promise<void> {
   const content = JSON.stringify(manifest, null, 2);
@@ -131,12 +131,12 @@ export async function writeManifest(
 }
 
 /**
- * Read existing GFH manifest.
+ * Read existing GSD Open manifest.
  *
  * @param manifestPath - Path to manifest file
  * @returns Manifest data or null if not found
  */
-export async function readManifest(manifestPath: string): Promise<GFHManifest | null> {
+export async function readManifest(manifestPath: string): Promise<GSDOManifest | null> {
   try {
     const content = await readFile(manifestPath, 'utf-8');
     return JSON.parse(content);

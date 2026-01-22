@@ -25,7 +25,7 @@
 - hashDirectory: SHA256 of all files sorted by path
 - checkIdempotency: Compare source hash with manifest
 - writeManifest: Save transpilation metadata
-- GFHManifest tracks source/output hashes and mappings
+- GSDOManifest tracks source/output hashes and mappings
 
 **Orchestrator (orchestrator.ts):**
 - Full pipeline: parse → transform → emit → write
@@ -36,7 +36,7 @@
 - Gap reporting for unmapped/approximated features
 
 **CLI Command (transpile.ts, cli.ts):**
-- `gfh transpile` subcommand
+- `gsdo transpile` subcommand
 - Flags: --force, --no-backup
 - Global flags: --dry-run, -v, -q
 - Exit codes: SUCCESS, WARNING, ERROR
@@ -44,7 +44,7 @@
 
 **Types Added:**
 - BackupManifest, BackupFileEntry
-- GFHManifest
+- GSDOManifest
 - TranspileOptions, TranspileResult
 
 **Bug Fix:**

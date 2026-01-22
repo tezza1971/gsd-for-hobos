@@ -3,13 +3,13 @@
 import { program } from 'commander';
 import { setLogLevel, log } from './lib/logger.js';
 import { ExitCode } from './lib/exit-codes.js';
-import { showManifesto } from './lib/manifesto.js';
+import { showNotice } from './lib/manifesto.js';
 import { detectCommand } from './commands/detect.js';
 import { transpileCommand } from './commands/transpile.js';
 
 program
-  .name('gfh')
-  .description('GSD-for-Hobos: Transpile Claude Code configs to OpenCode')
+  .name('gsdo')
+  .description('GSD Open: Transpile Claude Code configs to OpenCode')
   .version('0.1.0')
   .option('-v, --verbose', 'enable verbose output')
   .option('-q, --quiet', 'suppress all output except errors')
@@ -20,7 +20,7 @@ program
     try {
       setLogLevel(options.verbose, options.quiet);
 
-      const accepted = await showManifesto();
+      const accepted = await showNotice();
 
       if (!accepted) {
         process.exitCode = ExitCode.SUCCESS;
@@ -69,7 +69,7 @@ program
       const globalOptions = program.opts();
       setLogLevel(globalOptions.verbose, globalOptions.quiet);
 
-      const accepted = await showManifesto();
+      const accepted = await showNotice();
 
       if (!accepted) {
         process.exitCode = ExitCode.SUCCESS;

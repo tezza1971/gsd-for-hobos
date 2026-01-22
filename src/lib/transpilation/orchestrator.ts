@@ -17,7 +17,7 @@ import { checkIdempotency, writeManifest, hashDirectory } from './idempotency.js
 import type {
   TranspileOptions,
   TranspileResult,
-  GFHManifest,
+  GSDOManifest,
   TransformGaps,
   TransformedArtifactsMetadata,
 } from '../../types/index.js';
@@ -79,7 +79,7 @@ export async function runTranspilation(options: TranspileOptions): Promise<Trans
     };
   }
 
-  manifestPath = join(opencodeConfigDir, '.gfh-manifest.json');
+  manifestPath = join(opencodeConfigDir, '.gsdo-manifest.json');
 
   // Step 1: Check idempotency (unless --force)
   if (!options.force) {

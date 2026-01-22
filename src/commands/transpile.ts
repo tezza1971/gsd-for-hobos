@@ -49,7 +49,7 @@ export async function transpileCommand(options: TranspileCommandOptions): Promis
 
   if (!gsdResult.found || !gsdResult.path) {
     log.error('GSD installation not found.');
-    log.info('Run detection first: gfh --detect');
+    log.info('Run detection first: gsdo --detect');
     process.exitCode = ExitCode.ERROR;
     return;
   }

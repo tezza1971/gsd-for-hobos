@@ -1,13 +1,13 @@
 # Architecture Research
 
-**Project:** gsd-for-hobos (gfh)
+**Project:** gsd-open (gsdo)
 **Domain:** CLI config transpilation tool
 **Researched:** 2026-01-21
 **Confidence:** MEDIUM (patterns synthesized from multiple sources, not copied from identical tools)
 
 ## Executive Summary
 
-CLI config transpilation tools follow well-established patterns: a pipeline architecture with discrete stages, the adapter pattern for multi-platform support, and plugin-based extensibility for future growth. For gfh specifically, the key architectural decision is separating the "core" (config reading, transpilation logic, report generation) from "platform adapters" (OpenCode, Cursor, etc.) so adding new platforms is trivial.
+CLI config transpilation tools follow well-established patterns: a pipeline architecture with discrete stages, the adapter pattern for multi-platform support, and plugin-based extensibility for future growth. For gsdo specifically, the key architectural decision is separating the "core" (config reading, transpilation logic, report generation) from "platform adapters" (OpenCode, Cursor, etc.) so adding new platforms is trivial.
 
 The two-pass architecture (algorithmic + LLM) maps naturally to a pipeline where the LLM pass is an optional enhancement stage that can be skipped or swapped.
 
@@ -18,13 +18,13 @@ The two-pass architecture (algorithmic + LLM) maps naturally to a pipeline where
 ### Recommended Components
 
 ```
-gfh/
+gsdo/
 ├── bin/
-│   └── gfh.js              # Entry point (shebang, minimal)
+│   └── gsdo.js              # Entry point (shebang, minimal)
 ├── src/
 │   ├── cli/
 │   │   ├── index.js        # CLI setup (Commander.js)
-│   │   ├── manifesto.js    # Hobo Manifesto display + consent
+│   │   ├── manifesto.js    # Notice display + consent
 │   │   └── prompts.js      # User interaction helpers
 │   ├── core/
 │   │   ├── gsd-reader.js   # Read GSD files from ~/.claude/
@@ -53,7 +53,7 @@ gfh/
 
 | Component | Responsibility | Dependencies |
 |-----------|---------------|--------------|
-| **bin/gfh.js** | Entry point, process.argv handoff | cli/index.js |
+| **bin/gsdo.js** | Entry point, process.argv handoff | cli/index.js |
 | **cli/index.js** | Command parsing, orchestration | Commander.js, all other modules |
 | **cli/manifesto.js** | Display disclaimer, get consent | prompts.js |
 | **cli/prompts.js** | User interaction (Y/N, text input) | inquirer or prompts |
@@ -105,8 +105,8 @@ User Input --> CLI Parser --> Manifesto Gate --> GSD Reader --> Freshness Check
 
 ### Detailed Data Flow
 
-1. **Entry** (`bin/gfh.js`)
-   - Invoked via `npx gsd-for-hobos`
+1. **Entry** (`bin/gsdo.js`)
+   - Invoked via `npx gsd-open`
    - Hands off to `cli/index.js`
 
 2. **CLI Parsing** (`cli/index.js`)
@@ -114,7 +114,7 @@ User Input --> CLI Parser --> Manifesto Gate --> GSD Reader --> Freshness Check
    - Determines execution mode (interactive vs. quiet)
 
 3. **Manifesto Gate** (`cli/manifesto.js`)
-   - Displays Hobo Manifesto
+   - Displays Notice
    - Gets Y/N consent
    - Exits if declined
 
@@ -166,7 +166,7 @@ User Input --> CLI Parser --> Manifesto Gate --> GSD Reader --> Freshness Check
 11. **Report Generation** (`reporters/`)
     - Aggregates all results
     - Formats for console and/or markdown
-    - Console: hobo-themed summary with colors
+    - Console: professional summary with colors
     - Markdown: detailed technical report
 
 ### Data Structures
@@ -392,7 +392,7 @@ Based on dependencies between components, here's the recommended build sequence:
 1. **Project scaffolding** - package.json, ESM setup, bin entry
 2. **core/config.js** - Internal configuration management
 3. **cli/prompts.js** - User interaction utilities
-4. **cli/manifesto.js** - Hobo Manifesto display
+4. **cli/manifesto.js** - Notice display
 
 **Rationale:** Everything depends on basic project structure and user interaction.
 
@@ -424,7 +424,7 @@ Based on dependencies between components, here's the recommended build sequence:
 ### Phase 5: CLI Integration
 
 15. **cli/index.js** - Commander.js setup, tie everything together
-16. **bin/gfh.js** - Entry point
+16. **bin/gsdo.js** - Entry point
 
 **Rationale:** CLI orchestrates all components, so it comes near the end.
 
@@ -438,7 +438,7 @@ Based on dependencies between components, here's the recommended build sequence:
 ### Dependency Graph
 
 ```
-                        [bin/gfh.js]
+                        [bin/gsdo.js]
                              |
                       [cli/index.js]
                       /      |      \
@@ -527,7 +527,7 @@ Based on dependencies between components, here's the recommended build sequence:
 ### Why Commander.js for CLI
 
 - Mature, well-documented, widely used
-- Subcommand support (future: `gfh transpile`, `gfh check`, etc.)
+- Subcommand support (future: `gsdo transpile`, `gsdo check`, etc.)
 - Auto-generates help
 - TypeScript support if we migrate later
 

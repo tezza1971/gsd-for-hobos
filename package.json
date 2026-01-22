@@ -1,9 +1,9 @@
 {
-  "name": "gsd-for-hobos",
+  "name": "gsd-open",
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "gfh": "./dist/cli.js"
+    "gsdo": "./dist/cli.js"
   },
   "files": [
     "dist"

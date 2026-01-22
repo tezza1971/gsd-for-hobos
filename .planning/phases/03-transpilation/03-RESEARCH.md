@@ -221,8 +221,8 @@ try {
 **Implementation:**
 
 ```typescript
-// Store in .gfh-manifest.json
-interface GFHManifest {
+// Store in .gsdo-manifest.json
+interface GSDOManifest {
   version: "1.0";
   lastRun: {
     timestamp: string;
@@ -249,7 +249,7 @@ async function shouldRegenerate(sourceHash: string): Promise<boolean> {
 
 ### Anti-Patterns to Avoid
 - **Don't stream file writes:** Collect all changes in memory, write atomically or not at all (simpler rollback)
-- **Don't hardcode transform rules:** Use configuration files (allow user overrides via ~/.gfh/transforms.json)
+- **Don't hardcode transform rules:** Use configuration files (allow user overrides via ~/.gsdo/transforms.json)
 - **Don't lose error context:** Always include stack traces and internal state for debugging
 - **Don't skip validation in dry-run:** Dry-run should be as thorough as real run (discovers all issues upfront)
 
@@ -532,7 +532,7 @@ async function checkIdempotency(gsdPath: string): Promise<{
     const sourceHash = await hashDirectory(gsdPath);
 
     // Read last manifest
-    const manifest = await readManifestSafe('.gfh-manifest.json');
+    const manifest = await readManifestSafe('.gsdo-manifest.json');
 
     if (!manifest) {
       return { shouldRegenerate: true, reason: 'No previous manifest found' };
@@ -622,7 +622,7 @@ async function runDryRun(gsdPath: string, opencodeConfigDir: string): Promise<vo
 
   // Step 5: Validate write permissions to target directory
   try {
-    const testFile = path.join(opencodeConfigDir, '.gfh-write-test');
+    const testFile = path.join(opencodeConfigDir, '.gsdo-write-test');
     await fs.promises.writeFile(testFile, 'test', 'utf-8');
     await fs.promises.unlink(testFile);
   } catch (error) {
@@ -676,12 +676,12 @@ Things that couldn't be fully resolved during research (planner should clarify):
    - Recommendation: Task should decide: (a) detection priority order, (b) whether to prompt or auto-select, (c) whether to create if missing
 
 3. **Transform Rule Configuration Format**
-   - What we know: Phase context says "config-driven rules in ~/.gfh/transforms.json"
+   - What we know: Phase context says "config-driven rules in ~/.gsdo/transforms.json"
    - What's unclear: Exact schema of transforms.json (JSON structure, fields, examples)
    - Recommendation: Task should define: (a) transforms.json schema/examples, (b) precedence (shipped defaults vs. user overrides), (c) how to report which rules were applied
 
 4. **Reporting and Manifest Contents**
-   - What we know: .gfh-manifest.json tracks source→output mappings and approximations
+   - What we know: .gsdo-manifest.json tracks source→output mappings and approximations
    - What's unclear: Should report also go to stdout/file? What level of detail?
    - Recommendation: Task should specify: (a) manifest JSON schema, (b) what gets logged vs. reported, (c) when to emit warnings vs. errors
 

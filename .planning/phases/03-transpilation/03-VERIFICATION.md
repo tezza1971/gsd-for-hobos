@@ -118,7 +118,7 @@ All 8 critical connections verified as wired:
 - [ ] Full end-to-end transpilation with real GSD installation
 - [ ] Idempotency check (run twice, verify second run skips regeneration)
 - [ ] Error rollback (simulate write failure, verify backup restore)
-- [ ] User config override (~/.gfh/transforms.json merges correctly)
+- [ ] User config override (~/.gsdo/transforms.json merges correctly)
 
 ---
 

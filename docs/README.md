@@ -1,6 +1,6 @@
-# GSD for Hobos Documentation
+# GSD Open Documentation
 
-Welcome to the GSD for Hobos (gfh) documentation. This guide covers everything you need to know to transpile your GSD context engineering to OpenCode format.
+Welcome to the GSD Open (gsdo) documentation. This guide covers everything you need to know to transpile your GSD context engineering to OpenCode format.
 
 ## Quick Links
 
@@ -18,22 +18,21 @@ Welcome to the GSD for Hobos (gfh) documentation. This guide covers everything y
 
 ```bash
 # Run directly with npx (recommended)
-npx gsd-for-hobos
+npx gsd-open
 
 # Or install globally
-npm install -g gsd-for-hobos
-gfh
+npm install -g gsd-open
+gsdo
 ```
 
 ### First Run
 
-On first run, gfh will:
+On first run, gsdo will:
 
-1. **Show the Hobo Manifesto** - A disclaimer you must accept
-2. **Detect your GSD installation** - Usually at `~/.claude/get-shit-done/`
-3. **Check for OpenCode** - Scans your PATH for the `opencode` binary
-4. **Run transpilation** - Converts GSD configs to OpenCode format
-5. **Offer LLM enhancement** - Optional pass to improve results (requires API key)
+1. **Detect your GSD installation** - Usually at `~/.claude/get-shit-done/`
+2. **Check for OpenCode** - Scans your PATH for the `opencode` binary
+3. **Run transpilation** - Converts GSD configs to OpenCode format
+4. **Offer LLM enhancement** - Optional pass to improve results (requires API key)
 
 ### Minimum Requirements
 
@@ -86,7 +85,7 @@ After transpilation, you'll find:
 ├── models.json              # Model configurations
 ├── settings.json            # General settings
 ├── llm-rules.json           # LLM-generated rules (if enhanced)
-└── gfh-manifest.json        # Transpilation metadata
+└── gsdo-manifest.json       # Transpilation metadata
 
 .opencode-backup/            # Backup of previous configs
 └── {timestamp}/
@@ -95,8 +94,8 @@ After transpilation, you'll find:
 
 ## Getting Help
 
-- **In the CLI:** `gfh --help`
-- **GitHub Issues:** [Report bugs or request features](https://github.com/your-repo/gsd-for-hobos/issues)
+- **In the CLI:** `gsdo --help`
+- **GitHub Issues:** [Report bugs or request features](https://github.com/glittercowboy/gsd-open/issues)
 - **GSD Documentation:** [Original GSD project](https://github.com/glittercowboy/get-shit-done)
 - **OpenCode Documentation:** [OpenCode docs](https://opencode.ai/docs)
 

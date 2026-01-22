@@ -1,6 +1,6 @@
 # Transpilation
 
-This document explains how gfh transforms GSD context files into OpenCode configuration.
+This document explains how gsdo transforms GSD context files into OpenCode configuration.
 
 ## Overview
 
@@ -90,7 +90,7 @@ Rules in `transform-rules.json` define how GSD concepts map to OpenCode:
 
 ## Output Files
 
-After transformation, gfh emits OpenCode configuration:
+After transformation, gsdo emits OpenCode configuration:
 
 ```
 .opencode/

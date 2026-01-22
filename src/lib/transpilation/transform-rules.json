@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "description": "Default GSD to OpenCode transformation rules. Override by creating ~/.gfh/transforms.json with same structure.",
+  "description": "Default GSD to OpenCode transformation rules. Override by creating ~/.gsdo/transforms.json with same structure.",
   "agents": {
     "fieldMappings": {
       "name": "name",

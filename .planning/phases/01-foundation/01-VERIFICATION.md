@@ -8,13 +8,13 @@ verified: 2026-01-21
 
 ## Goal
 
-User can run `npx gsd-for-hobos` and interact with a functional CLI.
+User can run `npx gsd-open` and interact with a functional CLI.
 
 ## Success Criteria (must_haves)
 
 | # | Requirement | Expected | Actual | Status |
 |---|-------------|----------|--------|--------|
-| 1 | User sees Hobo Manifesto disclaimer and can accept/decline at launch | Manifesto displays on launch | Manifesto displays with ASCII art and consent prompt | ✓ |
+| 1 | User sees Notice disclaimer and can accept/decline at launch | Manifesto displays on launch | Manifesto displays with ASCII art and consent prompt | ✓ |
 | 2 | User can run `--help` and see usage information with all available flags | --help shows usage with all flags | --help shows all 7 flags (-v, -q, --dry-run, --version, --help) | ✓ |
 | 3 | User can run `--version` and see current version number | --version shows 0.1.0 | --version shows 0.1.0 | ✓ |
 | 4 | User can run with `--dry-run` and see what would happen without changes | --dry-run shows preview message | --dry-run shows "[DRY RUN] Would proceed with transpilation" | ✓ |
@@ -24,7 +24,7 @@ User can run `npx gsd-for-hobos` and interact with a functional CLI.
 
 ## Detailed Verification
 
-### CLI-01: Hobo Manifesto
+### CLI-01: Notice
 - **Manifesto displays on launch:** ✓ Verified - ASCII art border and disclaimer text shown
 - **Accept/decline flow:** ✓ Verified - user can press 'y' to accept, 'n' to decline
 - **Exit code on decline:** ✓ Verified - exits with code 0 (not error)

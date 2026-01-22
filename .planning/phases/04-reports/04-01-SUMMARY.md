@@ -30,7 +30,7 @@ decisions:
   - id: "04-01-03"
     type: "metadata-location"
     choice: "Categories and suggestions in transform-rules.json"
-    rationale: "Config-driven approach allows user customization via ~/.gfh/transforms.json"
+    rationale: "Config-driven approach allows user customization via ~/.gsdo/transforms.json"
 metrics:
   duration: "14 min"
   completed: "2026-01-22"

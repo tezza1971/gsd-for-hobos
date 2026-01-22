@@ -1,6 +1,6 @@
 # Pitfalls Research: CLI Config Transpilation Tools
 
-**Project:** gsd-for-hobos (gfh)
+**Project:** gsd-open (gsdo)
 **Domain:** CLI tools for config file migration/transpilation
 **Researched:** 2026-01-21
 **Overall Confidence:** MEDIUM-HIGH (verified with official docs and multiple sources)
@@ -475,7 +475,7 @@ Scenarios that are easy to miss. Address in Phase 3-4.
 
 **Consequences:**
 - Transpiler produces invalid configs after upstream update
-- Users blame gfh when it's actually a version mismatch
+- Users blame gsdo when it's actually a version mismatch
 - Silent failures when new fields are required
 
 **Warning signs:**
@@ -492,7 +492,7 @@ function checkVersionCompatibility(gsdConfig, openCodeVersion) {
 
   if (!knownGSDVersions.includes(gsdVersion)) {
     console.warn(`Unknown GSD version: ${gsdVersion}`);
-    console.warn('Transpilation may be incomplete. Check for gfh updates.');
+    console.warn('Transpilation may be incomplete. Check for gsdo updates.');
   }
 
   // OpenCode 0.5.15+ supports custom commands differently
@@ -587,7 +587,7 @@ const content = await fs.readFile(configPath, 'utf8');
 
 **What goes wrong:** Reading config while another process (Claude Code, OpenCode) is writing it causes corruption or stale reads.
 
-**Why it happens:** CLI tools don't typically lock files. If user runs gfh while also using Claude Code, race conditions occur.
+**Why it happens:** CLI tools don't typically lock files. If user runs gsdo while also using Claude Code, race conditions occur.
 
 **Consequences:**
 - Partial/corrupt config read
@@ -656,7 +656,7 @@ function formatReport(report) {
 }
 
 // Always offer file output as fallback
-console.log('Report saved to ./gfh-report.md for best viewing');
+console.log('Report saved to ./gsdo-report.md for best viewing');
 ```
 
 **Phase to address:** Phase 5 (Report Generation).

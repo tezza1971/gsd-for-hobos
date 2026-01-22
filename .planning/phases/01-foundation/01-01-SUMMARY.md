@@ -117,7 +117,7 @@ None - no external service configuration required.
 
 ## Next Phase Readiness
 
-Phase 01 foundation plan 01 complete. All core CLI infrastructure in place, ready for plan 02 (Hobo Manifesto).
+Phase 01 foundation plan 01 complete. All core CLI infrastructure in place, ready for plan 02 (Notice).
 
 ---
 *Phase: 01-foundation*

@@ -1,6 +1,6 @@
 # Research Summary
 
-**Project:** gsd-for-hobos (gfh)
+**Project:** gsd-open (gsdo)
 **Domain:** CLI config transpilation tool
 **Researched:** 2026-01-21
 **Confidence:** MEDIUM-HIGH
@@ -45,7 +45,7 @@
 ## Build Order Recommendation
 
 ### Phase 1: Foundation
-**Delivers:** Project scaffolding, CLI skeleton, Hobo Manifesto display
+**Delivers:** Project scaffolding, CLI skeleton, Notice display
 **Rationale:** Everything depends on basic structure. Establish cross-platform path utilities and encoding patterns from day one.
 **Uses:** Commander.js, @clack/prompts, picocolors, fs/promises, path, os
 
@@ -62,7 +62,7 @@
 **Avoids:** Slash command incompatibility, schema drift
 
 ### Phase 4: Reports and Output
-**Delivers:** Console report with hobo theme, markdown export, exit codes
+**Delivers:** Console report with user theme, markdown export, exit codes
 **Rationale:** Need transpilation working before reporting on it. Console reporter enables faster feedback during development.
 **Addresses:** Completion summary, shortfall report, markdown export
 

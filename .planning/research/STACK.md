@@ -1,4 +1,4 @@
-# Stack Research: gsd-for-hobos (gfh)
+# Stack Research: gsd-open (gsdo)
 
 **Domain:** Node.js CLI tool for config transpilation
 **Researched:** 2026-01-21
@@ -209,11 +209,11 @@ npm install -D @commander-js/extra-typings
 
 ```json
 {
-  "name": "gfh",
+  "name": "gsdo",
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "gfh": "./dist/cli.js"
+    "gsdo": "./dist/cli.js"
   },
   "files": ["dist"],
   "engines": {

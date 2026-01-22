@@ -24,7 +24,7 @@ Find GSD and OpenCode installations, validate completeness, report readiness for
 - What constitutes a "complete" GSD installation (which files/folders required)
 - OpenCode detection method (check common paths, config files, etc.)
 - Freshness checking implementation (git status, file dates, etc.)
-- Exact wording of hobo-themed status messages
+- Exact wording of professional status messages
 
 </decisions>
 

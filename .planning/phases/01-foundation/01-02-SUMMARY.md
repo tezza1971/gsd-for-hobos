@@ -9,7 +9,7 @@ requires:
   - phase: 01-foundation (plan 01)
     provides: TypeScript CLI skeleton, logger, paths, exit codes
 provides:
-  - Hobo Manifesto display and consent flow
+  - Notice display and consent flow
   - @clack/prompts integration for user interaction
   - Manifesto bypass for --help and --version flags
 affects: 01-foundation (completes CLI foundation)
@@ -40,7 +40,7 @@ completed: 2026-01-21
 
 # Phase 1: Foundation Summary
 
-**Hobo Manifesto consent flow with @clack/prompts and all CLI flags integrated**
+**Notice consent flow with @clack/prompts and all CLI flags integrated**
 
 ## Performance
 
@@ -52,7 +52,7 @@ completed: 2026-01-21
 
 ## Accomplishments
 
-- Hobo Manifesto module with ASCII art and disclaimer text
+- Notice module with ASCII art and disclaimer text
 - User consent flow with explicit acceptance (initialValue: false)
 - Manifesto integrated into CLI entry point
 - Consent bypassing for --help and --version flags
@@ -62,7 +62,7 @@ completed: 2026-01-21
 
 Each task was committed atomically:
 
-1. **Task 1: Create Hobo Manifesto module with consent flow** - `4cd2ab2` (feat)
+1. **Task 1: Create Notice module with consent flow** - `4cd2ab2` (feat)
 2. **Task 2: Integrate manifesto into CLI flow** - `9211211` (feat)
 3. **Task 3: End-to-end verification of all Phase 1 requirements** - `19561cd` (feat)
 
@@ -72,7 +72,7 @@ _Note: TDD tasks may have multiple commits (test → feat → refactor)_
 
 ## Files Created/Modified
 
-- `src/lib/manifesto.ts` - Hobo Manifesto display with ASCII art and @clack/prompts integration
+- `src/lib/manifesto.ts` - Notice display with ASCII art and @clack/prompts integration
 - `src/cli.ts` - CLI entry point with manifesto integration
 
 ## Decisions Made

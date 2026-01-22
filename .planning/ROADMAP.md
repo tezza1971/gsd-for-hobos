@@ -1,8 +1,8 @@
-# Roadmap: gsd-for-hobos (gfh)
+# Roadmap: gsd-open (gsdo)
 
 ## Overview
 
-Transform GSD context engineering from Claude Code into OpenCode format through a CLI that any hobo can run. The journey goes from bare CLI skeleton to full transpilation with optional LLM enhancement, each phase delivering a coherent, testable capability. Five phases, 28 requirements, one frictionless fallback for the rate-limited and stone broke.
+Transform GSD context engineering from Claude Code into OpenCode format through a CLI that any user can run. The journey goes from bare CLI skeleton to full transpilation with optional LLM enhancement, each phase delivering a coherent, testable capability. Five phases, 28 requirements, one frictionless fallback for the rate-limited and stone broke.
 
 ## Phases
 
@@ -12,7 +12,7 @@ Transform GSD context engineering from Claude Code into OpenCode format through 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Foundation** - CLI skeleton with Hobo Manifesto and standard flags
+- [x] **Phase 1: Foundation** - CLI skeleton with Notice and standard flags
 - [x] **Phase 2: Detection** - Find GSD and OpenCode installations, validate completeness
 - [x] **Phase 3: Transpilation** - Parse GSD, transform to OpenCode, handle conflicts
 - [x] **Phase 4: Reports** - Console output with shortfall analysis, markdown export
@@ -21,11 +21,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 ## Phase Details
 
 ### Phase 1: Foundation
-**Goal**: User can run `npx gsd-for-hobos` and interact with a functional CLI
+**Goal**: User can run `npx gsd-open` and interact with a functional CLI
 **Depends on**: Nothing (first phase)
 **Requirements**: CLI-01, CLI-02, CLI-03, CLI-04, CLI-05, CLI-06, CLI-07
 **Success Criteria** (what must be TRUE):
-  1. User sees Hobo Manifesto disclaimer and can accept/decline at launch
+  1. User sees Notice disclaimer and can accept/decline at launch
   2. User can run `--help` and see usage information with all available flags
   3. User can run `--version` and see current version number
   4. User can run with `--dry-run` and see what would happen without changes
@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — Project setup with TypeScript toolchain and core CLI skeleton
-- [x] 01-02-PLAN.md — Hobo Manifesto consent flow and end-to-end verification
+- [x] 01-02-PLAN.md — Notice consent flow and end-to-end verification
 
 ### Phase 2: Detection
 **Goal**: User knows if their GSD and OpenCode installations are ready for transpilation

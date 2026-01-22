@@ -1,12 +1,12 @@
 # CLI Reference
 
-Complete reference for all gfh commands, flags, and options.
+Complete reference for all gsdo commands, flags, and options.
 
 ## Synopsis
 
 ```bash
-gfh [options]
-gfh transpile [options]
+gsdo [options]
+gsdo transpile [options]
 ```
 
 ## Global Options
@@ -27,11 +27,11 @@ These options apply to all commands:
 ### Default Command (no subcommand)
 
 ```bash
-gfh [options]
+gsdo [options]
 ```
 
 Runs the full workflow:
-1. Shows Hobo Manifesto (requires acceptance)
+1. Shows notice (requires acceptance)
 2. Runs detection (GSD + OpenCode)
 3. Runs transpilation (unless `--detect` is set)
 4. Offers LLM enhancement (unless `--no-enhance`, `--quiet`, or `--dry-run`)
@@ -40,7 +40,7 @@ Runs the full workflow:
 ### transpile
 
 ```bash
-gfh transpile [options]
+gsdo transpile [options]
 ```
 
 Runs transpilation directly, skipping the default detection display.
@@ -64,8 +64,8 @@ Enables detailed output for debugging. Shows:
 - Cache hits/misses
 
 ```bash
-gfh -v
-gfh transpile --verbose
+gsdo -v
+gsdo transpile --verbose
 ```
 
 ### --quiet / -q
@@ -73,8 +73,8 @@ gfh transpile --verbose
 Suppresses all output except errors. Useful for scripting.
 
 ```bash
-gfh -q
-gfh transpile --quiet
+gsdo -q
+gsdo transpile --quiet
 ```
 
 **Note:** In quiet mode, LLM enhancement is automatically skipped (interactive prompts require normal output).
@@ -84,8 +84,8 @@ gfh transpile --quiet
 Previews what would happen without making changes. No files are written or modified.
 
 ```bash
-gfh --dry-run
-gfh transpile --dry-run
+gsdo --dry-run
+gsdo transpile --dry-run
 ```
 
 Shows:
@@ -100,7 +100,7 @@ Shows:
 Runs only the detection phase, then exits. Useful to check if GSD and OpenCode are properly installed.
 
 ```bash
-gfh --detect
+gsdo --detect
 ```
 
 Output shows:
@@ -114,17 +114,17 @@ Output shows:
 Forces re-transpilation even if the source files haven't changed since the last run.
 
 ```bash
-gfh transpile --force
+gsdo transpile --force
 ```
 
-Normally, gfh uses content hashing to skip transpilation when nothing has changed. `--force` bypasses this optimization.
+Normally, gsdo uses content hashing to skip transpilation when nothing has changed. `--force` bypasses this optimization.
 
 ### --no-backup
 
 Skips creating a backup of existing OpenCode configs before overwriting.
 
 ```bash
-gfh transpile --no-backup
+gsdo transpile --no-backup
 ```
 
 **Warning:** This is dangerous! Without backup, you cannot recover previous configs if transpilation produces unexpected results.
@@ -139,7 +139,7 @@ When used without `--quiet`, you'll be prompted to confirm:
 Skips the LLM enhancement prompt entirely.
 
 ```bash
-gfh transpile --no-enhance
+gsdo transpile --no-enhance
 ```
 
 Use this if:
@@ -159,11 +159,11 @@ Use this if:
 
 ```bash
 # Check exit code after run
-gfh transpile
+gsdo transpile
 echo $?  # 0 = success, 1 = warnings, 2+ = error
 
 # Use in scripts
-gfh transpile --quiet
+gsdo transpile --quiet
 if [ $? -eq 0 ]; then
   echo "Transpilation succeeded"
 elif [ $? -eq 1 ]; then
@@ -192,55 +192,55 @@ See [API Keys Guide](./api-keys.md) for LLM-related environment variables.
 
 ```bash
 # Run full workflow
-gfh
+gsdo
 
 # Run with verbose output
-gfh -v
+gsdo -v
 
 # Preview without making changes
-gfh --dry-run
+gsdo --dry-run
 ```
 
 ### Detection Only
 
 ```bash
 # Check if GSD and OpenCode are installed
-gfh --detect
+gsdo --detect
 
 # Verbose detection for troubleshooting
-gfh --detect -v
+gsdo --detect -v
 ```
 
 ### Transpilation
 
 ```bash
 # Direct transpilation
-gfh transpile
+gsdo transpile
 
 # Force re-transpilation
-gfh transpile --force
+gsdo transpile --force
 
 # Skip backup (dangerous)
-gfh transpile --no-backup
+gsdo transpile --no-backup
 
 # Skip LLM enhancement
-gfh transpile --no-enhance
+gsdo transpile --no-enhance
 
 # Combine options
-gfh transpile --force --no-enhance -v
+gsdo transpile --force --no-enhance -v
 ```
 
 ### Scripting
 
 ```bash
 # Silent transpilation for CI
-gfh transpile --quiet --no-enhance
+gsdo transpile --quiet --no-enhance
 
 # Dry run to check what would change
-gfh transpile --dry-run --no-enhance
+gsdo transpile --dry-run --no-enhance
 
 # Check exit code
-gfh transpile --quiet --no-enhance || echo "Failed"
+gsdo transpile --quiet --no-enhance || echo "Failed"
 ```
 
 ### With LLM Enhancement
@@ -250,25 +250,25 @@ gfh transpile --quiet --no-enhance || echo "Failed"
 export OPENAI_API_KEY="sk-..."
 
 # Run with enhancement
-gfh transpile
+gsdo transpile
 
 # Or use a different provider
 export ANTHROPIC_API_KEY="sk-ant-..."
-gfh transpile
+gsdo transpile
 ```
 
 ## Interactive Prompts
 
 During a normal run, you'll encounter these prompts:
 
-### 1. Hobo Manifesto
+### 1. Notice
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  THE HOBO MANIFESTO                                 │
+│  GSD OPEN NOTICE                                    │
 │  ...                                                │
 └─────────────────────────────────────────────────────┘
-? Accept the Hobo Manifesto? (y/N)
+? Accept the notice? (y/N)
 ```
 
 ### 2. No-Backup Warning (if --no-backup)

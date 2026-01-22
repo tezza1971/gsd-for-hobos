@@ -18,7 +18,7 @@
 - Version-controlled JSON mapping GSD fields to OpenCode fields
 - Sections: agents, commands, models, config
 - Each section has fieldMappings, defaults, approximations
-- User override via `~/.gfh/transforms.json`
+- User override via `~/.gsdo/transforms.json`
 
 **Transformer (transformer.ts):**
 - Loads rules with user override support
@@ -50,7 +50,7 @@
 
 All success criteria met:
 - ✓ Config-driven rules (not hardcoded)
-- ✓ User overrides work via ~/.gfh/transforms.json
+- ✓ User overrides work via ~/.gsdo/transforms.json
 - ✓ Gaps tracked when GSD concept has no OpenCode equivalent
 - ✓ Emitted JSON is formatted and deterministic
 - ✓ Tests verify transformation logic and gap tracking

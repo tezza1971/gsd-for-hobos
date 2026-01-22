@@ -1,4 +1,4 @@
-# Requirements: gsd-for-hobos (gfh)
+# Requirements: gsd-open (gsdo)
 
 **Defined:** 2025-01-21
 **Core Value:** Frictionless fallback for rate-limited Claude Code users, gateway for the stone broke
@@ -7,7 +7,7 @@
 
 ### CLI Foundation
 
-- [ ] **CLI-01**: Display Hobo Manifesto disclaimer/agreement at launch
+- [ ] **CLI-01**: Display Notice disclaimer/agreement at launch
 - [ ] **CLI-02**: Support `--help` flag with usage information
 - [ ] **CLI-03**: Support `--version` flag showing current version
 - [ ] **CLI-04**: Return clear exit codes (0 success, 1 warnings, 2+ errors)
@@ -70,10 +70,10 @@
 | Perfect feature parity | This is "best effort" — some GSD features won't translate |
 | Storing API keys | Security risk; used in-memory only, then discarded |
 | Auto-updating GSD without consent | Always ask user first |
-| Telemetry/analytics | Privacy; hobos don't snitch |
+| Telemetry/analytics | Privacy; users don't snitch |
 | Interactive wizard mode | Contradicts "frictionless" value prop |
 | Auto-installing target platforms | User responsibility; we detect, not install |
-| GUI/web interface | CLI only; hobos travel light |
+| GUI/web interface | CLI only; users travel light |
 
  ## Traceability
 

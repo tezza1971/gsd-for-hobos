@@ -1,12 +1,12 @@
 import { intro, outro, confirm, isCancel } from '@clack/prompts';
 import pc from 'picocolors';
 
-export async function showManifesto(): Promise<boolean> {
+export async function showNotice(): Promise<boolean> {
   const introText = pc.cyan('╔════════════════════════════════════════════════════════╗');
   const outroText = pc.cyan('╚══════════════════════════════════════════════════════╝');
 
   intro({
-    title: pc.bold(pc.yellow('THE HOBO MANIFESTO')),
+    title: pc.bold(pc.yellow('GSD OPEN NOTICE')),
     dir: process.cwd(),
   });
 
@@ -40,20 +40,20 @@ export async function showManifesto(): Promise<boolean> {
 
   if (isCancel(accepted)) {
     outro({
-      message: pc.yellow('Manifesto declined. Safe travels, hobo.'),
+      message: pc.yellow('Notice declined. Exiting.'),
     });
     return false;
   }
 
   if (!accepted) {
     outro({
-      message: pc.yellow('Manifesto declined. Safe travels, hobo.'),
+      message: pc.yellow('Notice declined. Exiting.'),
     });
     return false;
   }
 
   const timestamp = new Date().toISOString();
-  console.log(pc.dim(`[Manifesto accepted at ${timestamp}]`));
+  console.log(pc.dim(`[Notice accepted at ${timestamp}]`));
 
   return true;
 }

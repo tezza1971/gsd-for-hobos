@@ -200,7 +200,7 @@ export interface TransformGaps {
 title: Transpilation Report
 date: 2026-01-22
 gsdVersion: 1.0.0
-tool: gsd-for-hobos
+tool: gsd-open
 ---
 
 # Transpilation Report
@@ -469,7 +469,7 @@ Questions that couldn't be fully resolved during research:
 
 3. **Markdown file destination and naming**
    - What we know: Context specifies filename `transpilation-report.md`, location "current working directory"
-   - What's unclear: If user runs gfh from subdirectory, should report go there? Or to GSD directory? Or to OpenCode directory?
+   - What's unclear: If user runs gsdo from subdirectory, should report go there? Or to GSD directory? Or to OpenCode directory?
    - Recommendation: Save to `process.cwd()` (where user ran command); this is standard CLI behavior; user can control via `cd` before running
 
 ## Sources
