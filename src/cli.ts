@@ -20,8 +20,15 @@ import {
   readCommands,
   mergeCommands,
   writeCommands,
+  createGsdoCommand,
 } from './lib/installer/commands-manager.js';
 import { ensureOpenCodeDocsCache } from './lib/cache/manager.js';
+import {
+  loadEnhancementContext,
+  backupCommandsJson,
+  writeEnhancedCommands,
+} from './lib/enhancer/engine.js';
+import { enhanceAllCommands } from './lib/enhancer/enhancer.js';
 
 async function main() {
   console.log('→ Detecting GSD installation...');
@@ -90,17 +97,66 @@ async function main() {
 
   console.log('→ Writing to OpenCode...');
   const existingCommands = readCommands(opencodeResult.path!);
+
+  // Add /gsdo command to the transpiled commands
+  const gsdoCommand = createGsdoCommand();
+  const allNewCommands = [...transpileResult.successful, gsdoCommand];
+
   const mergedCommands = mergeCommands(
     existingCommands,
-    transpileResult.successful
+    allNewCommands
   );
   writeCommands(opencodeResult.path!, mergedCommands);
   console.log(`  ✓ ${opencodeResult.path}/commands.json updated`);
 
+  // Auto-enhance commands after installation
+  console.log('→ Enhancing commands with /gsdo...');
+
+  try {
+    // Load enhancement context
+    const enhancementContext = await loadEnhancementContext();
+
+    // Create backup before enhancement
+    const backupFilename = await backupCommandsJson(opencodeResult.path!);
+    if (backupFilename) {
+      console.log(`  ✓ Backup created: ${backupFilename}`);
+    }
+
+    // Enhance all commands
+    const enhancementResults = await enhanceAllCommands(
+      enhancementContext,
+      opencodeResult.path!
+    );
+
+    // Display per-command results
+    let enhancedCount = 0;
+    let failedCount = 0;
+
+    for (const result of enhancementResults) {
+      if (result.error) {
+        console.log(`  ⚠ ${result.commandName}: ${result.error}`);
+        failedCount++;
+      } else if (result.enhanced && result.changes.length > 0) {
+        console.log(`  ✓ ${result.commandName}: ${result.changes.join(', ')}`);
+        enhancedCount++;
+      }
+    }
+
+    // Write enhanced commands back
+    writeEnhancedCommands(opencodeResult.path!, enhancementContext.commands);
+
+    console.log(`  ✓ ${enhancedCount} commands enhanced, ${failedCount} failed`);
+  } catch (error) {
+    // Non-blocking: enhancement failure doesn't prevent installation success
+    console.log('  ⚠ Enhancement unavailable:', error instanceof Error ? error.message : String(error));
+    console.log('  → Commands installed but not enhanced');
+  }
+
   console.log('\n✓ Installation complete');
   console.log(
-    `  ${transpileResult.successful.length} GSD commands available in OpenCode`
+    `  ${transpileResult.successful.length + 1} GSD commands available in OpenCode`
   );
+  console.log('  Run /gsdo in OpenCode to re-enhance commands anytime');
 }
 
 // Run main and handle errors
