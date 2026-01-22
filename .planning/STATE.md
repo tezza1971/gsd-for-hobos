@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2025-01-21)
 
 **Core value:** Frictionless fallback that just works when you hit the wall
-**Current focus:** Phase 3 - Transpilation (COMPLETE)
+**Current focus:** Phase 4 - Reports (IN PROGRESS)
 
 ## Current Position
 
-Phase: 3 of 5 (Transpilation)
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-01-22 - Completed Phase 3 Transpilation
+Phase: 4 of 5 (Reports)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-22 - Completed 04-01-PLAN.md (Enhanced Gap Tracking)
 
-Progress: ████████████████░ 80%
+Progress: ██████████████████░ 83%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 10 min
-- Total execution time: 1.5 hours
+- Total plans completed: 10
+- Average duration: 10.4 min
+- Total execution time: 1.73 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: ████████████████░ 80%
 | 1 | 2 | 25 min | 12.5 min |
 | 2 | 4 | 30 min | 7.5 min |
 | 3 | 3 | 40 min | 13.3 min |
+| 4 | 1 | 14 min | 14 min |
 
 **Recent Trend:**
-- Last 5 plans: 6min (02-04), 15min (03-01), 10min (03-02), 15min (03-03)
-- Phase 3 more complex (transpilation pipeline)
+- Last 5 plans: 15min (03-01), 10min (03-02), 15min (03-03), 14min (04-01)
+- Phase 4 more complex (type refactoring, config-driven metadata)
 
 *Updated after each plan completion*
 
@@ -46,7 +47,7 @@ Recent decisions affecting current work:
 
 - [Roadmap]: 5 phases derived from research recommendations, depth=quick
 - [Roadmap]: OpenCode as sole v1 target platform (other platforms deferred to v2)
-- [01-01]: ESM (type: 'module') for native Node.js module support
+- [01-01]: ESM (type: module) for native Node.js module support
 - [01-01]: tsup for build (simpler than tsc for CLI tooling)
 - [01-01]: picocolors instead of chalk (ESM compatibility)
 - [01-01]: Vitest for testing (faster than Jest)
@@ -73,7 +74,7 @@ Recent decisions affecting current work:
 - [03-01]: Regex-based XML parsing (avoids xml2js dependency)
 - [03-01]: SHA256 content hashing sorted by filename for deterministic idempotency
 - [03-01]: Best-effort parsing (continue on errors, track in GSDGaps)
-- [03-02]: JSON import with `with { type: 'json' }` for ESM compatibility
+- [03-02]: JSON import with type: json for ESM compatibility
 - [03-02]: Deep merge for user override rules (user takes precedence)
 - [03-02]: Separate files per OpenCode convention (agents.json, etc.)
 - [03-02]: Sorted keys for deterministic output (idempotency)
@@ -82,6 +83,9 @@ Recent decisions affecting current work:
 - [03-03]: Project-local .opencode/ preferred if no existing config found
 - [03-03]: Root tag detection for XML type (not just presence of tag)
 - [03-03]: Auto-backup with announcement, no confirmation prompts (per context decision)
+- [04-01]: Object-based unmappedFields array (breaking change from string[])
+- [04-01]: Three gap categories: unsupported (red), platform (yellow), missing-dependency (blue)
+- [04-01]: Categories and suggestions stored in transform-rules.json for user customization
 
 ### Pending Todos
 
@@ -94,5 +98,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed Phase 3 Transpilation (all 3 plans, verified)
+Stopped at: Completed 04-01-PLAN.md (Enhanced Gap Tracking)
 Resume file: None
