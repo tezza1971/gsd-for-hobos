@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-22)
 
 **Core value:** The /gsdo LLM enhancement makes transpiled commands actually usable
-**Current focus:** Phase 3 - /gsdo Command (COMPLETE)
+**Current focus:** Phase 4 - Enhanced Transpilation (IN PROGRESS)
 
 ## Current Position
 
-Phase: 3 of 7 (/gsdo Command)
-Plan: 3 of 3 in current phase (PHASE COMPLETE)
-Status: Phase 3 complete - ready for Phase 4
-Last activity: 2026-01-23 - Completed 03-03-PLAN.md
+Phase: 4 of 7 (Enhanced Transpilation)
+Plan: 2 of 3 in current phase (IN PROGRESS)
+Status: Phase 4 in progress - template variable parsing complete
+Last activity: 2026-01-23 - Completed 04-02-PLAN.md
 
-Progress: [██████░░░░] ~53%
+Progress: [███████░░░] ~60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 4 min
-- Total execution time: 0.52 hours
+- Total plans completed: 10
+- Average duration: 3.5 min
+- Total execution time: 0.58 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [██████░░░░] ~53%
 | 01-core-installer | 3/3 | 12min | 4min |
 | 02-documentation-cache | 2/2 | 6min | 3min |
 | 03-gsdo-command | 3/3 | 13min | 4.3min |
+| 04-enhanced-transpilation | 2/3 | 6min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (3min), 03-01 (3min), 03-02 (6min), 03-03 (4min)
-- Trend: Consistent velocity - averaging 4min per plan across phases
+- Last 5 plans: 03-01 (3min), 03-02 (6min), 03-03 (4min), 04-01 (3min), 04-02 (3min)
+- Trend: Excellent velocity - Phase 4 averaging 3min per plan
 
 *Updated after each plan completion*
 
@@ -80,6 +81,13 @@ Recent decisions affecting current work:
 - **[03-03]** Enhancement runs automatically after transpilation in installer
 - **[03-03]** Non-blocking enhancement: failures don't prevent installation success
 - **[03-03]** Both inline enhancement (installer) and standalone CLI (gsdo) for flexibility
+- **[04-01]** Template extraction uses markdown heading + code fence detection
+- **[04-01]** Fallback to raw content when no clear template structure found
+- **[04-01]** Non-destructive extraction preserves original markdown in rawContent
+- **[04-02]** Regex pattern /\\{\\{([^}]+)\\}\\}/g for variable extraction
+- **[04-02]** Only include variables field when non-empty (cleaner schema)
+- **[04-02]** Trim whitespace from variable names (handles formatting variations)
+- **[04-02]** Set-based deduplication for unique variable collection
 
 ### Pending Todos
 
@@ -91,8 +99,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-23T13:04:31Z
-Stopped at: Completed 03-03-PLAN.md (/gsdo Command Installation & Integration)
+Last session: 2026-01-23T03:23:28Z
+Stopped at: Completed 04-02-PLAN.md (Template Variable Parser)
 Resume file: None
 
 **Phase 1 Status:**
@@ -111,3 +119,9 @@ Resume file: None
 - ✓ LLM enhancement logic (03-02)
 - ✓ /gsdo command installation (03-03)
 - Phase 3 complete - all tests passing
+
+**Phase 4 Status:**
+- ✓ Template extraction (04-01)
+- ✓ Variable parsing (04-02)
+- ⏳ Converter integration & testing (04-03)
+- Phase 4 in progress - 2/3 plans complete
