@@ -109,3 +109,45 @@ export function writeCommands(
     );
   }
 }
+
+/**
+ * Creates /gsdo command definition for OpenCode.
+ * This command allows users to manually re-enhance transpiled GSD commands.
+ *
+ * The command is autonomous - it runs without user input, loading context,
+ * creating backups, and enhancing commands with detailed output.
+ *
+ * @returns OpenCodeCommand for /gsdo enhancement
+ */
+export function createGsdoCommand(): OpenCodeCommand {
+  return {
+    name: 'gsdo',
+    description: 'Enhance transpiled GSD commands using OpenCode\'s LLM (autonomous, no input required)',
+    promptTemplate: `You are enhancing transpiled GSD commands for OpenCode compatibility.
+
+This is an autonomous operation - do not request user input.
+
+Context available:
+- Install log: ~/.gsdo/install.log (transpilation warnings/errors)
+- OpenCode docs: ~/.gsdo/cache/docs-opencode/README.md
+- Current commands: commands.json
+- Original GSD source: ~/.claude/get-shit-done/skills/
+
+Enhancement scope (conservative fixes only):
+1. Fix command naming issues
+2. Fix broken references to GSD-specific files
+3. Add missing parameters
+4. Improve prompt templates for OpenCode patterns
+
+DO NOT remove, merge, or restructure commands.
+
+Process:
+1. Load context from files above
+2. For each /gsd-* command, analyze and enhance
+3. Create backup: commands.json.TIMESTAMP.backup
+4. Write enhanced commands back to commands.json
+5. Show detailed per-command report of changes
+
+Always exit with code 0 on success.`
+  };
+}

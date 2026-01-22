@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "gsdo": "./dist/cli.js"
+    "gsd-open": "./dist/cli.js",
+    "gsdo": "./dist/gsdo.js"
   },
   "files": [
     "dist"
