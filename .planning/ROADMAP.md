@@ -80,12 +80,12 @@ Plans:
   2. Installer parses template variables (e.g., `{{phase}}`, `{{context}}`) from templates
   3. Installer handles partial success (installs working commands, logs failures)
   4. Installer shows verbose progress during transpilation (detection, scanning, writing phases)
-**Plans**: 3 plans
+**Plans**: 3 plans complete
 
 Plans:
-- [ ] 04-01: Template Extraction - Extract clean prompt templates from GSD markdown
-- [ ] 04-02: Variable Parser - Parse {{var}} patterns and add to schema
-- [ ] 04-03: Verbose Progress & Error Handling - Enhanced CLI output with partial success display
+- [x] 04-01: Template Extraction - Extract clean prompt templates from GSD markdown
+- [x] 04-02: Variable Parser - Parse {{var}} patterns and add to schema
+- [x] 04-03: Verbose Progress & Error Handling - Enhanced CLI output with partial success display
 
 ### Phase 5: Idempotency
 **Goal**: Installer skips re-transpilation when GSD source is unchanged
@@ -144,7 +144,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Core Installer | 3/3 | ✓ Complete | 2026-01-22 |
 | 2. Documentation Cache | 2/2 | ✓ Complete | 2026-01-22 |
 | 3. /gsdo Command | 3/3 | ✓ Complete | 2026-01-22 |
-| 4. Enhanced Transpilation | 0/3 | Not started | - |
+| 4. Enhanced Transpilation | 3/3 | ✓ Complete | 2026-01-23 |
 | 5. Idempotency | 0/TBD | Not started | - |
 | 6. Exit Logging | 0/TBD | Not started | - |
 | 7. Polish | 0/TBD | Not started | - |

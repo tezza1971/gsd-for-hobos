@@ -30,10 +30,10 @@
 
 - [x] **TRANS-01**: Installer scans `~/.claude/get-shit-done/skills/` for `/gsd:*` command files
 - [x] **TRANS-02**: Installer converts command names from `/gsd:*` to `/gsd:*` (or `/gsd-*` if colons unsupported)
-- [ ] **TRANS-03**: Installer extracts prompt templates from GSD markdown files
-- [ ] **TRANS-04**: Installer parses template variables from prompt templates
+- [x] **TRANS-03**: Installer extracts prompt templates from GSD markdown files
+- [x] **TRANS-04**: Installer parses template variables from prompt templates
 - [x] **TRANS-05**: Installer maps GSD fields to OpenCode command schema
-- [ ] **TRANS-06**: Installer handles partial success (installs working commands, logs failures)
+- [x] **TRANS-06**: Installer handles partial success (installs working commands, logs failures)
 - [x] **TRANS-07**: Installer preserves GSD namespace prefix in command names
 
 ### Installation & Output
@@ -42,7 +42,7 @@
 - [x] **INSTALL-02**: Installer reads existing OpenCode `commands.json` if present
 - [x] **INSTALL-03**: Installer adds/updates commands in `commands.json` without breaking existing commands
 - [x] **INSTALL-04**: Installer writes updated `commands.json` to OpenCode config directory
-- [ ] **INSTALL-05**: Installer shows verbose progress during transpilation (detection, scanning, writing)
+- [x] **INSTALL-05**: Installer shows verbose progress during transpilation (detection, scanning, writing)
 
 ### /gsdo Enhancement
 
@@ -129,16 +129,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CACHE-04 | Phase 2 | Complete |
 | TRANS-01 | Phase 1 | Complete |
 | TRANS-02 | Phase 1 | Complete |
-| TRANS-03 | Phase 4 | Pending |
-| TRANS-04 | Phase 4 | Pending |
+| TRANS-03 | Phase 4 | Complete |
+| TRANS-04 | Phase 4 | Complete |
 | TRANS-05 | Phase 1 | Complete |
-| TRANS-06 | Phase 4 | Pending |
+| TRANS-06 | Phase 4 | Complete |
 | TRANS-07 | Phase 1 | Complete |
 | INSTALL-01 | Phase 3 | Complete |
 | INSTALL-02 | Phase 1 | Complete |
 | INSTALL-03 | Phase 1 | Complete |
 | INSTALL-04 | Phase 1 | Complete |
-| INSTALL-05 | Phase 4 | Pending |
+| INSTALL-05 | Phase 4 | Complete |
 | ENHANCE-01 | Phase 3 | Complete |
 | ENHANCE-02 | Phase 3 | Complete |
 | ENHANCE-03 | Phase 3 | Complete |
