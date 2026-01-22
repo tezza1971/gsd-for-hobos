@@ -155,11 +155,12 @@ export async function runTranspilation(options: TranspileOptions): Promise<Trans
 
     if (gaps && (gaps.unmappedFields.length > 0 || gaps.approximations.length > 0)) {
       log.warn('[DRY RUN] Gap report:');
-      for (const field of gaps.unmappedFields) {
-        log.warn(`  - Unmapped: ${field}`);
+      for (const gap of gaps.unmappedFields) {
+        log.warn(`  - Unmapped: ${gap.field} (${gap.category})`);
+        log.warn(`    Suggestion: ${gap.suggestion}`);
       }
       for (const approx of gaps.approximations) {
-        log.warn(`  - Approximated: ${approx.original} → ${approx.approximatedAs}`);
+        log.warn(`  - Approximated: ${approx.original} -> ${approx.approximatedAs} (${approx.category})`);
       }
     }
 
@@ -260,11 +261,12 @@ export async function runTranspilation(options: TranspileOptions): Promise<Trans
   // Report gaps
   if (gaps && (gaps.unmappedFields.length > 0 || gaps.approximations.length > 0)) {
     log.warn('Some GSD features could not be directly mapped:');
-    for (const field of gaps.unmappedFields) {
-      log.warn(`  - Unmapped: ${field}`);
+    for (const gap of gaps.unmappedFields) {
+      log.warn(`  - Unmapped: ${gap.field} (${gap.category})`);
+      log.warn(`    Suggestion: ${gap.suggestion}`);
     }
     for (const approx of gaps.approximations) {
-      log.warn(`  - Approximated: ${approx.original} → ${approx.approximatedAs}`);
+      log.warn(`  - Approximated: ${approx.original} -> ${approx.approximatedAs} (${approx.category})`);
     }
   }
 
