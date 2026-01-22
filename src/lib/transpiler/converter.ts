@@ -2,7 +2,7 @@
  * GSD-to-OpenCode Command Converter
  *
  * Algorithmic conversion (no LLM) that transforms GSD commands to OpenCode format.
- * Phase 4: Enhanced with template variable parsing.
+ * Phase 4: Enhanced with template extraction and variable parsing.
  */
 
 import type {
@@ -11,6 +11,7 @@ import type {
   TranspileResult,
   TranspileBatchResult,
 } from './types.js';
+import { extractPromptTemplate } from './template-extractor.js';
 import { parseTemplateVariables } from './variable-parser.js';
 
 /**
@@ -33,10 +34,10 @@ export function convertCommand(gsd: GsdCommand): TranspileResult {
     const description =
       gsd.description || `Transpiled from GSD: ${gsd.name}`;
 
-    // Phase 4: Use raw markdown content as promptTemplate
-    const promptTemplate = gsd.rawContent;
+    // Phase 4: Extract clean prompt template from GSD markdown
+    const promptTemplate = extractPromptTemplate(gsd.rawContent);
 
-    // Phase 4: Parse template variables
+    // Phase 4: Parse template variables from extracted template
     const variables = parseTemplateVariables(promptTemplate);
 
     const warnings: string[] = [];
