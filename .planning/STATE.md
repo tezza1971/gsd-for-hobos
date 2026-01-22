@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-22)
 ## Current Position
 
 Phase: 4 of 7 (Enhanced Transpilation)
-Plan: 2 of 3 in current phase (IN PROGRESS)
-Status: Phase 4 in progress - template variable parsing complete
-Last activity: 2026-01-23 - Completed 04-02-PLAN.md
+Plan: 2 of 3 in current phase (COMPLETED 04-01)
+Status: Phase 4 in progress - template extraction complete
+Last activity: 2026-01-23 - Completed 04-01-PLAN.md
 
 Progress: [███████░░░] ~60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 3.5 min
-- Total execution time: 0.58 hours
+- Total plans completed: 9
+- Average duration: 3.7 min
+- Total execution time: 0.55 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [███████░░░] ~60%
 | 01-core-installer | 3/3 | 12min | 4min |
 | 02-documentation-cache | 2/2 | 6min | 3min |
 | 03-gsdo-command | 3/3 | 13min | 4.3min |
-| 04-enhanced-transpilation | 2/3 | 6min | 3min |
+| 04-enhanced-transpilation | 1/3 | 4min | 4min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (3min), 03-02 (6min), 03-03 (4min), 04-01 (3min), 04-02 (3min)
-- Trend: Excellent velocity - Phase 4 averaging 3min per plan
+- Last 5 plans: 02-02 (3min), 03-01 (3min), 03-02 (6min), 03-03 (4min), 04-01 (4min)
+- Trend: Consistent velocity - averaging ~4min per plan
 
 *Updated after each plan completion*
 
@@ -81,9 +81,10 @@ Recent decisions affecting current work:
 - **[03-03]** Enhancement runs automatically after transpilation in installer
 - **[03-03]** Non-blocking enhancement: failures don't prevent installation success
 - **[03-03]** Both inline enhancement (installer) and standalone CLI (gsdo) for flexibility
-- **[04-01]** Template extraction uses markdown heading + code fence detection
-- **[04-01]** Fallback to raw content when no clear template structure found
-- **[04-01]** Non-destructive extraction preserves original markdown in rawContent
+- **[04-01]** Template extractor uses algorithmic pattern matching (no LLM)
+- **[04-01]** Graceful degradation: return original content on extraction failures
+- **[04-01]** Remove top-level headings (# and ##) but preserve nested structure (### and deeper)
+- **[04-01]** Frontmatter pattern allows optional newline after closing --- (handles EOF)
 - **[04-02]** Regex pattern /\\{\\{([^}]+)\\}\\}/g for variable extraction
 - **[04-02]** Only include variables field when non-empty (cleaner schema)
 - **[04-02]** Trim whitespace from variable names (handles formatting variations)
@@ -99,8 +100,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-23T03:23:28Z
-Stopped at: Completed 04-02-PLAN.md (Template Variable Parser)
+Last session: 2026-01-23T03:24:32Z
+Stopped at: Completed 04-01-PLAN.md (Template Extraction)
 Resume file: None
 
 **Phase 1 Status:**
@@ -122,6 +123,6 @@ Resume file: None
 
 **Phase 4 Status:**
 - ✓ Template extraction (04-01)
-- ✓ Variable parsing (04-02)
+- ⏳ Variable parsing (04-02)
 - ⏳ Converter integration & testing (04-03)
-- Phase 4 in progress - 2/3 plans complete
+- Phase 4 in progress - 1/3 plans complete
