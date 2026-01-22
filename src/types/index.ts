@@ -115,17 +115,63 @@ export interface OpenCodeConfig {
 }
 
 /**
+ * Category indicating the cause of a transformation gap.
+ * Used in reporting to help users understand why features couldn't map.
+ *
+ * - 'unsupported' - Feature doesn't exist in OpenCode (shown as red in reports)
+ * - 'platform' - Feature exists but syntax differs (shown as yellow in reports)
+ * - 'missing-dependency' - Requires external plugin/module (shown as blue in reports)
+ */
+export type GapCategory = 'unsupported' | 'platform' | 'missing-dependency';
+
+/**
+ * Unmapped field entry with full attribution and actionable guidance.
+ * Enhanced for detailed shortfall reporting.
+ */
+export interface UnmappedField {
+  /** Field name that couldn't be mapped */
+  field: string;
+  /** Original value from GSD */
+  value: unknown;
+  /** Why the field couldn't be mapped */
+  reason: string;
+  /** GSD file path containing this field (e.g., 'agents.xml', 'commands.xml') */
+  sourceFile: string;
+  /** Category indicating cause of the gap */
+  category: GapCategory;
+  /** Actionable suggestion for the user */
+  suggestion: string;
+}
+
+/**
+ * Approximation entry with source attribution.
+ * Enhanced for detailed shortfall reporting.
+ */
+export interface ApproximationEntry {
+  /** Original GSD field reference (e.g., 'agent.myagent.tools') */
+  original: string;
+  /** What it was approximated as in OpenCode */
+  approximatedAs: string;
+  /** Explanation of the approximation */
+  reason: string;
+  /** GSD file path containing the approximated field */
+  sourceFile: string;
+  /** Category indicating cause of the approximation */
+  category: GapCategory;
+}
+
+/**
  * Gaps tracking for unmapped or approximated transformations.
+ * Enhanced with source attribution, categorization, and suggestions for reporting.
+ *
+ * Used by the transpilation pipeline to track what couldn't be directly mapped
+ * and provide actionable guidance to users.
  */
 export interface TransformGaps {
   /** Fields from GSD that have no equivalent in OpenCode */
-  unmappedFields: string[];
+  unmappedFields: UnmappedField[];
   /** Transformations that required approximation */
-  approximations: Array<{
-    original: string;
-    approximatedAs: string;
-    reason: string;
-  }>;
+  approximations: ApproximationEntry[];
 }
 
 /**
