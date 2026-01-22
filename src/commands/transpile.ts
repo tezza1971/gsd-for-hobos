@@ -4,15 +4,19 @@
  * Flow:
  * 1. Detect GSD installation
  * 2. Run transpilation pipeline
- * 3. Report results with backup location and gaps
+ * 3. Report results using reporter module
  * 4. Set appropriate exit code
+ * 5. Optionally save markdown report
  */
 
 import { isCancel, confirm } from '@clack/prompts';
 import pc from 'picocolors';
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import type { CLIOptions, TranspileOptions, TranspileResult } from '../types/index.js';
 import { detectGSD } from '../lib/detection/gsd-detector.js';
 import { runTranspilation } from '../lib/transpilation/orchestrator.js';
+import { generateReport } from '../lib/transpilation/reporter.js';
 import { ExitCode } from '../lib/exit-codes.js';
 import { log } from '../lib/logger.js';
 
@@ -98,66 +102,26 @@ export async function transpileCommand(options: TranspileCommandOptions): Promis
     return;
   }
 
-  // Step 3: Report results
-  if (result.success) {
-    if (options.dryRun) {
-      log.success('Dry run complete. No files were written.');
-    } else {
-      log.success('Transpilation complete!');
+  // Step 3: Generate formatted report
+  const report = generateReport(result, {
+    dryRun: options.dryRun,
+    quietMode: options.quiet,
+  });
 
-      if (result.backupLocation) {
-        log.info(`Backup: ${result.backupLocation}`);
-      }
+  // Display console output
+  if (!options.quiet) {
+    console.log(report.console);
+  } else if (!result.success) {
+    // Always show errors even in quiet mode
+    console.log(report.console);
+  }
 
-      if (result.manifestPath) {
-        log.info(`Manifest: ${result.manifestPath}`);
-      }
-    }
-
-    // Report warnings
-    if (result.warnings.length > 0) {
-      log.warn('Warnings:');
-      for (const warning of result.warnings) {
-        log.warn(`  - ${warning}`);
-      }
-    }
-
-    // Report gaps
-    if (result.gaps) {
-      const totalGaps = result.gaps.unmappedFields.length + result.gaps.approximations.length;
-      if (totalGaps > 0) {
-        log.info('');
-        log.info(pc.yellow(`${totalGaps} GSD features could not be directly mapped:`));
-
-        for (const field of result.gaps.unmappedFields) {
-          log.info(pc.dim(`  - Unmapped: ${field}`));
-        }
-
-        for (const approx of result.gaps.approximations) {
-          log.info(pc.dim(`  - Approximated: ${approx.original} → ${approx.approximatedAs}`));
-        }
-
-        log.info(pc.dim('See manifest for full details.'));
-      }
-    }
-
-    // Set exit code
-    if (result.warnings.length > 0) {
-      process.exitCode = ExitCode.WARNING;
-    } else {
-      process.exitCode = ExitCode.SUCCESS;
-    }
-  } else {
-    log.error('Transpilation failed!');
-
-    for (const error of result.errors) {
-      log.error(`  - ${error}`);
-    }
-
-    if (result.backupLocation) {
-      log.info(`Original configs restored from backup: ${result.backupLocation}`);
-    }
-
+  // Set exit code based on summary
+  if (report.summary.failed > 0 || !result.success) {
     process.exitCode = ExitCode.ERROR;
+  } else if (report.summary.partial > 0 || result.warnings.length > 0) {
+    process.exitCode = ExitCode.WARNING;
+  } else {
+    process.exitCode = ExitCode.SUCCESS;
   }
 }
