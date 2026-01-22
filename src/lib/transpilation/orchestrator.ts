@@ -19,6 +19,7 @@ import type {
   TranspileResult,
   GFHManifest,
   TransformGaps,
+  TransformedArtifactsMetadata,
 } from '../../types/index.js';
 
 /**
@@ -282,5 +283,11 @@ export async function runTranspilation(options: TranspileOptions): Promise<Trans
     errors,
     warnings,
     gaps,
+    opencode: transformResult.opencode,
+    transformedArtifacts: {
+      commands: (transformResult.opencode.commands ?? []).map(c => c.name),
+      agents: (transformResult.opencode.agents ?? []).map(a => a.name),
+      models: (transformResult.opencode.models ?? []).map(m => m.modelId),
+    },
   };
 }
