@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-01-22)
 
 **Core value:** The /gsdo LLM enhancement makes transpiled commands actually usable
-**Current focus:** Phase 1 - Core Installer
+**Current focus:** Phase 2 - Documentation Cache
 
 ## Current Position
 
-Phase: 1 of 7 (Core Installer)
-Plan: 3 of 3 in current phase (PHASE COMPLETE)
-Status: Phase 1 complete - ready for Phase 2
-Last activity: 2026-01-22 - Completed 01-03-PLAN.md
+Phase: 2 of 7 (Documentation Cache)
+Plan: 1 of 3 in current phase
+Status: In progress - Phase 2 started
+Last activity: 2026-01-22 - Completed 02-01-PLAN.md
 
-Progress: [███░░░░░░░] ~30%
+Progress: [████░░░░░░] ~40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
+- Total plans completed: 4
 - Average duration: 4 min
-- Total execution time: 0.20 hours
+- Total execution time: 0.25 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-core-installer | 3/3 | 12min | 4min |
+| 02-documentation-cache | 1/3 | 3min | 3min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4min), 01-02 (4min), 01-03 (4min)
-- Trend: Consistent velocity - steady 4min per plan
+- Last 5 plans: 01-01 (4min), 01-02 (4min), 01-03 (4min), 02-01 (3min)
+- Trend: Consistent velocity - averaging 3-4min per plan
 
 *Updated after each plan completion*
 
@@ -59,6 +60,10 @@ Recent decisions affecting current work:
 - **[01-03]** No backup/rollback for commands.json (re-run installer for recovery)
 - **[01-03]** Merge strategy: replace commands with same name, append new commands
 - **[01-03]** Overwrite strategy for commands.json (no versioning)
+- **[02-01]** Use ~/.gsdo/cache/ prefix for all cached content (not polluting OpenCode directories)
+- **[02-01]** Single README.md file sufficient for v1 (can expand to multiple docs later)
+- **[02-01]** Metadata separate from content (metadata.json) for freshness checking without parsing
+- **[02-01]** Node.js built-in fetch API (no external HTTP client dependencies)
 
 ### Pending Todos
 
@@ -70,13 +75,18 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-22T20:22:35Z
-Stopped at: Completed 01-03-PLAN.md (OpenCode Integration) - PHASE 1 COMPLETE
+Last session: 2026-01-22T10:58:04Z
+Stopped at: Completed 02-01-PLAN.md (Documentation Cache Infrastructure)
 Resume file: None
 
 **Phase 1 Status:**
 - ✓ Detection layer (01-01)
 - ✓ Transpilation engine (01-02)
 - ✓ OpenCode integration (01-03)
-- All 23 tests passing
-- Ready for Phase 2 (LLM Enhancement)
+- Phase 1 complete - all tests passing
+
+**Phase 2 Status:**
+- ✓ Cache infrastructure (02-01)
+- Cache freshness logic (02-02) - next
+- CLI integration (02-03) - pending
+- All 29 tests passing
