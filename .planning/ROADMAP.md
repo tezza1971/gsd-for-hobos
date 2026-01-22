@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - CLI skeleton with Hobo Manifesto and standard flags
 - [x] **Phase 2: Detection** - Find GSD and OpenCode installations, validate completeness
 - [x] **Phase 3: Transpilation** - Parse GSD, transform to OpenCode, handle conflicts
-- [ ] **Phase 4: Reports** - Console output with shortfall analysis, markdown export
+- [x] **Phase 4: Reports** - Console output with shortfall analysis, markdown export
 - [ ] **Phase 5: LLM Enhancement** - Optional API-powered refinement loop
 
 ## Phase Details
@@ -85,7 +85,7 @@ Plans:
 - [x] 04-01-PLAN.md — Enhance gap tracking with source files, categories, suggestions
 - [x] 04-02-PLAN.md — Build console reporter with sections, shortfalls, summary
 - [x] 04-03-PLAN.md — Add markdown export and integrate into transpile command
-- [ ] 04-04-PLAN.md — Gap closure: wire orchestrator return with artifact metadata
+- [x] 04-04-PLAN.md — Gap closure: wire orchestrator return with artifact metadata
 
 ### Phase 5: LLM Enhancement
 **Goal**: Users with API access can improve transpilation quality through LLM refinement
@@ -112,7 +112,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Foundation | 2/2 | Complete | 2026-01-21 |
 | 2. Detection | 4/4 | Complete | 2026-01-22 |
 | 3. Transpilation | 3/3 | Complete | 2026-01-22 |
-| 4. Reports | 3/4 | In progress | - |
+| 4. Reports | 4/4 | Complete | 2026-01-22 |
 | 5. LLM Enhancement | 0/TBD | Not started | - |
 
 ---
