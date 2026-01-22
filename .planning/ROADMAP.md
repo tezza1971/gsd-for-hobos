@@ -1,8 +1,8 @@
-# Roadmap: gsd-open (gsdo)
+# Roadmap: GSD Open
 
 ## Overview
 
-Transform GSD context engineering from Claude Code into OpenCode format through a CLI that any user can run. The journey goes from bare CLI skeleton to full transpilation with optional LLM enhancement, each phase delivering a coherent, testable capability. Five phases, 28 requirements, one frictionless fallback for the rate-limited and stone broke.
+A frictionless migration tool that transpiles GSD context engineering from Claude Code to OpenCode in 7 phases. Starting with core detection and basic transpilation, we layer on documentation caching, LLM enhancement, advanced transpilation features, idempotency, comprehensive logging, and final polish for a production-ready installer.
 
 ## Phases
 
@@ -12,112 +12,132 @@ Transform GSD context engineering from Claude Code into OpenCode format through 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Foundation** - CLI skeleton with Notice and standard flags
-- [x] **Phase 2: Detection** - Find GSD and OpenCode installations, validate completeness
-- [x] **Phase 3: Transpilation** - Parse GSD, transform to OpenCode, handle conflicts
-- [x] **Phase 4: Reports** - Console output with shortfall analysis, markdown export
-- [ ] **Phase 5: LLM Enhancement** - Optional API-powered refinement loop
+- [ ] **Phase 1: Core Installer** - Detection, basic transpilation, and OpenCode integration
+- [ ] **Phase 2: Documentation Cache** - Fetch and cache OpenCode docs for LLM context
+- [ ] **Phase 3: /gsdo Command** - Install LLM enhancement command in OpenCode
+- [ ] **Phase 4: Enhanced Transpilation** - Template extraction and variable parsing
+- [ ] **Phase 5: Idempotency** - Version tracking and skip-if-unchanged logic
+- [ ] **Phase 6: Exit Logging** - Detailed logs and /gsdo enhancement output
+- [ ] **Phase 7: Polish** - Error messages, ASCII art, and cross-platform refinement
 
 ## Phase Details
 
-### Phase 1: Foundation
-**Goal**: User can run `npx gsd-open` and interact with a functional CLI
+### Phase 1: Core Installer
+**Goal**: User can run installer and get transpiled GSD commands in OpenCode
 **Depends on**: Nothing (first phase)
-**Requirements**: CLI-01, CLI-02, CLI-03, CLI-04, CLI-05, CLI-06, CLI-07
+**Requirements**: DETECT-01, DETECT-02, DETECT-03, DETECT-04, TRANS-01, TRANS-02, TRANS-05, TRANS-07, INSTALL-02, INSTALL-03, INSTALL-04, PLATFORM-01, PLATFORM-02, PLATFORM-03
 **Success Criteria** (what must be TRUE):
-  1. User sees Notice disclaimer and can accept/decline at launch
-  2. User can run `--help` and see usage information with all available flags
-  3. User can run `--version` and see current version number
-  4. User can run with `--dry-run` and see what would happen without changes
-  5. CLI exits with appropriate codes (0 success, 1 warnings, 2+ errors)
-**Plans**: 2 plans
+  1. User runs `npx gsd-open` and installer automatically detects GSD at `~/.claude/get-shit-done/`
+  2. Installer automatically detects OpenCode config directory without user input
+  3. Installer scans GSD skills directory and converts `/gsd:*` command names to `/gsd:*` (or `/gsd-*` fallback)
+  4. Installer writes transpiled commands to OpenCode's `commands.json` without breaking existing commands
+  5. Installer works identically on Windows, macOS, and Linux using only Node.js built-in modules
+**Plans**: TBD
 
 Plans:
-- [x] 01-01-PLAN.md — Project setup with TypeScript toolchain and core CLI skeleton
-- [x] 01-02-PLAN.md — Notice consent flow and end-to-end verification
+- [ ] TBD
 
-### Phase 2: Detection
-**Goal**: User knows if their GSD and OpenCode installations are ready for transpilation
+### Phase 2: Documentation Cache
+**Goal**: Installer caches OpenCode documentation for /gsdo LLM context
 **Depends on**: Phase 1
-**Requirements**: GSD-01, GSD-02, GSD-03, GSD-04, GSD-05, PLAT-01, PLAT-02
+**Requirements**: CACHE-01, CACHE-02, CACHE-03, CACHE-04
 **Success Criteria** (what must be TRUE):
-  1. User with GSD at `~/.claude/` sees it auto-detected without prompts
-  2. User without GSD at default path gets prompted for location
-  3. User with outdated GSD sees freshness warning with option to update
-  4. User sees clear message if OpenCode is not found on system
-  5. User with incomplete GSD installation sees validation errors listing missing files
-**Plans**: 4 plans
+  1. Installer downloads OpenCode docs from GitHub on first run
+  2. Docs are cached in `~/.gsdo/cache/docs-opencode/` with timestamp
+  3. Installer checks cache age and refreshes only if older than 24 hours
+  4. Installer handles network failures gracefully and continues with stale cache if available
+**Plans**: TBD
 
 Plans:
-- [x] 02-01-PLAN.md — GSD detection module (auto-detect, validate, freshness)
-- [x] 02-02-PLAN.md — OpenCode detection module (PATH search, cross-platform)
-- [x] 02-03-PLAN.md — Detection orchestration and visual reporting
-- [x] 02-04-PLAN.md — Gap closure: stale GSD interactive update handler
+- [ ] TBD
 
-### Phase 3: Transpilation
-**Goal**: GSD context files are transformed into valid OpenCode configuration
+### Phase 3: /gsdo Command
+**Goal**: User can run /gsdo in OpenCode to enhance transpiled commands
 **Depends on**: Phase 2
-**Requirements**: TRANS-01, TRANS-02, TRANS-03, TRANS-04, TRANS-05, TRANS-06
+**Requirements**: INSTALL-01, ENHANCE-01, ENHANCE-02, ENHANCE-03, ENHANCE-04, ENHANCE-10
 **Success Criteria** (what must be TRUE):
-  1. User's GSD files are parsed into intermediate representation without data loss
-  2. User's OpenCode config directory contains transformed configuration files
-  3. User sees backup location announcement when existing configs are overwritten
-  4. User's existing configs are backed up automatically before any overwrite
-  5. Running transpilation twice produces identical results (idempotent)
-**Plans**: 3 plans
+  1. Installer creates `/gsdo` command definition with references to install.log and cached docs
+  2. User runs `/gsdo` in OpenCode and it reads install.log for transpilation context
+  3. /gsdo command reads cached OpenCode docs from `~/.gsdo/cache/`
+  4. /gsdo uses OpenCode's configured LLM to analyze all `/gsd-*` commands
+  5. /gsdo operates autonomously without requesting user input
+**Plans**: TBD
 
 Plans:
-- [x] 03-01-PLAN.md — GSD parser with IR and comprehensive error handling
-- [x] 03-02-PLAN.md — Config-driven transformer with gap tracking and user overrides
-- [x] 03-03-PLAN.md — Backup manager, idempotency, and CLI integration
+- [ ] TBD
 
-### Phase 4: Reports
-**Goal**: User understands what transpiled successfully and what fell short
+### Phase 4: Enhanced Transpilation
+**Goal**: Installer extracts prompt templates and variables from GSD commands
 **Depends on**: Phase 3
-**Requirements**: RPT-01, RPT-02, RPT-03
+**Requirements**: TRANS-03, TRANS-04, TRANS-06, INSTALL-05
 **Success Criteria** (what must be TRUE):
-  1. User sees console report showing which GSD commands were/weren't portable
-  2. User sees shortfall analysis with specific feature gaps listed
-  3. User can save markdown version of report to local file
-**Plans**: 4 plans in 2 waves
+  1. Installer extracts prompt templates from GSD markdown files
+  2. Installer parses template variables (e.g., `{{phase}}`, `{{context}}`) from templates
+  3. Installer handles partial success (installs working commands, logs failures)
+  4. Installer shows verbose progress during transpilation (detection, scanning, writing phases)
+**Plans**: TBD
 
 Plans:
-- [x] 04-01-PLAN.md — Enhance gap tracking with source files, categories, suggestions
-- [x] 04-02-PLAN.md — Build console reporter with sections, shortfalls, summary
-- [x] 04-03-PLAN.md — Add markdown export and integrate into transpile command
-- [x] 04-04-PLAN.md — Gap closure: wire orchestrator return with artifact metadata
+- [ ] TBD
 
-### Phase 5: LLM Enhancement
-**Goal**: Users with API access can improve transpilation quality through LLM refinement
+### Phase 5: Idempotency
+**Goal**: Installer skips re-transpilation when GSD source is unchanged
 **Depends on**: Phase 4
-**Requirements**: RPT-04, RPT-05, RPT-06, RPT-07, RPT-08
+**Requirements**: IDEM-01, IDEM-02, IDEM-03, IDEM-04, PERF-02, PERF-03
 **Success Criteria** (what must be TRUE):
-  1. User is offered LLM enhancement pass after algorithmic report completes
-  2. User can provide OpenAI-compatible API key (used in-memory only)
-  3. User can iterate with LLM ("want to try more things?") until satisfied
-  4. User without API key sees helpful tip about running local LLM
-  5. User's API endpoint is auto-detected or prompted if not found
-**Plans**: 3 plans in 3 waves
+  1. Installer checks `~/.gsdo/last-imported-gsd` for previous import timestamp
+  2. Installer compares GSD source timestamps and skips transpilation if unchanged
+  3. User sees "Already up to date" message when installer skips work
+  4. Installer updates `last-imported-gsd` file after successful transpilation
+  5. Installer uses caching to avoid redundant work (docs, transpilation)
+**Plans**: TBD
 
 Plans:
-- [ ] 05-01-PLAN.md — API configuration with multi-provider detection and endpoint testing
-- [ ] 05-02-PLAN.md — LLM enhancement core (docs cache, LLM calls, orchestration)
-- [ ] 05-03-PLAN.md — Command integration with fallback messaging and E2E verification
+- [ ] TBD
+
+### Phase 6: Exit Logging
+**Goal**: All installer and /gsdo activity is logged in detailed, readable format
+**Depends on**: Phase 5
+**Requirements**: LOG-01, LOG-02, LOG-03, LOG-04, LOG-05, LOG-06, ENHANCE-05, ENHANCE-06, ENHANCE-07, ENHANCE-08, ENHANCE-09
+**Success Criteria** (what must be TRUE):
+  1. Installer writes timestamped entries to `~/.gsdo/install.log` with transpilation results
+  2. Install log includes success/warnings/errors per command in markdown format
+  3. /gsdo command writes timestamped entries to `~/.gsdo/gsdo.log` with enhancement results
+  4. /gsdo fixes naming issues, improves prompt templates, adds missing parameters, and fixes broken references
+  5. /gsdo updates `commands.json` in place with enhanced commands
+  6. Both logs rotate automatically (keep only past 7 days)
+**Plans**: TBD
+
+Plans:
+- [ ] TBD
+
+### Phase 7: Polish
+**Goal**: Installer provides excellent UX with clear messaging and fast performance
+**Depends on**: Phase 6
+**Requirements**: UX-01, UX-02, UX-03, UX-04, UX-05, UX-06, UX-07, PERF-01, PLATFORM-04
+**Success Criteria** (what must be TRUE):
+  1. Installer requires zero user input and completes in under 10 seconds
+  2. Installer shows ASCII art success screen with disclaimer about best-effort migration
+  3. Success screen shows clear next steps (run /gsdo in OpenCode)
+  4. Error messages are specific and actionable (e.g., "GSD not found at ~/.claude/get-shit-done/")
+  5. Partial success transparently shows what worked and what didn't
+  6. Installer adapts command naming based on platform filesystem limitations
+**Plans**: TBD
+
+Plans:
+- [ ] TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 2/2 | Complete | 2026-01-21 |
-| 2. Detection | 4/4 | Complete | 2026-01-22 |
-| 3. Transpilation | 3/3 | Complete | 2026-01-22 |
-| 4. Reports | 4/4 | Complete | 2026-01-22 |
-| 5. LLM Enhancement | 0/3 | Not started | - |
-
----
-*Roadmap created: 2025-01-21*
-*Depth: quick (5 phases)*
-*Coverage: 28/28 v1 requirements mapped*
+| 1. Core Installer | 0/TBD | Not started | - |
+| 2. Documentation Cache | 0/TBD | Not started | - |
+| 3. /gsdo Command | 0/TBD | Not started | - |
+| 4. Enhanced Transpilation | 0/TBD | Not started | - |
+| 5. Idempotency | 0/TBD | Not started | - |
+| 6. Exit Logging | 0/TBD | Not started | - |
+| 7. Polish | 0/TBD | Not started | - |

@@ -115,12 +115,66 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
+| DETECT-01 | Phase 1 | Pending |
+| DETECT-02 | Phase 1 | Pending |
+| DETECT-03 | Phase 1 | Pending |
+| DETECT-04 | Phase 1 | Pending |
+| IDEM-01 | Phase 5 | Pending |
+| IDEM-02 | Phase 5 | Pending |
+| IDEM-03 | Phase 5 | Pending |
+| IDEM-04 | Phase 5 | Pending |
+| CACHE-01 | Phase 2 | Pending |
+| CACHE-02 | Phase 2 | Pending |
+| CACHE-03 | Phase 2 | Pending |
+| CACHE-04 | Phase 2 | Pending |
+| TRANS-01 | Phase 1 | Pending |
+| TRANS-02 | Phase 1 | Pending |
+| TRANS-03 | Phase 4 | Pending |
+| TRANS-04 | Phase 4 | Pending |
+| TRANS-05 | Phase 1 | Pending |
+| TRANS-06 | Phase 4 | Pending |
+| TRANS-07 | Phase 1 | Pending |
+| INSTALL-01 | Phase 3 | Pending |
+| INSTALL-02 | Phase 1 | Pending |
+| INSTALL-03 | Phase 1 | Pending |
+| INSTALL-04 | Phase 1 | Pending |
+| INSTALL-05 | Phase 4 | Pending |
+| ENHANCE-01 | Phase 3 | Pending |
+| ENHANCE-02 | Phase 3 | Pending |
+| ENHANCE-03 | Phase 3 | Pending |
+| ENHANCE-04 | Phase 3 | Pending |
+| ENHANCE-05 | Phase 6 | Pending |
+| ENHANCE-06 | Phase 6 | Pending |
+| ENHANCE-07 | Phase 6 | Pending |
+| ENHANCE-08 | Phase 6 | Pending |
+| ENHANCE-09 | Phase 6 | Pending |
+| ENHANCE-10 | Phase 3 | Pending |
+| LOG-01 | Phase 6 | Pending |
+| LOG-02 | Phase 6 | Pending |
+| LOG-03 | Phase 6 | Pending |
+| LOG-04 | Phase 6 | Pending |
+| LOG-05 | Phase 6 | Pending |
+| LOG-06 | Phase 6 | Pending |
+| UX-01 | Phase 7 | Pending |
+| UX-02 | Phase 7 | Pending |
+| UX-03 | Phase 7 | Pending |
+| UX-04 | Phase 7 | Pending |
+| UX-05 | Phase 7 | Pending |
+| UX-06 | Phase 7 | Pending |
+| UX-07 | Phase 7 | Pending |
+| PERF-01 | Phase 7 | Pending |
+| PERF-02 | Phase 5 | Pending |
+| PERF-03 | Phase 5 | Pending |
+| PLATFORM-01 | Phase 1 | Pending |
+| PLATFORM-02 | Phase 1 | Pending |
+| PLATFORM-03 | Phase 1 | Pending |
+| PLATFORM-04 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 42 total
-- Mapped to phases: 0
-- Unmapped: 42 ⚠️
+- v1 requirements: 54 total
+- Mapped to phases: 54
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-22*
-*Last updated: 2026-01-22 after initial definition*
+*Last updated: 2026-01-22 after roadmap creation*
