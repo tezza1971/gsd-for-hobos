@@ -297,7 +297,7 @@ Warning: Using cached OpenCode docs from 3 days ago
 
 1. Delete the cache:
    ```bash
-   rm -rf .cache/llm-docs/
+   rm -rf ~/.cache/docs-opencode/
    ```
 
 2. Next run will fetch fresh docs

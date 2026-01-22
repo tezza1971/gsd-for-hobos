@@ -7,6 +7,7 @@
 
 import { readFile, writeFile, stat, unlink, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import { homedir } from 'node:os';
 import { log } from '../logger.js';
 
 /**
@@ -20,10 +21,10 @@ export class DocsCacheManager {
   private ttlSeconds: number;
 
   /**
-   * @param cacheDir Directory to store cache files (default: .cache/llm-docs)
+   * @param cacheDir Directory to store cache files (default: ~/.cache/docs-opencode)
    * @param ttlSeconds Time-to-live in seconds (default: 86400 = 24 hours)
    */
-  constructor(cacheDir: string = '.cache/llm-docs', ttlSeconds: number = 86400) {
+  constructor(cacheDir: string = join(homedir(), '.cache', 'docs-opencode'), ttlSeconds: number = 86400) {
     this.cacheDir = cacheDir;
     this.ttlSeconds = ttlSeconds;
   }

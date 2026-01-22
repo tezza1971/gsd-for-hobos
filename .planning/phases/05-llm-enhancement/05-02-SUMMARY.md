@@ -120,7 +120,7 @@ None - no external service configuration required.
 
 **Implementation notes:**
 - LLMEnhancer expects opencodeConfigDir parameter for llm-rules.json location
-- Cache directory defaults to .cache/llm-docs (should be gitignored)
+- Cache directory defaults to ~/.cache/docs-opencode (should be gitignored)
 - Validation errors are descriptive and user-friendly
 - All modules use established ESM import patterns (.js extensions)
 

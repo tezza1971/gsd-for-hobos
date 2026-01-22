@@ -202,7 +202,7 @@ export class DocsCacheManager {
   private cacheDir: string;
   private ttlSeconds: number = 24 * 60 * 60; // 24 hours
 
-  constructor(cacheDir: string = '.cache/llm-docs') {
+  constructor(cacheDir: string = '~/.cache/docs-opencode') {
     this.cacheDir = cacheDir;
   }
 

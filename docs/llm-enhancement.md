@@ -35,7 +35,7 @@ Fetching OpenCode documentation...
 ```
 
 The cache:
-- Stored in `.cache/llm-docs/`
+- Stored in `~/.cache/docs-opencode/`
 - 24-hour TTL (refreshes daily)
 - Used to give the LLM accurate OpenCode context
 
@@ -307,8 +307,13 @@ LLM enhancement is a starting point. You can:
 ### Cache Location
 
 ```
-.cache/llm-docs/opencode-docs.cache
+~/.cache/docs-opencode/opencode-docs.cache
 ```
+
+The cache is stored in the user's home directory, making it centrally accessible regardless of where the command is run. Future platform support will use the pattern `~/.cache/docs-{platform}/`, for example:
+- `~/.cache/docs-opencode/` (current)
+- `~/.cache/docs-antigravity/` (planned)
+- `~/.cache/docs-cursor/` (planned)
 
 ### TTL
 
