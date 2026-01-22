@@ -75,7 +75,8 @@ export function extractPromptTemplate(rawContent: string): string {
 function removeFrontmatter(content: string): string {
   // Pattern: starts with ---, content, ends with ---
   // Must be at beginning of file (possibly after whitespace)
-  const frontmatterPattern = /^\s*---\s*\n([\s\S]*?)\n---\s*\n/;
+  // Optional newline after closing --- (may be EOF)
+  const frontmatterPattern = /^\s*---\s*\n([\s\S]*?)\n---\s*(\n|$)/;
   const match = content.match(frontmatterPattern);
 
   if (match) {
