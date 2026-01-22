@@ -97,10 +97,12 @@ Plans:
   3. User can iterate with LLM ("want to try more things?") until satisfied
   4. User without API key sees helpful tip about running local LLM
   5. User's API endpoint is auto-detected or prompted if not found
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md — API configuration with multi-provider detection and endpoint testing
+- [ ] 05-02-PLAN.md — LLM enhancement core (docs cache, LLM calls, orchestration)
+- [ ] 05-03-PLAN.md — Command integration with fallback messaging and E2E verification
 
 ## Progress
 
@@ -113,7 +115,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Detection | 4/4 | Complete | 2026-01-22 |
 | 3. Transpilation | 3/3 | Complete | 2026-01-22 |
 | 4. Reports | 4/4 | Complete | 2026-01-22 |
-| 5. LLM Enhancement | 0/TBD | Not started | - |
+| 5. LLM Enhancement | 0/3 | Not started | - |
 
 ---
 *Roadmap created: 2025-01-21*
