@@ -21,10 +21,10 @@
 
 ### Documentation Caching
 
-- [ ] **CACHE-01**: Installer downloads OpenCode docs from GitHub on first run
-- [ ] **CACHE-02**: Installer caches docs in `~/.gsdo/cache/docs-opencode/` with timestamp
-- [ ] **CACHE-03**: Installer checks cache age and refreshes if older than 24 hours
-- [ ] **CACHE-04**: Installer handles network failures gracefully when fetching docs
+- [x] **CACHE-01**: Installer downloads OpenCode docs from GitHub on first run
+- [x] **CACHE-02**: Installer caches docs in `~/.gsdo/cache/docs-opencode/` with timestamp
+- [x] **CACHE-03**: Installer checks cache age and refreshes if older than 24 hours
+- [x] **CACHE-04**: Installer handles network failures gracefully when fetching docs
 
 ### Command Transpilation
 
@@ -123,10 +123,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | IDEM-02 | Phase 5 | Pending |
 | IDEM-03 | Phase 5 | Pending |
 | IDEM-04 | Phase 5 | Pending |
-| CACHE-01 | Phase 2 | Pending |
-| CACHE-02 | Phase 2 | Pending |
-| CACHE-03 | Phase 2 | Pending |
-| CACHE-04 | Phase 2 | Pending |
+| CACHE-01 | Phase 2 | Complete |
+| CACHE-02 | Phase 2 | Complete |
+| CACHE-03 | Phase 2 | Complete |
+| CACHE-04 | Phase 2 | Complete |
 | TRANS-01 | Phase 1 | Complete |
 | TRANS-02 | Phase 1 | Complete |
 | TRANS-03 | Phase 4 | Pending |
