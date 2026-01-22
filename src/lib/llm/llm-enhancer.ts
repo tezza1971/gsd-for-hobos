@@ -6,7 +6,9 @@
  */
 
 import { text, confirm, isCancel } from '@clack/prompts';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { join } from 'node:path';
+import { homedir } from 'node:os';
 import pc from 'picocolors';
 import { log } from '../logger.js';
 import type { APIConfig } from './types.js';
@@ -398,13 +400,17 @@ Only suggest rules that address real gaps or improvements. Be specific and actio
   }
 
   /**
-   * Apply validated enhancement rules to llm-rules.json
+   * Apply validated enhancement rules to ~/.gsdo/llm-rules.json
    *
    * @param rules Validated transformation rules
-   * @param opencodeConfigDir OpenCode config directory
+   * @param _opencodeConfigDir OpenCode config directory (unused, kept for compatibility)
    */
-  private async applyEnhancement(rules: TransformRule[], opencodeConfigDir: string): Promise<void> {
-    const rulesPath = `${opencodeConfigDir}/llm-rules.json`;
+  private async applyEnhancement(rules: TransformRule[], _opencodeConfigDir: string): Promise<void> {
+    const gsdoDir = join(homedir(), '.gsdo');
+    const rulesPath = join(gsdoDir, 'llm-rules.json');
+
+    // Ensure ~/.gsdo directory exists
+    await mkdir(gsdoDir, { recursive: true });
 
     // Load existing rules if file exists
     let existingRules: TransformRule[] = [];

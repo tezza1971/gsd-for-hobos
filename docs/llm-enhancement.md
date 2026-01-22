@@ -85,7 +85,7 @@ Retrying with feedback...
 
 ### 5. Rule Storage
 
-Valid rules are stored in `llm-rules.json`:
+Valid rules are stored in `~/.gsdo/llm-rules.json`:
 
 ```json
 {
@@ -104,7 +104,7 @@ Valid rules are stored in `llm-rules.json`:
 }
 ```
 
-This file is separate from the default `transform-rules.json` to keep LLM-generated and hand-written rules distinct.
+This file is stored in `~/.gsdo/` along with all other GSD Open configuration. It's separate from the default `transform-rules.json` to keep LLM-generated and hand-written rules distinct.
 
 ## Conversation History
 
@@ -290,7 +290,7 @@ Make small refinements and verify each one:
 Always check `llm-rules.json` after enhancement:
 
 ```bash
-cat .opencode/llm-rules.json
+cat ~/.gsdo/llm-rules.json
 ```
 
 Remove any rules that don't make sense for your use case.
@@ -298,8 +298,8 @@ Remove any rules that don't make sense for your use case.
 ### 4. Combine with Manual Editing
 
 LLM enhancement is a starting point. You can:
-- Edit `llm-rules.json` manually
-- Move validated rules to `transform-rules.json`
+- Edit `~/.gsdo/llm-rules.json` manually
+- Move validated rules to `~/.gsdo/transforms.json`
 - Delete rules that don't work
 
 ## Technical Details

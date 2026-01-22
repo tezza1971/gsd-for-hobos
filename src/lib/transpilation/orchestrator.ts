@@ -79,7 +79,8 @@ export async function runTranspilation(options: TranspileOptions): Promise<Trans
     };
   }
 
-  manifestPath = join(opencodeConfigDir, '.gsdo-manifest.json');
+  // Store manifest in ~/.gsdo/ instead of polluting OpenCode's config directory
+  manifestPath = join(homedir(), '.gsdo', 'manifest.json');
 
   // Step 1: Check idempotency (unless --force)
   if (!options.force) {
@@ -234,7 +235,7 @@ export async function runTranspilation(options: TranspileOptions): Promise<Trans
     const sourceHash = await hashDirectory(options.gsdPath);
     const outputHash = await hashDirectory(opencodeConfigDir);
 
-    const manifest: GFHManifest = {
+    const manifest: GSDOManifest = {
       version: '1.0',
       lastRun: {
         timestamp: new Date().toISOString(),

@@ -21,10 +21,10 @@ export class DocsCacheManager {
   private ttlSeconds: number;
 
   /**
-   * @param cacheDir Directory to store cache files (default: ~/.cache/docs-opencode)
+   * @param cacheDir Directory to store cache files (default: ~/.gsdo/cache/docs-opencode)
    * @param ttlSeconds Time-to-live in seconds (default: 86400 = 24 hours)
    */
-  constructor(cacheDir: string = join(homedir(), '.cache', 'docs-opencode'), ttlSeconds: number = 86400) {
+  constructor(cacheDir: string = join(homedir(), '.gsdo', 'cache', 'docs-opencode'), ttlSeconds: number = 86400) {
     this.cacheDir = cacheDir;
     this.ttlSeconds = ttlSeconds;
   }

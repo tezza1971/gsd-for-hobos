@@ -1,31 +1,49 @@
 # Configuration Guide
 
-GSD Open uses a multi-level configuration system with global user settings and project-specific output.
+GSD Open is a **migration tool** that transpiles GSD configuration from Claude Code to other platforms. All GSD Open's configuration and state is stored in `~/.gsdo/` - we never pollute the target platform's configuration space with our files.
 
 ## Directory Overview
 
 ```
-~/.gsdo/                           # Global user configuration
-└── transforms.json                # Custom transform rule overrides
-
-~/.cache/                          # Cached data
-└── docs-opencode/                 # OpenCode documentation cache
-    └── opencode-docs.cache        # Cached schema docs (24hr TTL)
-
-.opencode/                         # Project-specific OpenCode config
-├── agents.json                    # Transpiled agents
-├── commands.json                  # Transpiled commands
-├── models.json                    # Model configurations
-├── settings.json                  # General settings
+~/.gsdo/                           # All GSD Open configuration and state
+├── transforms.json                # Custom transform rule overrides
 ├── llm-rules.json                 # LLM-generated enhancement rules
-└── gsdo-manifest.json             # Transpilation metadata
+├── manifest.json                  # Transpilation state and metadata
+├── cache/                         # Documentation caches
+│   ├── docs-opencode/            # OpenCode documentation cache
+│   │   └── opencode-docs.cache   # Cached schema docs (24hr TTL)
+│   ├── docs-antigravity/         # Future: Antigravity docs cache
+│   └── docs-cursor/               # Future: Cursor docs cache
+└── backup/                        # Backups of platform configs
+    └── opencode/                  # OpenCode config backups
+        └── {timestamp}/           # Timestamped backup directories
+            ├── agents.json        # Backed up files
+            └── manifest.json      # Backup metadata
+
+~/.config/opencode/                # OpenCode's configuration (we write here)
+├── agents.json                    # Transpiled agents (OpenCode owns this)
+├── commands.json                  # Transpiled commands (OpenCode owns this)
+└── ...                            # Other OpenCode files
 ```
 
-## Global Configuration
+## Design Philosophy
+
+**GSD Open is a migration tool, not a project tool.** It migrates GSD configuration from Claude Code to other platforms. Therefore:
+
+1. **All our state goes in `~/.gsdo/`** - Our configuration, manifests, caches, and backups
+2. **Target platform's space stays clean** - We only write the transpiled output files where the platform expects them
+3. **No project-level pollution** - We don't create `.gsdo-*` files in project directories
+
+## Configuration Files
 
 ### ~/.gsdo/transforms.json
 
-Custom transform rules that override the defaults. These apply to all transpilation operations.
+**Purpose:** User-defined overrides for default transform rules.
+
+**When to use:**
+- You want custom field mappings across all transpilations
+- You've found better default values for certain fields
+- You need consistent transpilation behavior
 
 **Structure:**
 
@@ -44,23 +62,19 @@ Custom transform rules that override the defaults. These apply to all transpilat
 }
 ```
 
-**When to use:**
-- You want consistent custom mappings across all projects
-- You've found better default values for certain fields
-- You need project-agnostic transform behavior
+**Precedence:** These rules override the built-in `transform-rules.json` that ships with GSD Open.
 
-**Location rationale:** Global config belongs in `~/.gsdo/` because it represents your personal preferences that should apply regardless of which project you're working on.
+### ~/.gsdo/llm-rules.json
 
-## Project-Specific Configuration
+**Purpose:** LLM-generated enhancement rules from interactive refinement sessions.
 
-### .opencode/llm-rules.json
-
-LLM-generated enhancement rules created during the optional LLM enhancement pass.
+**When created:** During the optional LLM enhancement pass when you provide refinement suggestions.
 
 **Structure:**
 
 ```json
 {
+  "version": "1.0",
   "rules": [
     {
       "field": "agent.description",
@@ -71,16 +85,14 @@ LLM-generated enhancement rules created during the optional LLM enhancement pass
 }
 ```
 
-**When created:**
-- During LLM enhancement when you provide refinement suggestions
+**Behavior:**
 - Appends new rules each enhancement session
 - Sorted by field name for deterministic output
+- Separate from user-defined `transforms.json` to distinguish LLM-generated vs hand-written rules
 
-**Location rationale:** Project-specific in `.opencode/` because these rules are generated based on the specific GSD context you're transpiling for this project.
+### ~/.gsdo/manifest.json
 
-### .opencode/gsdo-manifest.json
-
-Transpilation metadata for idempotency checking.
+**Purpose:** Tracks transpilation state for idempotency checking.
 
 **Structure:**
 
@@ -88,50 +100,90 @@ Transpilation metadata for idempotency checking.
 {
   "version": "1.0",
   "lastRun": {
-    "timestamp": "2026-01-22T06:51:47.000Z",
+    "timestamp": "2026-01-22T07:30:00.000Z",
     "sourceHash": "abc123...",
     "outputHash": "def456...",
     "backup": {
-      "location": ".opencode-backup/2026-01-22T06-51-47",
-      "timestamp": "2026-01-22T06:51:47.000Z"
+      "location": "~/.gsdo/backup/opencode/2026-01-22_073000",
+      "timestamp": "2026-01-22T07:30:00.000Z"
     }
   },
-  "mappings": []
+  "mappings": [
+    {
+      "source": "~/.claude/get-shit-done/",
+      "target": "~/.config/opencode/agents.json",
+      "transformed": true
+    }
+  ]
 }
 ```
 
 **Purpose:**
 - Tracks source and output hashes to skip unnecessary re-transpilation
-- Records backup locations
-- Enables `--force` flag to bypass idempotency
+- Records backup locations for rollback
+- Enables `--force` flag to bypass idempotency checks
 
-## Cache Configuration
+### ~/.gsdo/cache/docs-{platform}/
 
-### ~/.cache/docs-opencode/
+**Purpose:** Platform-specific documentation caches for LLM enhancement.
 
-Platform-specific documentation cache for LLM enhancement.
-
-**Location:** `~/.cache/docs-{platform}/`
+**Pattern:** `~/.gsdo/cache/docs-{platform}/`
 - `docs-opencode/` - OpenCode documentation (current)
 - `docs-antigravity/` - Antigravity documentation (planned)
 - `docs-cursor/` - Cursor documentation (planned)
 
 **TTL:** 24 hours (86400 seconds)
 
-**Purpose:**
-- Caches fetched documentation to avoid repeated GitHub requests
-- Automatically refreshes when expired
-- Centralized in home directory for access from any working directory
-
 **Management:**
 
 ```bash
 # Clear OpenCode docs cache
-rm -rf ~/.cache/docs-opencode/
+rm -rf ~/.gsdo/cache/docs-opencode/
 
-# Clear all gsdo caches
-rm -rf ~/.cache/docs-*/
+# Clear all platform caches
+rm -rf ~/.gsdo/cache/docs-*/
+
+# Clear entire cache directory
+rm -rf ~/.gsdo/cache/
 ```
+
+### ~/.gsdo/backup/opencode/{timestamp}/
+
+**Purpose:** Timestamped backups of OpenCode configuration before transpilation.
+
+**Structure:**
+
+```
+~/.gsdo/backup/opencode/
+├── 2026-01-22_073000/
+│   ├── agents.json          # Backed up OpenCode file
+│   ├── commands.json         # Backed up OpenCode file
+│   └── manifest.json         # Backup metadata (hash, size, permissions)
+└── 2026-01-22_080000/
+    └── ...
+```
+
+**Backup manifest:**
+
+```json
+{
+  "timestamp": "2026-01-22T07:30:00.000Z",
+  "source": "~/.claude/get-shit-done/",
+  "files": [
+    {
+      "path": "agents.json",
+      "hash": "abc123...",
+      "size": 2048,
+      "mode": 420
+    }
+  ]
+}
+```
+
+**Purpose:**
+- Safe rollback if transpilation produces unexpected results
+- Preserves file permissions for accurate restoration
+- Automatic cleanup (oldest backups can be manually deleted)
 
 ## Environment Variables
 
@@ -156,52 +208,92 @@ When resolving configuration, gsdo uses this precedence (highest to lowest):
 1. **Command-line flags** - Override everything
 2. **Environment variables** - API keys, endpoints
 3. **User overrides** - `~/.gsdo/transforms.json`
-4. **LLM-generated rules** - `.opencode/llm-rules.json` (project-specific)
+4. **LLM-generated rules** - `~/.gsdo/llm-rules.json`
 5. **Default rules** - Built-in `transform-rules.json`
 
-## Best Practices
+## Target Platform Configuration
 
-### Global vs Project Configuration
+GSD Open writes transpiled output to wherever the target platform expects it:
 
-**Use `~/.gsdo/` for:**
-- Personal preferences that apply everywhere
-- Custom field mappings you always want
-- Default value overrides
+### OpenCode
 
-**Use `.opencode/` for:**
-- Project-specific LLM enhancements
-- Transpilation output and metadata
-- Anything that shouldn't be shared across projects
+**Auto-detected locations** (in priority order):
+1. Project-local: `.opencode/`
+2. User config (Linux/Mac): `~/.config/opencode/`
+3. User config (Windows): `%APPDATA%/opencode/`
 
-### Cache Management
+**We write:**
+- `agents.json` - Transpiled agents
+- `commands.json` - Transpiled commands
+- `models.json` - Model configurations
+- `settings.json` - General settings
 
-- Cache is automatically managed with TTL
-- Only clear cache if you need to force refresh docs
-- Cache is per-platform to support multi-platform future
+**We DON'T write:**
+- Any `.gsdo-*` files (those stay in `~/.gsdo/`)
+- Any metadata files (those stay in `~/.gsdo/`)
 
-### Security
+### Future Platforms
+
+When we add support for Antigravity, Cursor, etc., the same pattern applies:
+- Detect where the platform expects its config
+- Write transpiled files there
+- Keep all our state in `~/.gsdo/`
+
+## Security
 
 - Never commit `.env` files with API keys
 - Never store API keys in config files
 - API keys are used in-memory only during enhancement
-- All config files in this guide are safe to commit (no secrets)
+- All config files in `~/.gsdo/` are safe to commit (no secrets)
 
 ## Migration from Previous Versions
 
-If you have config from the old `gsd-for-hobos`:
+If you have config from the old `gsd-for-hobos` or if llm-rules were in `.opencode/`:
 
 ```bash
-# Rename global config directory
+# Rename global config directory (if you had ~/.gfh/)
 mv ~/.gfh ~/.gsdo
 
-# Update cache location (old cache can be deleted)
-rm -rf .cache/llm-docs/
-# New cache will be created at ~/.cache/docs-opencode/
+# Move cache to new location
+rm -rf ~/.cache/docs-opencode/
+# New cache will be created at ~/.gsdo/cache/docs-opencode/
 
-# Update manifest files in projects
-cd your-project
-mv .opencode/.gfh-manifest.json .opencode/.gsdo-manifest.json
+# Move llm-rules if they were in project .opencode/
+if [ -f .opencode/llm-rules.json ]; then
+  mkdir -p ~/.gsdo
+  mv .opencode/llm-rules.json ~/.gsdo/llm-rules.json
+fi
+
+# Move manifest if it was in project .opencode/
+if [ -f .opencode/.gsdo-manifest.json ]; then
+  mv .opencode/.gsdo-manifest.json ~/.gsdo/manifest.json
+fi
+
+# Move backups if they were in project
+if [ -d .opencode-backup ]; then
+  mkdir -p ~/.gsdo/backup/opencode
+  mv .opencode-backup/* ~/.gsdo/backup/opencode/
+  rm -rf .opencode-backup
+fi
 ```
+
+## Troubleshooting
+
+### Where are my LLM rules?
+
+They're in `~/.gsdo/llm-rules.json`, NOT in `.opencode/llm-rules.json`. GSD Open keeps all its files in one place.
+
+### Where are my backups?
+
+Backups are in `~/.gsdo/backup/opencode/{timestamp}/`, NOT in `.opencode-backup/`.
+
+### I can't find the manifest
+
+It's at `~/.gsdo/manifest.json`, NOT at `.opencode/.gsdo-manifest.json`.
+
+### Why can't I find gsdo files in my project?
+
+By design! GSD Open is a migration tool, not a project tool. All our files are in `~/.gsdo/`, not scattered across your projects.
 
 ---
 

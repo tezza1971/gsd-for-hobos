@@ -337,7 +337,7 @@ Shows detailed information about:
 ### Check the Manifest
 
 ```bash
-cat .opencode/gsdo-manifest.json | jq .
+cat ~/.gsdo/manifest.json | jq .
 ```
 
 Shows:

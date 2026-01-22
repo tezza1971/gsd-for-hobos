@@ -77,35 +77,21 @@ See [LLM Enhancement](./llm-enhancement.md) for details.
 
 ## Directory Structure
 
-### Global User Configuration
+GSD Open is a **migration tool**, not a project tool. All its configuration and state lives in `~/.gsdo/`:
 
 ```
-~/.gsdo/                     # Global gsdo configuration
-└── transforms.json          # User-defined transform rule overrides
+~/.gsdo/                          # All GSD Open files
+├── transforms.json               # User transform rule overrides
+├── llm-rules.json                # LLM-generated enhancement rules
+├── manifest.json                 # Transpilation state
+├── cache/                        # Documentation caches
+│   └── docs-opencode/           # OpenCode docs cache (24hr TTL)
+└── backup/                       # Config backups
+    └── opencode/                # OpenCode config backups
+        └── {timestamp}/         # Timestamped backups
 ```
 
-The `~/.gsdo/` directory stores your personal configuration that applies across all projects. Currently, it contains:
-- **transforms.json** - Your custom transform rule overrides that take precedence over the default rules
-
-### Project-Specific Output
-
-After transpilation, you'll find:
-
-```
-.opencode/                    # OpenCode config directory (project-specific)
-├── agents.json              # Transpiled agents
-├── commands.json            # Transpiled commands
-├── models.json              # Model configurations
-├── settings.json            # General settings
-├── llm-rules.json           # LLM-generated rules (if enhanced)
-└── gsdo-manifest.json       # Transpilation metadata
-
-.opencode-backup/            # Backup of previous configs
-└── {timestamp}/
-    └── ...
-```
-
-LLM-generated rules are stored per-project in `.opencode/llm-rules.json` because they're specific to the GSD context being transpiled for that project.
+The transpiled output is written to where the target platform expects it (e.g., `~/.config/opencode/`), but all GSD Open's own files stay in `~/.gsdo/`.
 
 ## Getting Help
 

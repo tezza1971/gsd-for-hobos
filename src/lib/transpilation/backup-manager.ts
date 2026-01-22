@@ -8,6 +8,7 @@
 import { readFile, writeFile, mkdir, readdir, copyFile, stat, chmod, rm } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { join, dirname, relative, basename } from 'node:path';
+import { homedir } from 'node:os';
 import { log } from '../logger.js';
 import type { BackupManifest, BackupFileEntry } from '../../types/index.js';
 
@@ -25,7 +26,8 @@ export class BackupManager {
    */
   constructor(configDir: string) {
     this.configDir = configDir;
-    this.backupBaseDir = join(configDir, '.opencode-backup');
+    // Store backups in ~/.gsdo/backup/opencode/ instead of polluting OpenCode's space
+    this.backupBaseDir = join(homedir(), '.gsdo', 'backup', 'opencode');
   }
 
   /**
