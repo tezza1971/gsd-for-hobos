@@ -7,10 +7,10 @@
 
 ### Detection & Validation
 
-- [ ] **DETECT-01**: Installer auto-detects GSD at `~/.claude/get-shit-done/`
-- [ ] **DETECT-02**: Installer auto-detects OpenCode config directory (`.opencode/`, `~/.config/opencode/`, `%APPDATA%/opencode/`)
-- [ ] **DETECT-03**: Installer exits with clear error if GSD not found
-- [ ] **DETECT-04**: Installer exits with clear error if OpenCode not accessible
+- [x] **DETECT-01**: Installer auto-detects GSD at `~/.claude/get-shit-done/`
+- [x] **DETECT-02**: Installer auto-detects OpenCode config directory (`.opencode/`, `~/.config/opencode/`, `%APPDATA%/opencode/`)
+- [x] **DETECT-03**: Installer exits with clear error if GSD not found
+- [x] **DETECT-04**: Installer exits with clear error if OpenCode not accessible
 
 ### Idempotency
 
@@ -28,20 +28,20 @@
 
 ### Command Transpilation
 
-- [ ] **TRANS-01**: Installer scans `~/.claude/get-shit-done/skills/` for `/gsd:*` command files
-- [ ] **TRANS-02**: Installer converts command names from `/gsd:*` to `/gsd:*` (or `/gsd-*` if colons unsupported)
+- [x] **TRANS-01**: Installer scans `~/.claude/get-shit-done/skills/` for `/gsd:*` command files
+- [x] **TRANS-02**: Installer converts command names from `/gsd:*` to `/gsd:*` (or `/gsd-*` if colons unsupported)
 - [ ] **TRANS-03**: Installer extracts prompt templates from GSD markdown files
 - [ ] **TRANS-04**: Installer parses template variables from prompt templates
-- [ ] **TRANS-05**: Installer maps GSD fields to OpenCode command schema
+- [x] **TRANS-05**: Installer maps GSD fields to OpenCode command schema
 - [ ] **TRANS-06**: Installer handles partial success (installs working commands, logs failures)
-- [ ] **TRANS-07**: Installer preserves GSD namespace prefix in command names
+- [x] **TRANS-07**: Installer preserves GSD namespace prefix in command names
 
 ### Installation & Output
 
 - [ ] **INSTALL-01**: Installer creates `/gsdo` command definition with context references
-- [ ] **INSTALL-02**: Installer reads existing OpenCode `commands.json` if present
-- [ ] **INSTALL-03**: Installer adds/updates commands in `commands.json` without breaking existing commands
-- [ ] **INSTALL-04**: Installer writes updated `commands.json` to OpenCode config directory
+- [x] **INSTALL-02**: Installer reads existing OpenCode `commands.json` if present
+- [x] **INSTALL-03**: Installer adds/updates commands in `commands.json` without breaking existing commands
+- [x] **INSTALL-04**: Installer writes updated `commands.json` to OpenCode config directory
 - [ ] **INSTALL-05**: Installer shows verbose progress during transpilation (detection, scanning, writing)
 
 ### /gsdo Enhancement
@@ -84,9 +84,9 @@
 
 ### Cross-Platform Support
 
-- [ ] **PLATFORM-01**: Installer works on Windows, macOS, and Linux
-- [ ] **PLATFORM-02**: Installer handles platform-specific path differences automatically
-- [ ] **PLATFORM-03**: Installer uses only Node.js built-in modules (no external dependencies)
+- [x] **PLATFORM-01**: Installer works on Windows, macOS, and Linux
+- [x] **PLATFORM-02**: Installer handles platform-specific path differences automatically
+- [x] **PLATFORM-03**: Installer uses only Node.js built-in modules (no external dependencies)
 - [ ] **PLATFORM-04**: Installer adapts command naming based on platform filesystem limitations
 
 ## v2 Requirements
@@ -115,10 +115,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DETECT-01 | Phase 1 | Pending |
-| DETECT-02 | Phase 1 | Pending |
-| DETECT-03 | Phase 1 | Pending |
-| DETECT-04 | Phase 1 | Pending |
+| DETECT-01 | Phase 1 | Complete |
+| DETECT-02 | Phase 1 | Complete |
+| DETECT-03 | Phase 1 | Complete |
+| DETECT-04 | Phase 1 | Complete |
 | IDEM-01 | Phase 5 | Pending |
 | IDEM-02 | Phase 5 | Pending |
 | IDEM-03 | Phase 5 | Pending |
@@ -127,17 +127,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CACHE-02 | Phase 2 | Pending |
 | CACHE-03 | Phase 2 | Pending |
 | CACHE-04 | Phase 2 | Pending |
-| TRANS-01 | Phase 1 | Pending |
-| TRANS-02 | Phase 1 | Pending |
+| TRANS-01 | Phase 1 | Complete |
+| TRANS-02 | Phase 1 | Complete |
 | TRANS-03 | Phase 4 | Pending |
 | TRANS-04 | Phase 4 | Pending |
-| TRANS-05 | Phase 1 | Pending |
+| TRANS-05 | Phase 1 | Complete |
 | TRANS-06 | Phase 4 | Pending |
-| TRANS-07 | Phase 1 | Pending |
+| TRANS-07 | Phase 1 | Complete |
 | INSTALL-01 | Phase 3 | Pending |
-| INSTALL-02 | Phase 1 | Pending |
-| INSTALL-03 | Phase 1 | Pending |
-| INSTALL-04 | Phase 1 | Pending |
+| INSTALL-02 | Phase 1 | Complete |
+| INSTALL-03 | Phase 1 | Complete |
+| INSTALL-04 | Phase 1 | Complete |
 | INSTALL-05 | Phase 4 | Pending |
 | ENHANCE-01 | Phase 3 | Pending |
 | ENHANCE-02 | Phase 3 | Pending |
@@ -165,9 +165,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PERF-01 | Phase 7 | Pending |
 | PERF-02 | Phase 5 | Pending |
 | PERF-03 | Phase 5 | Pending |
-| PLATFORM-01 | Phase 1 | Pending |
-| PLATFORM-02 | Phase 1 | Pending |
-| PLATFORM-03 | Phase 1 | Pending |
+| PLATFORM-01 | Phase 1 | Complete |
+| PLATFORM-02 | Phase 1 | Complete |
+| PLATFORM-03 | Phase 1 | Complete |
 | PLATFORM-04 | Phase 7 | Pending |
 
 **Coverage:**

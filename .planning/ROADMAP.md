@@ -12,7 +12,7 @@ A frictionless migration tool that transpiles GSD context engineering from Claud
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Core Installer** - Detection, basic transpilation, and OpenCode integration
+- [x] **Phase 1: Core Installer** - Detection, basic transpilation, and OpenCode integration
 - [ ] **Phase 2: Documentation Cache** - Fetch and cache OpenCode docs for LLM context
 - [ ] **Phase 3: /gsdo Command** - Install LLM enhancement command in OpenCode
 - [ ] **Phase 4: Enhanced Transpilation** - Template extraction and variable parsing
@@ -32,10 +32,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Installer scans GSD skills directory and converts `/gsd:*` command names to `/gsd:*` (or `/gsd-*` fallback)
   4. Installer writes transpiled commands to OpenCode's `commands.json` without breaking existing commands
   5. Installer works identically on Windows, macOS, and Linux using only Node.js built-in modules
-**Plans**: TBD
+**Plans**: 3 plans complete
 
 Plans:
-- [ ] TBD
+- [x] 01-01: Detection Infrastructure
+- [x] 01-02: Transpilation Engine
+- [x] 01-03: OpenCode Integration
 
 ### Phase 2: Documentation Cache
 **Goal**: Installer caches OpenCode documentation for /gsdo LLM context
@@ -134,7 +136,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Installer | 0/TBD | Not started | - |
+| 1. Core Installer | 3/3 | ✓ Complete | 2026-01-22 |
 | 2. Documentation Cache | 0/TBD | Not started | - |
 | 3. /gsdo Command | 0/TBD | Not started | - |
 | 4. Enhanced Transpilation | 0/TBD | Not started | - |
