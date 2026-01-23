@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-22)
 
 **Core value:** The /gsdo LLM enhancement makes transpiled commands actually usable
-**Current focus:** Phase 4 - Enhanced Transpilation (COMPLETE)
+**Current focus:** Phase 5 - Idempotency (COMPLETE)
 
 ## Current Position
 
-Phase: 4 of 7 (Enhanced Transpilation)
-Plan: 3 of 3 in current phase (PHASE COMPLETE)
-Status: Phase 4 complete - ready for Phase 5
-Last activity: 2026-01-23 - Completed Phase 4 (Enhanced Transpilation)
+Phase: 5 of 7 (Idempotency)
+Plan: 2 of 2 in current phase (PHASE COMPLETE)
+Status: Phase 5 complete - ready for Phase 6
+Last activity: 2026-01-23 - Completed Phase 5 (Idempotency)
 
-Progress: [████████░░] ~67%
+Progress: [████████░░] ~71%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 3.4 min
-- Total execution time: 0.62 hours
+- Total plans completed: 13
+- Average duration: 3.5 min
+- Total execution time: 0.75 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [████████░░] ~67%
 | 02-documentation-cache | 2/2 | 6min | 3min |
 | 03-gsdo-command | 3/3 | 13min | 4.3min |
 | 04-enhanced-transpilation | 3/3 | 8min | 2.7min |
+| 05-idempotency | 2/2 | 12min | 6min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (6min), 03-03 (4min), 04-01 (4min), 04-02 (2.6min), 04-03 (2min)
-- Trend: Strong velocity - Phase 4 averaged 2.7min per plan
+- Last 5 plans: 04-01 (4min), 04-02 (2.6min), 04-03 (2min), 05-01 (6min), 05-02 (6min)
+- Trend: Maintaining strong velocity
 
 *Updated after each plan completion*
 
@@ -92,6 +93,13 @@ Recent decisions affecting current work:
 - **[04-03]** Display per-command progress inline during transpilation, not just summary
 - **[04-03]** Show warnings inline as they occur, with summary count at end
 - **[04-03]** Use convertCommand individually instead of convertBatch for real-time output
+- **[05-01]** State manager scans workflows/ directory (not skills/) for Windows compatibility
+- **[05-01]** State persisted as formatted JSON for human inspection
+- **[05-01]** Skills array sorted by path for deterministic comparison
+- **[05-02]** Check freshness immediately after detection, before expensive operations
+- **[05-02]** Show docs cache status even during skip (independent freshness tracking)
+- **[05-02]** Force flag bypasses all freshness checks for complete refresh
+- **[05-02]** Exit code 0 for skip (success, not error)
 - **[04-03]** Add warnings for empty templates and undocumented variables
 
 ### Pending Todos
@@ -104,8 +112,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-23T03:30:37Z
-Stopped at: Completed 04-03-PLAN.md (Enhanced CLI Progress & Warnings)
+Last session: 2026-01-23T10:50:27Z
+Stopped at: Completed 05-02-PLAN.md (CLI Idempotency Integration)
 Resume file: None
 
 **Phase 1 Status:**
@@ -130,3 +138,8 @@ Resume file: None
 - ✓ Variable parsing (04-02)
 - ✓ Enhanced CLI progress & warnings (04-03)
 - Phase 4 COMPLETE - all tests passing
+
+**Phase 5 Status:**
+- ✓ State file infrastructure (05-01)
+- ✓ Freshness checking & CLI integration (05-02)
+- Phase 5 COMPLETE - all tests passing
