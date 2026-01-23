@@ -34,6 +34,8 @@ import { enhanceAllCommands } from './lib/enhancer/enhancer.js';
 import { readImportState, writeImportState, buildCurrentState } from './lib/idempotency/state-manager.js';
 import { checkFreshness } from './lib/idempotency/freshness-checker.js';
 import { getDocsOpenCodeCachePath } from './lib/cache/paths.js';
+import { writeInstallLog } from './lib/logger/install-logger.js';
+import { LogEntry, LogLevel, CommandResult } from './lib/logger/types.js';
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -168,6 +170,44 @@ async function main() {
 
   if (transpileResult.warnings.length > 0) {
     console.log(`  ⚠ ${transpileResult.warnings.length} warnings (see above for details)`);
+  }
+
+  // Write install log entry
+  try {
+    const commandResults: CommandResult[] = transpileResults.map((result, idx) => {
+      const cmdResult: CommandResult = {
+        name: result.command?.name || gsdCommands[idx].name,
+        status: result.success ? 'success' : 'failure'
+      };
+
+      if (result.warnings && result.warnings.length > 0) {
+        cmdResult.warnings = result.warnings;
+      }
+
+      if (result.error) {
+        cmdResult.error = result.error;
+      }
+
+      return cmdResult;
+    });
+
+    const logEntry: LogEntry = {
+      timestamp: new Date().toISOString(),
+      level: transpileResult.failed.length > 0 ? LogLevel.ERROR :
+             transpileResult.warnings.length > 0 ? LogLevel.WARN : LogLevel.INFO,
+      summary: `Transpiled ${transpileResult.successful.length} commands from GSD`,
+      commands: commandResults,
+      metadata: {
+        successful: transpileResult.successful.length,
+        warnings: transpileResult.warnings.length,
+        errors: transpileResult.failed.length
+      }
+    };
+
+    await writeInstallLog(logEntry);
+  } catch (logError) {
+    // Non-blocking: log write failures shouldn't crash installer
+    console.warn('Failed to write install log:', logError instanceof Error ? logError.message : String(logError));
   }
 
   console.log('→ Writing to OpenCode...');
