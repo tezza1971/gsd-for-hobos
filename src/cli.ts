@@ -22,6 +22,7 @@ import {
   readCommands,
   mergeCommands,
   writeCommands,
+  writeCommandFiles,
   createGsdoCommand,
 } from './lib/installer/commands-manager.js';
 import { ensureOpenCodeDocsCache } from './lib/cache/manager.js';
@@ -266,7 +267,9 @@ async function main() {
     allNewCommands
   );
   writeCommands(opencodeResult.path!, mergedCommands);
+  writeCommandFiles(opencodeResult.path!, mergedCommands);
   progress.log(`${opencodeResult.path}/commands.json updated`, 'success');
+  progress.log(`${opencodeResult.path}/command/*.md files created`, 'success');
   progress.endStep();
 
   // Auto-enhance commands after installation

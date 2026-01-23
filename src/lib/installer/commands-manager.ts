@@ -5,7 +5,7 @@
  * Handles merging new commands with existing ones while preserving user's config.
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import type { OpenCodeCommand } from '../transpiler/types.js';
 
@@ -82,6 +82,61 @@ export function mergeCommands(
   const remaining = Array.from(newCommandsMap.values());
 
   return [...updated, ...remaining];
+}
+
+/**
+ * Writes individual command .md files to the commands directory
+ *
+ * Each command needs a corresponding .md file with YAML frontmatter.
+ * The filename (without .md) becomes the command name in OpenCode.
+ *
+ * @param opencodePath - Path to OpenCode config directory
+ * @param commands - Array of commands to write
+ * @throws Error if write fails
+ */
+export function writeCommandFiles(
+  opencodePath: string,
+  commands: OpenCodeCommand[]
+): void {
+  const commandsDir = join(opencodePath, 'command');
+
+  // Ensure commands directory exists
+  try {
+    if (!existsSync(commandsDir)) {
+      mkdirSync(commandsDir, { recursive: true });
+    }
+  } catch (error) {
+    throw new Error(
+      `Failed to create command directory: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
+
+  for (const cmd of commands) {
+    const mdContent = `---
+type: prompt
+name: ${cmd.name}
+description: ${cmd.description || ''}
+allowed-tools:
+  - Read
+  - Write
+  - Bash
+---
+
+${cmd.promptTemplate}
+`;
+
+    // Sanitize filename by replacing invalid characters (colons) with hyphens
+    // The command name in frontmatter stays intact for OpenCode's command picker
+    const sanitizedName = cmd.name.replace(/:/g, '-');
+    const filePath = join(commandsDir, `${sanitizedName}.md`);
+    try {
+      writeFileSync(filePath, mdContent, 'utf-8');
+    } catch (error) {
+      throw new Error(
+        `Failed to write command file ${filePath}: ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
+  }
 }
 
 /**

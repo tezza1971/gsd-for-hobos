@@ -9,7 +9,7 @@ import { existsSync, mkdirSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { detectGsd, detectOpenCode } from '../detector.js';
-import { readCommands, writeCommands } from '../installer/commands-manager.js';
+import { readCommands, writeCommands, writeCommandFiles } from '../installer/commands-manager.js';
 import { getDocsOpenCodeCachePath } from '../cache/paths.js';
 import { resolveHome } from '../paths.js';
 import type { EnhancementContext } from './types.js';
@@ -136,4 +136,5 @@ export function writeEnhancedCommands(
   commands: OpenCodeCommand[]
 ): void {
   writeCommands(opencodeConfigPath, commands);
+  writeCommandFiles(opencodeConfigPath, commands);
 }
