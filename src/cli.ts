@@ -42,6 +42,7 @@ import { getDocsOpenCodeCachePath } from './lib/cache/paths.js';
 import { writeInstallLog } from './lib/logger/install-logger.js';
 import { rotateLogsIfNeeded } from './lib/logger/log-rotator.js';
 import { LogEntry, LogLevel, CommandResult } from './lib/logger/types.js';
+import { formatError, ErrorCategory } from './lib/ui/error-formatter.js';
 import { ProgressReporter } from './lib/ui/progress-reporter.js';
 import { renderSuccessScreen } from './lib/ui/success-screen.js';
 import { VerbosityLevel, type SuccessScreenData } from './lib/ui/types.js';
@@ -65,7 +66,7 @@ async function main() {
   const gsdResult = detectGsd();
 
   if (!gsdResult.found) {
-    console.error('✗', gsdResult.error);
+    console.error('ERROR:', gsdResult.error);
     process.exit(1);
   }
 
@@ -76,7 +77,7 @@ async function main() {
   const opencodeResult = detectOpenCode();
 
   if (!opencodeResult.found) {
-    console.error('✗', opencodeResult.error);
+    console.error('ERROR:', opencodeResult.error);
     process.exit(1);
   }
 
@@ -132,8 +133,11 @@ async function main() {
       progress.log('Documentation cached', 'success');
     }
   } else {
-    progress.log(`Cache unavailable: ${cacheResult.error}`, 'warning');
-    progress.log('Continuing without cached docs', 'info');
+    const formatted = formatError(ErrorCategory.CACHE_FAILURE, {
+      error: cacheResult.error
+    });
+    progress.log(`WARNING: ${formatted.message}`, 'warning');
+    progress.log(formatted.resolution, 'info');
   }
   progress.endStep();
 
@@ -241,7 +245,11 @@ async function main() {
     await writeInstallLog(logEntry);
   } catch (logError) {
     // Non-blocking: log write failures shouldn't crash installer
-    console.warn('Failed to write install log:', logError instanceof Error ? logError.message : String(logError));
+    const formatted = formatError(ErrorCategory.LOG_WRITE_FAILURE, {
+      error: logError instanceof Error ? logError.message : String(logError)
+    });
+    console.warn(`WARNING: ${formatted.message}`);
+    console.warn(formatted.resolution);
   }
 
   progress.startStep('Writing to OpenCode');
@@ -333,8 +341,11 @@ async function main() {
     progress.log(`${enhancedCount} commands enhanced, ${failedCount} failed`, 'success');
   } catch (error) {
     // Non-blocking: enhancement failure doesn't prevent installation success
-    progress.log(`Enhancement unavailable: ${error instanceof Error ? error.message : String(error)}`, 'warning');
-    progress.log('Commands installed but not enhanced', 'info');
+    const formatted = formatError(ErrorCategory.ENHANCEMENT_FAILURE, {
+      error: error instanceof Error ? error.message : String(error)
+    });
+    progress.log(`WARNING: ${formatted.message}`, 'warning');
+    progress.log(formatted.resolution, 'info');
   }
 
   progress.endStep();
@@ -365,6 +376,16 @@ async function main() {
   };
 
   console.log(''); // Blank line before success screen
+  
+  // Exit code strategy:
+  // 0: Full success (all commands transpiled)
+  // 1: Total failure (detection failed, critical error)
+  // 2: Partial success (some commands failed, some succeeded)
+  if (transpileResult.failed.length > 0) {
+    renderSuccessScreen(successData);
+    process.exit(2); // Partial success for scripting
+  }
+  
   renderSuccessScreen(successData);
 }
 
