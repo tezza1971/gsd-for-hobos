@@ -14,7 +14,7 @@ export interface OpenCodeDetectionResult extends DetectionResult {
 
 /**
  * Detects GSD installation by checking standard location.
- * Validates that the skills/ subdirectory exists (where /gsd:* commands live).
+ * Validates that the workflows/ subdirectory exists (where /gsd:* commands live).
  *
  * @returns Detection result with path or error
  */
@@ -28,12 +28,12 @@ export function detectGsd(): DetectionResult {
     };
   }
 
-  // Validate skills/ subdirectory exists
-  const skillsPath = join(gsdPath, 'skills');
+  // Validate workflows/ subdirectory exists
+  const skillsPath = join(gsdPath, 'workflows');
   if (!existsSync(skillsPath)) {
     return {
       found: false,
-      error: `GSD installation incomplete: skills/ directory not found at ${skillsPath}`
+      error: `GSD installation incomplete: workflows/ directory not found at ${skillsPath}`
     };
   }
 

@@ -6,11 +6,13 @@
  * Main entry point that orchestrates the full installer flow:
  * 1. Detect GSD installation
  * 2. Detect/create OpenCode config directory
- * 3. Cache OpenCode documentation
- * 4. Scan GSD commands from skills/
- * 5. Transpile commands to OpenCode format
- * 6. Merge with existing commands
- * 7. Write updated commands.json
+ * 3. Check for file changes (idempotency)
+ * 4. Cache OpenCode documentation
+ * 5. Scan GSD commands from skills/
+ * 6. Transpile commands to OpenCode format
+ * 7. Merge with existing commands
+ * 8. Write updated commands.json
+ * 9. Update import state
  */
 
 import { detectGsd, detectOpenCode } from './lib/detector.js';
@@ -29,8 +31,17 @@ import {
   writeEnhancedCommands,
 } from './lib/enhancer/engine.js';
 import { enhanceAllCommands } from './lib/enhancer/enhancer.js';
+import { readImportState, writeImportState, buildCurrentState } from './lib/idempotency/state-manager.js';
+import { checkFreshness } from './lib/idempotency/freshness-checker.js';
+import { getDocsOpenCodeCachePath } from './lib/cache/paths.js';
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 async function main() {
+  // Parse --force flag
+  const forceRefresh = process.argv.includes('--force');
+
   console.log('→ Detecting GSD installation...');
   const gsdResult = detectGsd();
 
@@ -54,6 +65,36 @@ async function main() {
     opencodeResult.created ? 'Created at' : 'Found at',
     opencodeResult.path
   );
+
+  // Check if re-transpilation needed
+  console.log('→ Checking for changes...');
+
+  const previousState = readImportState();
+  const currentState = buildCurrentState(gsdResult.path!);
+  const freshness = checkFreshness(previousState, currentState);
+
+  if (!forceRefresh && freshness.fresh) {
+    console.log('  ✓ GSD files unchanged since last import');
+    console.log('  ✓ Already up to date');
+    console.log('');
+    console.log('Tip: Run with --force to re-transpile anyway');
+
+    // Still check docs cache freshness independently
+    const cacheResult = await ensureOpenCodeDocsCache();
+    if (cacheResult.cached && !cacheResult.stale) {
+      console.log('  ✓ Documentation cache fresh');
+    } else if (cacheResult.stale) {
+      console.log('  ⚠ Documentation cache refreshed');
+    }
+
+    process.exit(0); // Success - nothing to do
+  }
+
+  if (forceRefresh) {
+    console.log('  → Forcing re-transpilation (--force flag)');
+  } else {
+    console.log(`  → Changes detected: ${freshness.reason}`);
+  }
 
   // Cache OpenCode documentation for future /gsdo use
   console.log('→ Caching OpenCode documentation...');
@@ -185,6 +226,20 @@ async function main() {
     console.log('  ⚠ Enhancement unavailable:', error instanceof Error ? error.message : String(error));
     console.log('  → Commands installed but not enhanced');
   }
+
+  // Update import state for next run
+  const finalState = buildCurrentState(gsdResult.path!);
+
+  // Update docs cache timestamp from cache manager
+  const cacheDir = getDocsOpenCodeCachePath();
+  const metadataPath = join(cacheDir, 'metadata.json');
+  if (existsSync(metadataPath)) {
+    const metadataContent = await readFile(metadataPath, 'utf-8');
+    const metadata = JSON.parse(metadataContent);
+    finalState.docsCachedAt = metadata.downloadedAt;
+  }
+
+  writeImportState(finalState);
 
   console.log('\n✓ Installation complete');
   console.log(

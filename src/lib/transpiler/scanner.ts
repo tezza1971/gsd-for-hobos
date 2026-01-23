@@ -1,7 +1,7 @@
 /**
  * GSD Command Scanner
  *
- * Scans the GSD skills directory and extracts command definitions from markdown files.
+ * Scans the GSD workflows directory and extracts command definitions from markdown files.
  */
 
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
@@ -9,34 +9,35 @@ import { join } from 'node:path';
 import type { GsdCommand } from './types.js';
 
 /**
- * Scans GSD skills directory for command files
+ * Scans GSD workflows directory for command files
  *
  * @param gsdPath - Base path to GSD installation (e.g., ~/.claude/get-shit-done)
- * @returns Array of GSD commands found in the skills directory
+ * @returns Array of GSD commands found in the workflows directory
  */
 export function scanGsdCommands(gsdPath: string): GsdCommand[] {
-  const skillsPath = join(gsdPath, 'skills');
+  const workflowsPath = join(gsdPath, 'workflows');
 
   // Handle missing directory gracefully
-  if (!existsSync(skillsPath)) {
+  if (!existsSync(workflowsPath)) {
     return [];
   }
 
   try {
-    const files = readdirSync(skillsPath);
+    const files = readdirSync(workflowsPath);
 
-    // Filter for .md files starting with 'gsd:'
+    // Filter for all .md files (Windows can't handle gsd: in filenames)
     const commandFiles = files.filter(
-      (file) => file.endsWith('.md') && file.startsWith('gsd:')
+      (file) => file.endsWith('.md')
     );
 
     // Process each command file
     const commands: GsdCommand[] = commandFiles.map((filename) => {
-      const filePath = join(skillsPath, filename);
+      const filePath = join(workflowsPath, filename);
       const rawContent = readFileSync(filePath, 'utf-8');
 
-      // Extract name from filename (remove .md extension)
-      const name = '/' + filename.replace(/\.md$/, '');
+      // Extract name from filename (remove .md extension) and prepend /gsd:
+      const baseName = filename.replace(/\.md$/, '');
+      const name = '/gsd:' + baseName;
 
       // Try to extract description from first H1 or H2
       const description = extractDescription(rawContent);
