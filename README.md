@@ -99,9 +99,9 @@ Some commands may have warnings (parameter mismatches, unsupported features). Ch
 
 | Code | Meaning |
 |------|---------|
-| 0 | Success — transpilation complete |
-| 1 | Warnings — partial success |
-| 2+ | Errors — something went wrong |
+| 0 | Success — transpilation complete, no errors |
+| 1 | Failure — GSD or OpenCode not found, critical errors |
+| 2 | Partial success — some commands failed, but installation completed |
 
 ## File Locations
 
@@ -116,11 +116,20 @@ All GSD Open state lives in `~/.gsdo/`:
     └── docs-opencode/     # OpenCode docs cache (24hr TTL)
 ```
 
-## Development Status
+## Release Status
 
-This project is under active development. Current phase: **Phase 5 (LLM Enhancement)**.
+**v0.0.1: ✅ SHIPPED (2026-01-23)**
 
-See `.planning/ROADMAP.md` for detailed status and phase breakdown.
+- 54/54 requirements satisfied (100% coverage)
+- 7 phases complete (18 plans, 50+ tasks)
+- 144/144 tests passing (100% success rate)
+- ~6-7s typical install time
+- Zero external dependencies
+- Cross-platform support (Windows, macOS, Linux)
+
+This is a production-ready initial release. See `.planning/MILESTONES.md` for detailed accomplishments.
+
+For next milestone planning, see the planning directory.
 
 ## Current Target
 
