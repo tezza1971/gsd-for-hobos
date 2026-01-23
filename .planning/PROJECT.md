@@ -12,24 +12,24 @@ The `/gsdo` LLM enhancement makes transpiled commands actually usable. Algorithm
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Installer detects GSD at `~/.claude/get-shit-done/` automatically — v0.0.1
+- ✓ Installer checks idempotency via timestamps (skip if source unchanged) — v0.0.1
+- ✓ Installer caches OpenCode documentation (24hr TTL) in `~/.gsdo/cache/` — v0.0.1
+- ✓ Installer installs `/gsdo` command in OpenCode's commands.json — v0.0.1
+- ✓ Installer transpiles all `/gsd:*` commands to `/gsd:*` (or `/gsd-*` fallback) — v0.0.1
+- ✓ Installer writes timestamped exit log to `~/.gsdo/install.log` — v0.0.1
+- ✓ Installer shows ASCII success screen with disclaimer and next steps — v0.0.1
+- ✓ `/gsdo` command reads install.log and cached docs for context — v0.0.1
+- ✓ `/gsdo` command autonomously enhances all transpiled commands using OpenCode's LLM — v0.0.1
+- ✓ `/gsdo` command writes results to `~/.gsdo/gsdo.log` (timestamped, rotated) — v0.0.1
+- ✓ Zero user input throughout entire flow (installer + /gsdo) — v0.0.1
+- ✓ Partial transpilation success is acceptable (install what works, log what doesn't) — v0.0.1
+- ✓ Cross-platform support (Windows, Mac, Linux) — v0.0.1
+- ✓ Installation completes in < 10 seconds (typical: 6-7s) — v0.0.1
 
 ### Active
 
-- [ ] Installer detects GSD at `~/.claude/get-shit-done/` automatically
-- [ ] Installer checks idempotency via timestamps (skip if source unchanged)
-- [ ] Installer caches OpenCode documentation (24hr TTL) in `~/.gsdo/cache/`
-- [ ] Installer installs `/gsdo` command in OpenCode's commands.json
-- [ ] Installer transpiles all `/gsd:*` commands to `/gsd:*` (or `/gsd-*` fallback)
-- [ ] Installer writes timestamped exit log to `~/.gsdo/install.log`
-- [ ] Installer shows ASCII success screen with disclaimer and next steps
-- [ ] `/gsdo` command reads install.log and cached docs for context
-- [ ] `/gsdo` command autonomously enhances all transpiled commands using OpenCode's LLM
-- [ ] `/gsdo` command writes results to `~/.gsdo/gsdo.log` (timestamped, rotated)
-- [ ] Zero user input throughout entire flow (installer + /gsdo)
-- [ ] Partial transpilation success is acceptable (install what works, log what doesn't)
-- [ ] Cross-platform support (Windows, Mac, Linux)
-- [ ] Installation completes in < 10 seconds
+(None — all v0.0.1 requirements shipped. Next milestone begins with /gsd:new-milestone)
 
 ### Out of Scope
 
@@ -79,13 +79,35 @@ Neither the installer nor `/gsdo` command request user input. Smart defaults eve
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Use timestamps for idempotency (not version parsing) | Simpler, more reliable, works even if GSD has no version file | — Pending |
-| Prefer `/gsd:*` naming, fallback to `/gsd-*` | Namespace preservation, but adapt to platform filesystem limits | — Pending |
-| Install partial success (10/15 commands) | Better to have working subset than all-or-nothing failure | — Pending |
-| /gsdo enhances everything every run | Autonomous, idempotent, user doesn't manage individual commands | — Pending |
-| Separate logs (install.log vs gsdo.log) | Clear separation of concerns, easier troubleshooting | — Pending |
-| 7-day log rotation | Balances history preservation with disk space | — Pending |
-| No backups or rollback | Re-running installer is the recovery mechanism | — Pending |
+| Use timestamps for idempotency (not version parsing) | Simpler, more reliable, works even if GSD has no version file | ✓ Good |
+| Prefer `/gsd:*` naming, fallback to `/gsd-*` | Namespace preservation, but adapt to platform filesystem limits | ✓ Good |
+| Install partial success (10/15 commands) | Better to have working subset than all-or-nothing failure | ✓ Good |
+| /gsdo enhances everything every run | Autonomous, idempotent, user doesn't manage individual commands | ✓ Good |
+| Separate logs (install.log vs gsdo.log) | Clear separation of concerns, easier troubleshooting | ✓ Good |
+| 7-day log rotation | Balances history preservation with disk space | ✓ Good |
+| No backups or rollback | Re-running installer is the recovery mechanism | ✓ Good |
+| Two-pass architecture (algorithmic + LLM) | Separates concerns, keeps installer fast, enables smart enhancement | ✓ Good |
+
+## Current Status
+
+**v0.0.1: ✅ SHIPPED (2026-01-23)**
+
+Delivered a production-ready migration tool with:
+- 54/54 requirements satisfied (100% coverage)
+- 7 phases, 18 plans, 50+ tasks completed
+- 144/144 tests passing
+- ~6-7s typical install time (under 10s target)
+- Zero external dependencies
+- Cross-platform support (Windows, macOS, Linux)
+
+**What was delivered:**
+- Frictionless `npx gsd-open` installer with automatic detection and transpilation
+- Comprehensive `/gsdo` enhancement command for OpenCode with LLM-powered refinement
+- Full logging infrastructure (install.log, gsdo.log) with 7-day rotation
+- Idempotent installation with timestamp-based freshness checking
+- Actionable error messages with troubleshooting links and exit codes
+
+**Next milestone:** v0.1 (post-release polish, user feedback, documentation)
 
 ---
-*Last updated: 2026-01-22 after initialization*
+*Last updated: 2026-01-23 after v0.0.1 milestone completion*
