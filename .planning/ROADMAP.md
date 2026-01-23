@@ -35,8 +35,6 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans complete
 
 Plans:
-- [ ] 05-01-PLAN.md — State file infrastructure for tracking import history
-- [ ] 05-02-PLAN.md — Freshness checking and CLI integration with skip logic
 - [x] 01-01: Detection Infrastructure
 - [x] 01-02: Transpilation Engine
 - [x] 01-03: OpenCode Integration
@@ -53,8 +51,6 @@ Plans:
 **Plans**: 2 plans complete
 
 Plans:
-- [ ] 05-01-PLAN.md — State file infrastructure for tracking import history
-- [ ] 05-02-PLAN.md — Freshness checking and CLI integration with skip logic
 - [x] 02-01: Cache Infrastructure & Download
 - [x] 02-02: Cache Management & Integration
 
@@ -71,8 +67,6 @@ Plans:
 **Plans**: 3 plans complete
 
 Plans:
-- [ ] 05-01-PLAN.md — State file infrastructure for tracking import history
-- [ ] 05-02-PLAN.md — Freshness checking and CLI integration with skip logic
 - [x] 03-01: Enhancement engine core with context loading and backup
 - [x] 03-02: LLM integration and per-command enhancement logic
 - [x] 03-03: /gsdo command installation and CLI integration
@@ -89,8 +83,6 @@ Plans:
 **Plans**: 3 plans complete
 
 Plans:
-- [ ] 05-01-PLAN.md — State file infrastructure for tracking import history
-- [ ] 05-02-PLAN.md — Freshness checking and CLI integration with skip logic
 - [x] 04-01: Template Extraction - Extract clean prompt templates from GSD markdown
 - [x] 04-02: Variable Parser - Parse {{var}} patterns and add to schema
 - [x] 04-03: Verbose Progress & Error Handling - Enhanced CLI output with partial success display
@@ -122,11 +114,12 @@ Plans:
   4. /gsdo fixes naming issues, improves prompt templates, adds missing parameters, and fixes broken references
   5. /gsdo updates `commands.json` in place with enhanced commands
   6. Both logs rotate automatically (keep only past 7 days)
-**Plans**: 2 plans
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — State file infrastructure for tracking import history
-- [ ] 05-02-PLAN.md — Freshness checking and CLI integration with skip logic
+- [ ] 06-01-PLAN.md — Installer logging infrastructure with markdown/JSON hybrid format
+- [ ] 06-02-PLAN.md — Enhancement logging and validation improvements
+- [ ] 06-03-PLAN.md — Log rotation with daily rotation and 7-day retention
 
 ### Phase 7: Polish
 **Goal**: Installer provides excellent UX with clear messaging and fast performance
@@ -142,8 +135,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — State file infrastructure for tracking import history
-- [ ] 05-02-PLAN.md — Freshness checking and CLI integration with skip logic
+- [ ] 07-01-PLAN.md — TBD
+- [ ] 07-02-PLAN.md — TBD
 
 ## Progress
 
@@ -157,5 +150,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. /gsdo Command | 3/3 | ✓ Complete | 2026-01-22 |
 | 4. Enhanced Transpilation | 3/3 | ✓ Complete | 2026-01-23 |
 | 5. Idempotency | 2/2 | ✓ Complete | 2026-01-23 |
-| 6. Exit Logging | 0/TBD | Not started | - |
-| 7. Polish | 0/TBD | Not started | - |
+| 6. Exit Logging | 0/3 | Not started | - |
+| 7. Polish | 0/2 | Not started | - |
