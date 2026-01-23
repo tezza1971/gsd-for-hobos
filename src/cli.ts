@@ -18,7 +18,7 @@
 import { detectGsd, detectOpenCode } from './lib/detector.js';
 import { scanGsdCommands } from './lib/transpiler/scanner.js';
 import { convertCommand } from './lib/transpiler/converter.js';
-import { writeCommandFiles } from './lib/installer/commands-manager.js';
+import { writeCommandFiles, createGsdoCommand } from './lib/installer/commands-manager.js';
 import { ensureOpenCodeDocsCache, writeDocsUrls } from './lib/cache/manager.js';
 import { readImportState, writeImportState, buildCurrentState } from './lib/idempotency/state-manager.js';
 import { checkFreshness } from './lib/idempotency/freshness-checker.js';
@@ -250,7 +250,9 @@ async function main() {
   }
 
   progress.startStep('Writing to OpenCode');
-  writeCommandFiles(opencodeResult.path!, transpileResult.successful);
+  const gsdoCommand = createGsdoCommand();
+  const allCommands = [...transpileResult.successful, gsdoCommand];
+  writeCommandFiles(opencodeResult.path!, allCommands);
   progress.log(`${opencodeResult.path}/command/*.md files created`, 'success');
   progress.endStep();
 
@@ -271,7 +273,7 @@ async function main() {
 
   // Render success screen
   const successData: SuccessScreenData = {
-    commandsInstalled: transpileResult.successful.length,
+    commandsInstalled: transpileResult.successful.length + 1, // +1 for /gsdo
     gsdPath: gsdResult.path!,
     opencodePath: opencodeResult.path!,
     cacheStatus: cacheResult.cached ? (cacheResult.stale ? 'stale' : 'fresh') : 'unavailable',
