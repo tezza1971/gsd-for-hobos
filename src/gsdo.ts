@@ -20,6 +20,11 @@ import {
   writeEnhancedCommands,
 } from './lib/enhancer/engine.js';
 import { enhanceAllCommands } from './lib/enhancer/enhancer.js';
+import {
+  writeEnhancementLog,
+  type EnhancementLogEntry,
+  type CommandEnhancementLogEntry,
+} from './lib/logger/gsdo-logger.js';
 
 async function main() {
   console.log('→ Loading context...');
@@ -92,6 +97,33 @@ async function main() {
     console.error('✗ Failed to write commands:', error instanceof Error ? error.message : String(error));
     process.exit(1);
   }
+
+  // Write enhancement log
+  const logEntry: EnhancementLogEntry = {
+    timestamp: new Date().toISOString(),
+    summary: `Enhanced ${enhancedCount} of ${results.length} commands`,
+    results: results.map(
+      (r): CommandEnhancementLogEntry => ({
+        commandName: r.commandName,
+        enhanced: r.enhanced,
+        changes: r.changes,
+        reasoning: r.reasoning,
+        before: r.before,
+        after: r.after,
+        error: r.error,
+      })
+    ),
+    metadata: {
+      enhanced: enhancedCount,
+      unchanged: unchangedCount,
+      failed: failedCount,
+    },
+  };
+
+  // Non-blocking log write
+  writeEnhancementLog(logEntry).catch((err) =>
+    console.warn('Failed to write enhancement log:', err)
+  );
 
   // Summary
   console.log(`\n✓ Enhancement complete`);

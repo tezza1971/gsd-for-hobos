@@ -31,6 +31,11 @@ import {
   writeEnhancedCommands,
 } from './lib/enhancer/engine.js';
 import { enhanceAllCommands } from './lib/enhancer/enhancer.js';
+import {
+  writeEnhancementLog,
+  type EnhancementLogEntry,
+  type CommandEnhancementLogEntry,
+} from './lib/logger/gsdo-logger.js';
 import { readImportState, writeImportState, buildCurrentState } from './lib/idempotency/state-manager.js';
 import { checkFreshness } from './lib/idempotency/freshness-checker.js';
 import { getDocsOpenCodeCachePath } from './lib/cache/paths.js';
@@ -246,6 +251,7 @@ async function main() {
     // Display per-command results
     let enhancedCount = 0;
     let failedCount = 0;
+    let unchangedCount = 0;
 
     for (const result of enhancementResults) {
       if (result.error) {
@@ -254,11 +260,40 @@ async function main() {
       } else if (result.enhanced && result.changes.length > 0) {
         console.log(`  ✓ ${result.commandName}: ${result.changes.join(', ')}`);
         enhancedCount++;
+      } else {
+        unchangedCount++;
       }
     }
 
     // Write enhanced commands back
     writeEnhancedCommands(opencodeResult.path!, enhancementContext.commands);
+
+    // Write enhancement log
+    const enhancementLogEntry: EnhancementLogEntry = {
+      timestamp: new Date().toISOString(),
+      summary: `Enhanced ${enhancedCount} of ${enhancementResults.length} commands`,
+      results: enhancementResults.map(
+        (r): CommandEnhancementLogEntry => ({
+          commandName: r.commandName,
+          enhanced: r.enhanced,
+          changes: r.changes,
+          reasoning: r.reasoning,
+          before: r.before,
+          after: r.after,
+          error: r.error,
+        })
+      ),
+      metadata: {
+        enhanced: enhancedCount,
+        unchanged: unchangedCount,
+        failed: failedCount,
+      },
+    };
+
+    // Non-blocking log write
+    writeEnhancementLog(enhancementLogEntry).catch((err) =>
+      console.warn('Failed to write enhancement log:', err)
+    );
 
     console.log(`  ✓ ${enhancedCount} commands enhanced, ${failedCount} failed`);
   } catch (error) {
