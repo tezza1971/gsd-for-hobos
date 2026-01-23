@@ -16,6 +16,13 @@ import type { EnhancementContext, EnhancementResult } from './types.js';
  * Builds focused enhancement prompt for a single command.
  * Includes all relevant context: command JSON, GSD source, install.log excerpts, docs.
  *
+ * Enhancement coverage:
+ * - ENHANCE-05: Naming issues (instruction #4)
+ * - ENHANCE-06: Prompt templates (instruction #5)
+ * - ENHANCE-07: Missing parameters (instruction #3)
+ * - ENHANCE-08: Broken references (instruction #1)
+ * - ENHANCE-09: Update in place (handled by caller via writeEnhancedCommands)
+ *
  * @param command - OpenCode command to enhance
  * @param gsdSource - Original GSD markdown content
  * @param context - Enhancement context (install.log, docs, etc.)
@@ -51,11 +58,11 @@ ${docsExcerpts ? `OPENCODE DOCUMENTATION:\n${docsExcerpts}\n\n` : ''}
 ENHANCEMENT INSTRUCTIONS:
 
 Apply CONSERVATIVE fixes only:
-1. Fix broken references to GSD-specific files (STATE.md, ROADMAP.md, PROJECT.md) - replace with OpenCode equivalents or remove if not applicable
+1. Fix broken references to GSD-specific files (STATE.md, ROADMAP.md, PROJECT.md) - replace with OpenCode equivalents or remove if not applicable [ENHANCE-08]
 2. Improve command description - make it more specific and action-oriented
-3. Add missing parameters if obvious from GSD source
-4. Fix naming issues - ensure consistent capitalization and clarity
-5. Improve prompt template clarity - but DO NOT change core functionality
+3. Add missing parameters if obvious from GSD source [ENHANCE-07]
+4. Fix naming issues - ensure consistent capitalization and clarity [ENHANCE-05]
+5. Improve prompt template clarity - but DO NOT change core functionality [ENHANCE-06]
 
 DO NOT:
 - Remove, merge, or restructure commands
@@ -63,11 +70,14 @@ DO NOT:
 - Add features not in original GSD source
 - Make assumptions about user's workflow
 
-Return ONLY the enhanced JSON command object in this exact format (no explanation, no markdown fences):
+Return ONLY valid JSON in this exact format (no markdown fences, no extra text):
 {
-  "name": "...",
-  "description": "...",
-  "promptTemplate": "..."
+  "enhanced": {
+    "name": "...",
+    "description": "...",
+    "promptTemplate": "..."
+  },
+  "reasoning": "Brief explanation of why changes were made (or why no changes were needed)"
 }`;
 }
 
@@ -117,23 +127,46 @@ function extractRelevantDocsExcerpts(opencodeDocsCache: string): string {
 }
 
 /**
- * Parses LLM response to extract enhanced command JSON.
+ * Enhancement response from LLM (new format with reasoning)
+ */
+interface EnhancementLLMResponse {
+  enhanced: OpenCodeCommand;
+  reasoning: string;
+}
+
+/**
+ * Parses LLM response to extract enhanced command JSON and reasoning.
+ * Handles both new format (with reasoning) and legacy format (command only).
  * Handles markdown code fences and plain JSON responses.
  *
  * @param response - Raw LLM response text
- * @returns Parsed OpenCodeCommand or null if parse failed
+ * @returns Parsed response with command and reasoning, or null if parse failed
  */
-function parseLLMResponse(response: string): OpenCodeCommand | null {
+function parseLLMResponse(response: string): EnhancementLLMResponse | null {
   try {
     // Try to extract JSON from markdown code fences
     const codeFenceMatch = response.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (codeFenceMatch) {
-      return JSON.parse(codeFenceMatch[1].trim());
+    const jsonText = codeFenceMatch ? codeFenceMatch[1].trim() : response.trim();
+
+    const parsed = JSON.parse(jsonText);
+
+    // New format: { enhanced: {...}, reasoning: "..." }
+    if (parsed.enhanced && typeof parsed.reasoning === 'string') {
+      return {
+        enhanced: parsed.enhanced,
+        reasoning: parsed.reasoning
+      };
     }
 
-    // Try parsing as plain JSON
-    const trimmed = response.trim();
-    return JSON.parse(trimmed);
+    // Legacy format: { name: "...", description: "...", promptTemplate: "..." }
+    if (parsed.name && parsed.description && parsed.promptTemplate) {
+      return {
+        enhanced: parsed,
+        reasoning: '(No reasoning provided)'
+      };
+    }
+
+    return null;
   } catch (error) {
     return null;
   }
@@ -211,21 +244,29 @@ export async function enhanceCommand(
           commandName: command.name,
           enhanced: false,
           changes: [],
+          reasoning: '',
+          before: command,
+          after: null,
           error: `LLM call failed: ${retryError instanceof Error ? retryError.message : String(retryError)}`
         };
       }
     }
 
     // Parse LLM response
-    const enhancedCommand = parseLLMResponse(llmResponse);
-    if (!enhancedCommand) {
+    const llmResult = parseLLMResponse(llmResponse);
+    if (!llmResult) {
       return {
         commandName: command.name,
         enhanced: false,
         changes: [],
+        reasoning: '',
+        before: command,
+        after: null,
         error: 'Failed to parse LLM response as valid JSON'
       };
     }
+
+    const { enhanced: enhancedCommand, reasoning } = llmResult;
 
     // Compare original vs enhanced to identify changes
     const changes = identifyChanges(command, enhancedCommand);
@@ -233,7 +274,10 @@ export async function enhanceCommand(
     return {
       commandName: command.name,
       enhanced: changes.length > 0,
-      changes
+      changes,
+      reasoning,
+      before: command,
+      after: changes.length > 0 ? enhancedCommand : null
     };
   } catch (error) {
     // Unexpected error - return error result
@@ -241,6 +285,9 @@ export async function enhanceCommand(
       commandName: command.name,
       enhanced: false,
       changes: [],
+      reasoning: '',
+      before: command,
+      after: null,
       error: error instanceof Error ? error.message : String(error)
     };
   }
@@ -249,6 +296,7 @@ export async function enhanceCommand(
 /**
  * Enhances all GSD commands in the context.
  * Filters to only /gsd-* commands, processes sequentially, collects all results.
+ * Updates context.commands in place with enhanced versions.
  *
  * @param context - Enhancement context with commands to enhance
  * @param opencodeConfigPath - Path to OpenCode config directory
@@ -267,6 +315,14 @@ export async function enhanceAllCommands(
   for (const command of gsdCommands) {
     const result = await enhanceCommand(command, context, opencodeConfigPath);
     results.push(result);
+
+    // Update context.commands with enhanced version (if successful)
+    if (result.enhanced && result.after) {
+      const commandIndex = context.commands.findIndex(cmd => cmd.name === command.name);
+      if (commandIndex !== -1) {
+        context.commands[commandIndex] = result.after;
+      }
+    }
 
     // Small delay between calls to avoid rate limiting
     if (results.length < gsdCommands.length) {

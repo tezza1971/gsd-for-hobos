@@ -45,6 +45,15 @@ export interface EnhancementResult {
   /** List of improvements made (e.g., "Fixed description", "Improved prompt template") */
   changes: string[];
 
+  /** LLM's explanation of why changes were made (or why no changes needed) */
+  reasoning: string;
+
+  /** Original command before enhancement */
+  before: OpenCodeCommand;
+
+  /** Enhanced command after changes (null if unchanged or failed) */
+  after: OpenCodeCommand | null;
+
   /** Error message if enhancement failed for this command */
   error?: string;
 }
