@@ -51,6 +51,8 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 async function main() {
+  const startTime = Date.now();
+
   // Parse CLI flags
   const forceRefresh = process.argv.includes('--force');
   const quiet = process.argv.includes('--quiet');
@@ -376,6 +378,31 @@ async function main() {
   };
 
   console.log(''); // Blank line before success screen
+
+  /**
+   * Performance requirement (PERF-01): Installation must complete in <10 seconds
+   * for typical GSD setup (20-30 commands).
+   *
+   * Typical breakdown:
+   * - Detection: <0.1s
+   * - Cache check: <0.5s (if fresh) or <3s (if downloading)
+   * - Scanning: <0.5s
+   * - Transpilation: <2s (30 commands @ ~0.06s each)
+   * - Enhancement: <4s (30 commands @ ~0.13s each)
+   * - Writing: <0.1s
+   *
+   * Total: ~6-7s typical, <10s target includes buffer for slower systems
+   */
+  const totalTime = (Date.now() - startTime) / 1000;
+
+  if (verbosity >= VerbosityLevel.VERBOSE) {
+    progress.log(`Total installation time: ${totalTime.toFixed(1)}s`, 'info');
+  }
+
+  // Performance validation (PERF-01 requirement)
+  if (totalTime > 10) {
+    progress.log(`WARNING: Installation took ${totalTime.toFixed(1)}s (target: <10s)`, 'warning');
+  }
   
   // Exit code strategy:
   // 0: Full success (all commands transpiled)
