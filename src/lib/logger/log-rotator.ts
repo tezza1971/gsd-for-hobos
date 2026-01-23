@@ -1,14 +1,14 @@
 /**
  * Log Rotator - Daily rotation with compression and 7-day retention
  *
- * Handles rotation for install.log and gsdo.log files in ~/.gsdo/.
+ * Handles rotation for install.md and gsdo.md files in ~/.gsdo/.
  * Rotation strategy:
  * - Daily rotation on first run of new day (checked via mtime)
- * - Current log: [name].log (uncompressed)
- * - Yesterday: [name].1.log.gz
- * - 2 days ago: [name].2.log.gz
+ * - Current log: [name].md (uncompressed)
+ * - Yesterday: [name].1.md.gz
+ * - 2 days ago: [name].2.md.gz
  * - ...
- * - 7 days ago: [name].7.log.gz
+ * - 7 days ago: [name].7.md.gz
  * - Older logs deleted automatically
  */
 
@@ -35,11 +35,12 @@ function getLogPath(logFilename: string): string {
 
 /**
  * Returns absolute path to rotated log file
- * Example: install.1.log.gz, gsdo.3.log.gz
+ * Example: install.1.md.gz, gsdo.3.md.gz
  */
 function getRotatedLogPath(logFilename: string, index: number): string {
-  const baseName = logFilename.replace(/\.log$/, '');
-  return resolveHome(`~/.gsdo/${baseName}.${index}.log.gz`);
+  const baseName = logFilename.replace(/\.(log|md)$/, '');
+  const extension = logFilename.endsWith('.md') ? 'md' : 'log';
+  return resolveHome(`~/.gsdo/${baseName}.${index}.${extension}.gz`);
 }
 
 /**
@@ -163,16 +164,16 @@ async function shiftRotatedLogs(logFilename: string): Promise<void> {
  * Performs:
  * 1. Check if rotation needed (same-day check)
  * 2. Shift existing rotated logs (N -> N+1)
- * 3. Compress current log to .1.log.gz
+ * 3. Compress current log to .1.md.gz or .1.log.gz
  * 4. Delete logs older than MAX_ROTATED_LOGS days
  *
  * Rotation is transparent - failures log warnings but don't throw.
  * This ensures log rotation issues don't crash installer or /gsdo.
  *
- * @param logFilename - Name of log file ('install.log' or 'gsdo.log')
+ * @param logFilename - Name of log file ('install.md', 'gsdo.md', 'install.log', or 'gsdo.log')
  */
 export async function rotateLogsIfNeeded(
-  logFilename: 'install.log' | 'gsdo.log'
+  logFilename: 'install.md' | 'gsdo.md' | 'install.log' | 'gsdo.log'
 ): Promise<void> {
   try {
     const logPath = getLogPath(logFilename);

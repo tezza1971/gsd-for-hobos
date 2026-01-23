@@ -82,7 +82,7 @@ export function renderSuccessScreen(data: SuccessScreenData): void {
   // Log reference for troubleshooting (if partial success)
   if (data.partialSuccess) {
     lines.push('');
-    lines.push(dim('See ~/.gsdo/install.log for details'));
+    lines.push(dim('See ~/.gsdo/install.md for details'));
   }
 
   // Print all lines

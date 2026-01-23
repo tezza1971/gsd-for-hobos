@@ -1,5 +1,5 @@
 /**
- * Install logger - persists transpilation results to ~/.gsdo/install.log
+ * Install logger - persists transpilation results to ~/.gsdo/install.md
  * in markdown/JSON hybrid format for human readability and machine parseability.
  */
 
@@ -13,7 +13,7 @@ import { LogEntry, LogLevel } from './types.js';
  * Returns absolute path to install log file
  */
 function getInstallLogPath(): string {
-  return resolveHome('~/.gsdo/install.log');
+  return resolveHome('~/.gsdo/install.md');
 }
 
 /**

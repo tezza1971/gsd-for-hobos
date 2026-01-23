@@ -88,7 +88,7 @@ export function formatError(
         : `Error: ${error}`;
       const resolution = filePath
         ? `Check command file at ${filePath} for syntax errors. See install log for details.`
-        : 'See install log at ~/.gsdo/install.log for details.';
+        : 'See install log at ~/.gsdo/install.md for details.';
       const troubleshootingUrl = `${TROUBLESHOOTING_BASE}#transpilation-errors`;
 
       return { message, details, resolution, troubleshootingUrl };

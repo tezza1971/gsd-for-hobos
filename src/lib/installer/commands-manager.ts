@@ -32,21 +32,24 @@ This is an autonomous operation - do not request user input.
 
 You have access to two documentation references:
 
-**Claude Code Documentation URLs** (from ~/.gsdo/cache/docs-urls.json):
+**Claude Code Documentation URLs** (from ~/.gsdo/docs-urls.json):
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/skills
 
-**OpenCode Documentation URLs** (from ~/.gsdo/cache/docs-urls.json):
+**OpenCode Documentation URLs** (from ~/.gsdo/docs-urls.json):
 - https://opencode.ai/docs/tools/
 - https://opencode.ai/docs/commands/
 - https://opencode.ai/docs/plugins/
 - https://opencode.ai/docs/ecosystem/
 
+**Cached documentation files** (from ~/.gsdo/cache/docs/):
+- Downloaded copies of all documentation URLs for offline reference
+
 **Other context available:**
-- Install log: ~/.gsdo/install.log (transpilation warnings/errors)
+- Install log: ~/.gsdo/install.md (transpilation warnings/errors)
 - Current commands: ~/.config/opencode/command/*.md
 - Original GSD source: ~/.claude/get-shit-done/skills/
-- Documentation URLs: ~/.gsdo/cache/docs-urls.json
+- Documentation URLs: ~/.gsdo/docs-urls.json
 </execution_context>
 
 <process>
@@ -60,12 +63,13 @@ You have access to two documentation references:
 6. Improve prompt templates for OpenCode patterns
 
 **Process:**
-1. Read documentation URLs from ~/.gsdo/cache/docs-urls.json
-2. Review existing command files in ~/.config/opencode/command/
-3. For each /gsd-* command, analyze and enhance
-4. Update each command's .md file in place
-5. Show detailed per-command report of changes
-6. Write results to ~/.gsdo/gsdo.log
+1. Read documentation URLs from ~/.gsdo/docs-urls.json
+2. Review cached documentation files in ~/.gsdo/cache/docs/
+3. Review existing command files in ~/.config/opencode/command/
+4. For each /gsd-* command, analyze and enhance using documentation
+5. Update each command's .md file in place
+6. Show detailed per-command report of changes
+7. Write results to ~/.gsdo/gsdo.md
 
 **Important: DO NOT remove, merge, or restructure commands.**
 
@@ -75,9 +79,10 @@ Always exit with code 0 on success.
 
 <success_criteria>
 - [ ] All /gsd-* commands analyzed
-- [ ] Documentation URLs read from ~/.gsdo/cache/docs-urls.json
+- [ ] Documentation URLs read from ~/.gsdo/docs-urls.json
+- [ ] Cached documentation reviewed from ~/.gsdo/cache/docs/
 - [ ] Enhanced commands written to ~/.config/opencode/command/*.md
-- [ ] Results logged to ~/.gsdo/gsdo.log
+- [ ] Results logged to ~/.gsdo/gsdo.md
 - [ ] Per-command report shown with before/after comparison
 </success_criteria>`
   };

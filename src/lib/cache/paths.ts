@@ -36,10 +36,20 @@ export function getDocsOpenCodeCachePath(): string {
 
 /**
  * Returns absolute path to documentation URLs file.
- * Location: ~/.gsdo/cache/docs-urls.json
+ * Location: ~/.gsdo/docs-urls.json
  * Contains URLs for Claude Code and OpenCode documentation that /gsdo uses for reference.
  * @returns Absolute path to docs-urls.json file
  */
 export function getDocsUrlsPath(): string {
-  return join(getGsdoCachePath(), 'docs-urls.json');
+  return join(resolveHome('~/.gsdo'), 'docs-urls.json');
+}
+
+/**
+ * Returns absolute path to downloaded documentation cache.
+ * Location: ~/.gsdo/cache/docs/
+ * Contains cached copies of Claude Code and OpenCode documentation.
+ * @returns Absolute path to docs cache directory
+ */
+export function getDocsCachePath(): string {
+  return join(getGsdoCachePath(), 'docs');
 }

@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
-import { getDocsOpenCodeCachePath, getGsdoCachePath, getDocsUrlsPath } from './paths.js';
+import { getDocsOpenCodeCachePath, getGsdoCachePath, getDocsUrlsPath, getDocsCachePath } from './paths.js';
 import { downloadOpenCodeDocs } from './downloader.js';
 import type { CacheMetadata } from './types.js';
 
@@ -129,18 +129,22 @@ async function attemptDownload(cacheExists: boolean): Promise<CacheResult> {
 }
 
 /**
- * Writes documentation URLs file for /gsdo to reference.
- * Contains URLs for Claude Code and OpenCode documentation needed for intelligent command mapping.
+ * Writes documentation URLs file and downloads documentation for /gsdo to reference.
+ * Downloads Claude Code and OpenCode documentation to cache for offline availability.
  *
- * @throws Error if write fails
+ * @throws Error if write fails (downloads are non-blocking)
  */
 export async function writeDocsUrls(): Promise<void> {
-  const cacheDir = getGsdoCachePath();
+  const gsdoDir = getGsdoCachePath().replace('/cache', ''); // Get ~/.gsdo directory
   const docsUrlsPath = getDocsUrlsPath();
+  const docsCachePath = getDocsCachePath();
 
-  // Ensure cache directory exists
-  if (!existsSync(cacheDir)) {
-    mkdirSync(cacheDir, { recursive: true });
+  // Ensure directories exist
+  if (!existsSync(gsdoDir)) {
+    mkdirSync(gsdoDir, { recursive: true });
+  }
+  if (!existsSync(docsCachePath)) {
+    mkdirSync(docsCachePath, { recursive: true });
   }
 
   const docsUrls = {
@@ -162,5 +166,44 @@ export async function writeDocsUrls(): Promise<void> {
     throw new Error(
       `Failed to write docs URLs file: ${error instanceof Error ? error.message : String(error)}`
     );
+  }
+
+  // Download documentation (non-blocking - don't fail if download fails)
+  downloadDocumentation(docsUrls, docsCachePath).catch(() => {
+    // Silently fail - documentation URLs file is sufficient fallback
+  });
+}
+
+/**
+ * Downloads documentation from URLs and caches them locally.
+ * Non-blocking operation - failures don't affect installation.
+ *
+ * @param docsUrls - Object containing arrays of URLs to download
+ * @param cachePath - Path to cache downloads
+ */
+async function downloadDocumentation(
+  docsUrls: { claudeCode: string[]; opencode: string[] },
+  cachePath: string
+): Promise<void> {
+  const allUrls = [...docsUrls.claudeCode, ...docsUrls.opencode];
+
+  for (const url of allUrls) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        continue; // Skip failed downloads
+      }
+
+      const content = await response.text();
+
+      // Create safe filename from URL
+      const urlObj = new URL(url);
+      const filename = `${urlObj.hostname}_${urlObj.pathname.replace(/\//g, '_')}.html`;
+      const filePath = join(cachePath, filename);
+
+      await writeFile(filePath, content, 'utf-8');
+    } catch {
+      // Silently skip failed downloads
+    }
   }
 }

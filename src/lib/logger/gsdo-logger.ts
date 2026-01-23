@@ -3,7 +3,7 @@
  *
  * Writes detailed enhancement logs with before/after command JSON and LLM reasoning.
  * Format: Human-readable markdown with embedded JSON blocks for machine parsing.
- * Location: ~/.gsdo/gsdo.log
+ * Location: ~/.gsdo/gsdo.md
  */
 
 import { existsSync, mkdirSync } from 'node:fs';
@@ -150,7 +150,7 @@ function formatLogEntry(entry: EnhancementLogEntry): string {
 }
 
 /**
- * Writes enhancement log entry to ~/.gsdo/gsdo.log.
+ * Writes enhancement log entry to ~/.gsdo/gsdo.md.
  * Creates directory and file if needed. Appends to existing log.
  * Non-blocking: logs warnings but doesn't throw on write failures.
  *
@@ -160,7 +160,7 @@ export async function writeEnhancementLog(
   entry: EnhancementLogEntry
 ): Promise<void> {
   try {
-    const logPath = resolveHome('~/.gsdo/gsdo.log');
+    const logPath = resolveHome('~/.gsdo/gsdo.md');
     const logDir = dirname(logPath);
 
     // Create directory if needed

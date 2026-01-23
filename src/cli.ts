@@ -203,7 +203,7 @@ async function main() {
   progress.endStep();
 
   // Rotate install log if needed (daily rotation)
-  await rotateLogsIfNeeded('install.log').catch(err =>
+  await rotateLogsIfNeeded('install.md').catch(err =>
     console.warn('Log rotation failed:', err)
   );
 
