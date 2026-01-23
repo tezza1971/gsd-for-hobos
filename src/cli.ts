@@ -40,6 +40,7 @@ import { readImportState, writeImportState, buildCurrentState } from './lib/idem
 import { checkFreshness } from './lib/idempotency/freshness-checker.js';
 import { getDocsOpenCodeCachePath } from './lib/cache/paths.js';
 import { writeInstallLog } from './lib/logger/install-logger.js';
+import { rotateLogsIfNeeded } from './lib/logger/log-rotator.js';
 import { LogEntry, LogLevel, CommandResult } from './lib/logger/types.js';
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
@@ -177,6 +178,11 @@ async function main() {
     console.log(`  ⚠ ${transpileResult.warnings.length} warnings (see above for details)`);
   }
 
+  // Rotate install log if needed (daily rotation)
+  await rotateLogsIfNeeded('install.log').catch(err =>
+    console.warn('Log rotation failed:', err)
+  );
+
   // Write install log entry
   try {
     const commandResults: CommandResult[] = transpileResults.map((result, idx) => {
@@ -267,6 +273,11 @@ async function main() {
 
     // Write enhanced commands back
     writeEnhancedCommands(opencodeResult.path!, enhancementContext.commands);
+
+    // Rotate enhancement log if needed (daily rotation)
+    await rotateLogsIfNeeded('gsdo.log').catch(err =>
+      console.warn('Log rotation failed:', err)
+    );
 
     // Write enhancement log
     const enhancementLogEntry: EnhancementLogEntry = {

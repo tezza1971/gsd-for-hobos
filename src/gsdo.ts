@@ -25,8 +25,14 @@ import {
   type EnhancementLogEntry,
   type CommandEnhancementLogEntry,
 } from './lib/logger/gsdo-logger.js';
+import { rotateLogsIfNeeded } from './lib/logger/log-rotator.js';
 
 async function main() {
+  // Rotate enhancement log if needed (daily rotation)
+  await rotateLogsIfNeeded('gsdo.log').catch(err =>
+    console.warn('Log rotation failed:', err)
+  );
+
   console.log('→ Loading context...');
 
   let context;
