@@ -31,11 +31,11 @@ describe('Integration Test - End-to-End Flow', () => {
     // Mock GSD detection
     vi.mocked(existsSync).mockImplementation((path: any) => {
       const pathStr = String(path);
-      // GSD path and skills directory exist
+      // GSD path and workflows directory exist
       if (pathStr.includes('.claude') && pathStr.includes('get-shit-done')) {
         return true;
       }
-      if (pathStr.includes('skills')) {
+      if (pathStr.includes('workflows')) {
         return true;
       }
       // OpenCode doesn't exist yet
@@ -50,18 +50,18 @@ describe('Integration Test - End-to-End Flow', () => {
 
     // Mock GSD command files
     vi.mocked(readdirSync).mockReturnValue([
-      'gsd:plan-phase.md',
-      'gsd:execute-phase.md',
-      'readme.md', // Should be ignored (no gsd: prefix)
+      'plan-phase.md',
+      'execute-phase.md',
+      'readme.md', // Will be converted to /gsd:readme
     ] as any);
 
     // Mock file reading for GSD commands
     vi.mocked(readFileSync).mockImplementation((path: any) => {
       const pathStr = String(path);
-      if (pathStr.includes('gsd:plan-phase.md')) {
+      if (pathStr.includes('plan-phase.md')) {
         return '# Plan a Phase\n\nThis command plans a phase.';
       }
-      if (pathStr.includes('gsd:execute-phase.md')) {
+      if (pathStr.includes('execute-phase.md')) {
         return '# Execute a Phase\n\nThis command executes a phase.';
       }
       // commands.json doesn't exist initially
@@ -83,16 +83,16 @@ describe('Integration Test - End-to-End Flow', () => {
 
     // Step 3: Scan GSD commands
     const gsdCommands = scanGsdCommands(gsdResult.path!);
-    expect(gsdCommands).toHaveLength(2);
+    expect(gsdCommands).toHaveLength(3);
     expect(gsdCommands[0].name).toBe('/gsd:plan-phase');
     expect(gsdCommands[1].name).toBe('/gsd:execute-phase');
 
     // Step 4: Transpile commands
     const transpileResult = convertBatch(gsdCommands);
-    expect(transpileResult.successful).toHaveLength(2);
+    expect(transpileResult.successful).toHaveLength(3);
     expect(transpileResult.failed).toHaveLength(0);
-    expect(transpileResult.successful[0].name).toBe('gsd-plan-phase');
-    expect(transpileResult.successful[1].name).toBe('gsd-execute-phase');
+    expect(transpileResult.successful[0].name).toBe('gsd:plan-phase');
+    expect(transpileResult.successful[1].name).toBe('gsd:execute-phase');
 
     // Step 5: Read existing commands (empty)
     const existingCommands = readCommands(opencodeResult.path!);
@@ -100,7 +100,7 @@ describe('Integration Test - End-to-End Flow', () => {
 
     // Step 6: Merge commands
     const mergedCommands = mergeCommands(existingCommands, transpileResult.successful);
-    expect(mergedCommands).toHaveLength(2);
+    expect(mergedCommands).toHaveLength(3);
 
     // Step 7: Write commands
     writeCommands(opencodeResult.path!, mergedCommands);
@@ -111,19 +111,19 @@ describe('Integration Test - End-to-End Flow', () => {
     expect(writeCall[0]).toContain('commands.json');
     const writtenJson = writeCall[1] as string;
     const parsed = JSON.parse(writtenJson);
-    expect(parsed).toHaveLength(2);
-    expect(parsed[0].name).toBe('gsd-plan-phase');
+    expect(parsed).toHaveLength(3);
+    expect(parsed[0].name).toBe('gsd:plan-phase');
   });
 
   it('should merge new commands with existing commands', () => {
     const existing = [
       { name: 'existing-cmd', description: 'Existing', promptTemplate: 'old' },
-      { name: 'gsd-plan-phase', description: 'Old version', promptTemplate: 'old' },
+      { name: 'gsd:plan-phase', description: 'Old version', promptTemplate: 'old' },
     ];
 
     const newCommands = [
-      { name: 'gsd-plan-phase', description: 'New version', promptTemplate: 'new' },
-      { name: 'gsd-execute-phase', description: 'New', promptTemplate: 'new' },
+      { name: 'gsd:plan-phase', description: 'New version', promptTemplate: 'new' },
+      { name: 'gsd:execute-phase', description: 'New', promptTemplate: 'new' },
     ];
 
     const merged = mergeCommands(existing, newCommands);
@@ -136,17 +136,17 @@ describe('Integration Test - End-to-End Flow', () => {
     expect(merged[0].description).toBe('Existing');
 
     // Second command updated (same name)
-    expect(merged[1].name).toBe('gsd-plan-phase');
+    expect(merged[1].name).toBe('gsd:plan-phase');
     expect(merged[1].description).toBe('New version');
     expect(merged[1].promptTemplate).toBe('new');
 
     // Third command appended
-    expect(merged[2].name).toBe('gsd-execute-phase');
+    expect(merged[2].name).toBe('gsd:execute-phase');
     expect(merged[2].description).toBe('New');
   });
 
   it('should handle empty command sets gracefully', () => {
-    // Mock empty skills directory
+    // Mock empty workflows directory
     vi.mocked(existsSync).mockReturnValue(true);
     vi.mocked(readdirSync).mockReturnValue([]);
 
