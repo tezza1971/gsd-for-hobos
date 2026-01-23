@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { getGsdPath, getOpenCodeCandidates, resolveHome } from './paths.js';
+import { formatError, ErrorCategory } from './ui/error-formatter.js';
 
 export interface DetectionResult {
   found: boolean;
@@ -22,18 +23,29 @@ export function detectGsd(): DetectionResult {
   const gsdPath = getGsdPath();
 
   if (!existsSync(gsdPath)) {
+    const formatted = formatError(ErrorCategory.GSD_NOT_FOUND, {
+      checkedPath: gsdPath
+    });
     return {
       found: false,
-      error: `GSD not found at ${gsdPath}`
+      error: `${formatted.message}
+${formatted.resolution}
+See troubleshooting: ${formatted.troubleshootingUrl || ''}`
     };
   }
 
   // Validate workflows/ subdirectory exists
   const skillsPath = join(gsdPath, 'workflows');
   if (!existsSync(skillsPath)) {
+    const formatted = formatError(ErrorCategory.GSD_NOT_FOUND, {
+      checkedPath: skillsPath,
+      details: 'workflows/ directory not found'
+    });
     return {
       found: false,
-      error: `GSD installation incomplete: workflows/ directory not found at ${skillsPath}`
+      error: `GSD installation incomplete: workflows/ directory not found at ${skillsPath}
+${formatted.resolution}
+See troubleshooting: ${formatted.troubleshootingUrl || ''}`
     };
   }
 
@@ -80,9 +92,15 @@ export function detectOpenCode(): OpenCodeDetectionResult {
       created: true
     };
   } catch (error) {
+    const formatted = formatError(ErrorCategory.OPENCODE_NOT_ACCESSIBLE, {
+      path: defaultPath,
+      error: error instanceof Error ? error.message : String(error)
+    });
     return {
       found: false,
-      error: `Cannot create OpenCode directory at ${defaultPath}: ${error instanceof Error ? error.message : String(error)}`
+      error: `${formatted.message}
+${formatted.resolution}
+See troubleshooting: ${formatted.troubleshootingUrl || ''}`
     };
   }
 }
