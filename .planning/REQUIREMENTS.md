@@ -68,17 +68,17 @@
 
 ### User Experience
 
-- [ ] **UX-01**: Installer requires zero user input (fully automated)
-- [ ] **UX-02**: Installer shows ASCII art success screen after completion
-- [ ] **UX-03**: Success screen includes disclaimer about best-effort migration
-- [ ] **UX-04**: Success screen shows clear next steps (/gsdo command)
-- [ ] **UX-05**: Success screen includes tip about re-running for updates
-- [ ] **UX-06**: Error messages are specific and actionable
-- [ ] **UX-07**: Partial success transparently shows what worked and what didn't
+- [x] **UX-01**: Installer requires zero user input (fully automated)
+- [x] **UX-02**: Installer shows ASCII art success screen after completion
+- [x] **UX-03**: Success screen includes disclaimer about best-effort migration
+- [x] **UX-04**: Success screen shows clear next steps (/gsdo command)
+- [x] **UX-05**: Success screen includes tip about re-running for updates
+- [x] **UX-06**: Error messages are specific and actionable
+- [x] **UX-07**: Partial success transparently shows what worked and what didn't
 
 ### Performance
 
-- [ ] **PERF-01**: Installer completes in < 10 seconds for typical GSD installation
+- [x] **PERF-01**: Installer completes in < 10 seconds for typical GSD installation
 - [x] **PERF-02**: Installer uses caching to avoid redundant work
 - [x] **PERF-03**: Installer skips unnecessary transpilation via idempotency checks
 
@@ -87,7 +87,7 @@
 - [x] **PLATFORM-01**: Installer works on Windows, macOS, and Linux
 - [x] **PLATFORM-02**: Installer handles platform-specific path differences automatically
 - [x] **PLATFORM-03**: Installer uses only Node.js built-in modules (no external dependencies)
-- [ ] **PLATFORM-04**: Installer adapts command naming based on platform filesystem limitations
+- [x] **PLATFORM-04**: Installer adapts command naming based on platform filesystem limitations
 
 ## v2 Requirements
 
@@ -155,20 +155,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LOG-04 | Phase 6 | Complete |
 | LOG-05 | Phase 6 | Complete |
 | LOG-06 | Phase 6 | Complete |
-| UX-01 | Phase 7 | Pending |
-| UX-02 | Phase 7 | Pending |
-| UX-03 | Phase 7 | Pending |
-| UX-04 | Phase 7 | Pending |
-| UX-05 | Phase 7 | Pending |
-| UX-06 | Phase 7 | Pending |
-| UX-07 | Phase 7 | Pending |
-| PERF-01 | Phase 7 | Pending |
+| UX-01 | Phase 7 | Complete |
+| UX-02 | Phase 7 | Complete |
+| UX-03 | Phase 7 | Complete |
+| UX-04 | Phase 7 | Complete |
+| UX-05 | Phase 7 | Complete |
+| UX-06 | Phase 7 | Complete |
+| UX-07 | Phase 7 | Complete |
+| PERF-01 | Phase 7 | Complete |
 | PERF-02 | Phase 5 | Complete |
 | PERF-03 | Phase 5 | Complete |
 | PLATFORM-01 | Phase 1 | Complete |
 | PLATFORM-02 | Phase 1 | Complete |
 | PLATFORM-03 | Phase 1 | Complete |
-| PLATFORM-04 | Phase 7 | Pending |
+| PLATFORM-04 | Phase 7 | Complete |
 
 **Coverage:**
 - v1 requirements: 54 total
