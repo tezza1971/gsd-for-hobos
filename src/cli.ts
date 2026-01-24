@@ -274,11 +274,11 @@ async function main() {
     console.warn(formatted.resolution);
   }
 
-  progress.startStep('Writing to OpenCode');
+  progress.startStep('Writing /gsdo command to OpenCode');
   const gsdoCommand = createGsdoCommand();
-  const allCommands = [...transpileResult.successful, gsdoCommand];
-  writeCommandFiles(opencodeResult.path!, allCommands);
-  progress.log(`${opencodeResult.path}/command/*.md files created`, 'success');
+  // Only write the /gsdo transpiler command - /gsdo itself will create the transpiled GSD commands
+  writeCommandFiles(opencodeResult.path!, [gsdoCommand]);
+  progress.log(`${opencodeResult.path}/command/gsdo.md created`, 'success');
   progress.endStep();
 
 
