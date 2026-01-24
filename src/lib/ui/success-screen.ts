@@ -69,7 +69,15 @@ export function renderSuccessScreen(data: SuccessScreenData): void {
   // Next steps
   lines.push('');
   lines.push(bold('Next Steps:'));
-  lines.push('  Run /gsdo in OpenCode to enhance commands');
+  lines.push('  1. Launch OpenCode');
+  lines.push('  2. Type: /gsdo');
+  lines.push('  3. Follow prompts to transpile GSD commands');
+  lines.push('');
+  lines.push(dim('What /gsdo does:'));
+  lines.push(dim('  • Examines original GSD files in ~/.gsdo/copied/'));
+  lines.push(dim('  • Reviews cached documentation'));
+  lines.push(dim('  • Transpiles each command for OpenCode compatibility'));
+  lines.push(dim('  • Outputs enhanced commands to ~/.config/opencode/command/'));
 
   // Disclaimer about best-effort migration
   lines.push('');
