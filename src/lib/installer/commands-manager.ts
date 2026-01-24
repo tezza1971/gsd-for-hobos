@@ -4,7 +4,7 @@
  * Writes individual command .md files to OpenCode's command directory.
  */
 
-import { existsSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { loadGsdoTemplate, extractPromptTemplate } from './template-loader.js';
 import type { OpenCodeCommand } from '../transpiler/types.js';
@@ -77,4 +77,45 @@ ${cmd.promptTemplate}
       );
     }
   }
+}
+
+/**
+ * Removes previously transpiled GSD commands from OpenCode command directory.
+ * Deletes all gsd-*.md files but preserves gsdo.md (the transpiler command itself).
+ * Useful for forcing a fresh transpilation when running with --force flag.
+ *
+ * @param opencodePath - Path to OpenCode config directory
+ * @returns Number of files deleted
+ */
+export function cleanupTranspiledCommands(opencodePath: string): number {
+  const commandsDir = join(opencodePath, 'command');
+
+  if (!existsSync(commandsDir)) {
+    return 0;
+  }
+
+  let deletedCount = 0;
+
+  try {
+    const files = readdirSync(commandsDir);
+    for (const file of files) {
+      // Delete gsd-*.md files (transpiled commands) but preserve gsdo.md
+      if (file.startsWith('gsd-') && file.endsWith('.md')) {
+        const filePath = join(commandsDir, file);
+        try {
+          rmSync(filePath);
+          deletedCount++;
+        } catch (error) {
+          // Log but don't fail on individual file deletion errors
+          console.warn(`Warning: Failed to delete ${file}: ${error instanceof Error ? error.message : String(error)}`);
+        }
+      }
+    }
+  } catch (error) {
+    // If reading directory fails, return 0 (non-blocking cleanup)
+    console.warn(`Warning: Failed to read command directory: ${error instanceof Error ? error.message : String(error)}`);
+    return 0;
+  }
+
+  return deletedCount;
 }

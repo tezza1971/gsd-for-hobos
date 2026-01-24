@@ -18,7 +18,7 @@
 import { detectGsd, detectOpenCode } from './lib/detector.js';
 import { scanGsdCommands } from './lib/transpiler/scanner.js';
 import { convertCommand } from './lib/transpiler/converter.js';
-import { writeCommandFiles, createGsdoCommand } from './lib/installer/commands-manager.js';
+import { writeCommandFiles, createGsdoCommand, cleanupTranspiledCommands } from './lib/installer/commands-manager.js';
 import { ensureOpenCodeDocsCache, writeDocsUrls } from './lib/cache/manager.js';
 import { copyGsdFiles } from './lib/installer/file-copier.js';
 import { readImportState, writeImportState, buildCurrentState } from './lib/idempotency/state-manager.js';
@@ -73,6 +73,18 @@ async function main() {
     'success'
   );
   progress.endStep();
+
+  // Clean up old transpiled commands when forcing refresh
+  if (forceRefresh) {
+    progress.startStep('Cleaning up old transpiled commands');
+    const deletedCount = cleanupTranspiledCommands(opencodeResult.path!);
+    if (deletedCount > 0) {
+      progress.log(`Deleted ${deletedCount} old transpiled command(s)`, 'success');
+    } else {
+      progress.log('No old commands to clean up', 'info');
+    }
+    progress.endStep();
+  }
 
   // Check if re-transpilation needed
   progress.startStep('Checking for changes');
