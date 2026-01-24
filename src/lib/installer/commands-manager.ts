@@ -60,10 +60,6 @@ export function writeCommandFiles(
 type: prompt
 name: ${cmd.name}
 description: ${cmd.description || ''}
-allowed-tools:
-  - Read
-  - Write
-  - Bash
 ---
 
 ${cmd.promptTemplate}
