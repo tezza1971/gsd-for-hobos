@@ -20,6 +20,7 @@ import { scanGsdCommands } from './lib/transpiler/scanner.js';
 import { convertCommand } from './lib/transpiler/converter.js';
 import { writeCommandFiles, createGsdoCommand } from './lib/installer/commands-manager.js';
 import { ensureOpenCodeDocsCache, writeDocsUrls } from './lib/cache/manager.js';
+import { copyGsdFiles } from './lib/installer/file-copier.js';
 import { readImportState, writeImportState, buildCurrentState } from './lib/idempotency/state-manager.js';
 import { checkFreshness } from './lib/idempotency/freshness-checker.js';
 import { getDocsOpenCodeCachePath } from './lib/cache/paths.js';
@@ -134,6 +135,18 @@ async function main() {
     progress.log('Documentation URLs written', 'success');
   } catch (error) {
     progress.log('Failed to write documentation URLs', 'warning');
+    console.warn(`Error: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  progress.endStep();
+
+  // Copy GSD files to ~/.gsdo/copied/ for /gsdo to transpile
+  progress.startStep('Copying GSD files for transpilation');
+  let copiedCount = 0;
+  try {
+    copiedCount = copyGsdFiles(gsdResult.path!);
+    progress.log(`Copied ${copiedCount} GSD files`, 'success');
+  } catch (error) {
+    progress.log('Failed to copy GSD files', 'warning');
     console.warn(`Error: ${error instanceof Error ? error.message : String(error)}`);
   }
   progress.endStep();

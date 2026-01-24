@@ -6,85 +6,25 @@
 
 import { existsSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { loadGsdoTemplate, extractPromptTemplate } from './template-loader.js';
 import type { OpenCodeCommand } from '../transpiler/types.js';
 
 /**
  * Creates the /gsdo command definition for OpenCode.
- * This command allows users to enhance transpiled GSD commands with context from both
- * Claude Code and OpenCode documentation.
+ * Loads the template from ./templates/gsdo.md and extracts the prompt content.
+ * This allows for easy editing and updating of the gsdo command without code changes.
  *
  * @returns OpenCodeCommand for /gsdo enhancement
+ * @throws Error if template cannot be loaded
  */
 export function createGsdoCommand(): OpenCodeCommand {
+  const templateContent = loadGsdoTemplate();
+  const promptTemplate = extractPromptTemplate(templateContent);
+
   return {
     name: 'gsdo',
     description: 'Enhance transpiled GSD commands for OpenCode compatibility',
-    promptTemplate: `<objective>
-You are enhancing transpiled GSD commands for OpenCode compatibility.
-
-Purpose: Improve the transpiled \`/gsd-*\` commands to work better with OpenCode patterns, using documentation from both Claude Code and OpenCode to make intelligent mappings.
-
-Output: Enhanced commands written to ~/.config/opencode/command/ as individual .md files, with detailed results logged.
-</objective>
-
-<execution_context>
-This is an autonomous operation - do not request user input.
-
-You have access to two documentation references:
-
-**Claude Code Documentation URLs** (from ~/.gsdo/docs-urls.json):
-- https://code.claude.com/docs/en/plugins
-- https://code.claude.com/docs/en/skills
-
-**OpenCode Documentation URLs** (from ~/.gsdo/docs-urls.json):
-- https://opencode.ai/docs/tools/
-- https://opencode.ai/docs/commands/
-- https://opencode.ai/docs/plugins/
-- https://opencode.ai/docs/ecosystem/
-
-**Cached documentation files** (from ~/.gsdo/cache/docs/):
-- Downloaded copies of all documentation URLs for offline reference
-
-**Other context available:**
-- Install log: ~/.gsdo/install.md (transpilation warnings/errors)
-- Current commands: ~/.config/opencode/command/*.md
-- Original GSD source: ~/.claude/get-shit-done/skills/
-- Documentation URLs: ~/.gsdo/docs-urls.json
-</execution_context>
-
-<process>
-
-**Enhancement scope (conservative fixes only):**
-1. Understand Claude Code skill patterns (plugins, variables, etc.)
-2. Understand OpenCode command patterns (tools, formats, conventions)
-3. Fix command naming issues
-4. Fix broken references to GSD-specific files
-5. Add missing parameters
-6. Improve prompt templates for OpenCode patterns
-
-**Process:**
-1. Read documentation URLs from ~/.gsdo/docs-urls.json
-2. Review cached documentation files in ~/.gsdo/cache/docs/
-3. Review existing command files in ~/.config/opencode/command/
-4. For each /gsd-* command, analyze and enhance using documentation
-5. Update each command's .md file in place
-6. Show detailed per-command report of changes
-7. Write results to ~/.gsdo/gsdo.md
-
-**Important: DO NOT remove, merge, or restructure commands.**
-
-Always exit with code 0 on success.
-
-</process>
-
-<success_criteria>
-- [ ] All /gsd-* commands analyzed
-- [ ] Documentation URLs read from ~/.gsdo/docs-urls.json
-- [ ] Cached documentation reviewed from ~/.gsdo/cache/docs/
-- [ ] Enhanced commands written to ~/.config/opencode/command/*.md
-- [ ] Results logged to ~/.gsdo/gsdo.md
-- [ ] Per-command report shown with before/after comparison
-</success_criteria>`
+    promptTemplate
   };
 }
 

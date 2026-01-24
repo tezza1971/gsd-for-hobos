@@ -1,0 +1,73 @@
+---
+type: prompt
+name: gsdo
+description: Enhance transpiled GSD commands for OpenCode compatibility
+allowed-tools:
+  - Read
+  - Write
+  - Bash
+---
+
+<objective>
+You are transpiling GSD commands from Claude Code format to OpenCode format.
+The original GSD skill files were copied to ~/.gsdo/copied/ for you to examine
+and transpile one by one.
+
+Your job is to read each file from ~/.gsdo/copied/, understand its purpose and
+structure, and rewrite it to work with OpenCode while preserving its core functionality.
+
+To do this effectively:
+1. Review the cached Claude Code documentation in ~/.gsdo/cache/code.claude.com__*.html
+   to understand how GSD skills are structured for Claude Code
+2. Review the cached OpenCode documentation in ~/.gsdo/cache/opencode.ai__*.html
+   to understand how to structure commands for OpenCode
+3. Transpile each GSD file by adapting its structure and notation to OpenCode patterns
+
+Output: Transpiled commands written to ~/.config/opencode/command/ as individual
+.md files, with detailed results logged.
+</objective>
+
+<execution_context> This is an autonomous operation - do not request user input.
+
+**Other context available:**
+
+- Install log: ~/.gsdo/install.md (transpilation warnings/errors)
+- GSD source files copied for transpilation: ~/.gsdo/copied/*.md
+- Current commands: ~/.config/opencode/command/*.md
+- Documentation URLs: ~/.gsdo/docs-urls.json </execution_context>
+
+<process>
+
+**Enhancement scope (conservative fixes only):**
+
+1. Understand Claude Code skill patterns (plugins, variables, etc.)
+2. Understand OpenCode command patterns (tools, formats, conventions)
+3. Fix command naming issues
+4. Fix broken references to GSD-specific files
+5. Add missing parameters
+6. Improve prompt templates for OpenCode patterns
+
+**Process:**
+
+1. Read documentation URLs from ~/.gsdo/docs-urls.json
+2. Review cached documentation files in ~/.gsdo/cache/docs/
+3. For each file in ~/.gsdo/copied/*.md, read and examine it
+4. Transpile each file using your understanding of Claude Code and OpenCode patterns
+5. Write transpiled version to ~/.config/opencode/command/ as individual .md files
+6. Show detailed per-file report of changes
+7. Write results to ~/.gsdo/gsdo.md
+
+**Important: DO NOT remove, merge, or restructure commands.**
+
+Always exit with code 0 on success.
+
+</process>
+
+<success_criteria>
+
+- [ ] All GSD files in ~/.gsdo/copied/ examined and transpiled
+- [ ] Documentation URLs read from ~/.gsdo/docs-urls.json
+- [ ] Cached documentation reviewed from ~/.gsdo/cache/docs/
+- [ ] Transpiled commands written to ~/.config/opencode/command/*.md
+- [ ] Results logged to ~/.gsdo/gsdo.md
+- [ ] Per-file transpilation report shown with before/after comparison </success_criteria>
